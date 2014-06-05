@@ -316,7 +316,7 @@ if(/^form$/i.test(elem.tagName)){
 				}catch(e){}
 			};
 	
-			if(/text(area)?/.test(elem.type)){
+			if(/^text(area)?|password$/i.test(elem.type)){
 				window.attachEvent("onresize", setDisplay);
 				//初始化placeholder及其样式
 				setText();
