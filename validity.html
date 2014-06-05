@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<script src="http://code.jquery.com/jquery.js"></script>
+<script src="src/h5form.js"></script>
+</head>
+
+<body>
+<form>
+	<p>
+        <input type="number" required min="0" max="10" step="0.5">
+    </p>
+	<p>
+	    <input type="text" required placeholder="这里是必填项">
+	</p>
+	<p>
+	    <select>
+	        <option value="1">1</option>
+	        <option value="2">2</option>
+	        <option value="3">3</option>
+	        <option value="4">4</option>
+	        <option value="5">5</option>
+	        <option value="6">6</option>
+	        <option value="7">7</option>
+        </select>
+	</p>
+    <div contentEditable style="border: 1px solid #ccc; outline: none;">
+    &lt;div contentEditable style="border: 1px solid #ccc; outline: none;"&gt;<br>&lt;/div&gt;
+    </div>
+	<p>
+	    <input type="submit" formnovalidate value="input按钮提交不验证">
+	    <input type="submit" value="input按钮提交并验证">
+    </p>
+	<button type="submit">button submit</button>
+</form>
+<script>
+$(function(){
+	var ifr = document.createElement("iframe");
+	(document.body || document.documentElement).appendChild(ifr);
+	var	ifrDoc =  ifr.contentDocument || ifr.contentWindow.document;
+	ifrDoc.open();
+	ifrDoc.writeln("");
+	ifrDoc.close();
+	var ifrWin = ifr.contentWindow;
+	console.log("全局变量检查");
+	for(var i in window){
+		if(!(i in ifrWin)){
+			console.log(i, window[i]);
+		}
+	}
+	ifr.parentNode.removeChild(ifr);
+	console.log("全局变量检查 done");
+});
+</script>
+</body>
+</html>

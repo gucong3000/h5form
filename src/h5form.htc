@@ -1,0 +1,413 @@
+﻿<PUBLIC:COMPONENT lightWeight="true">
+
+<!--可读写自定义属性-->
+<PUBLIC:PROPERTY name="formNoValidate" put="setFormNoValidate" get="getFormNoValidate" />
+<PUBLIC:PROPERTY name="noValidate" put="setNoValidate" get="getNoValidate" />
+<PUBLIC:PROPERTY name="required" put="setRequired" get="getRequired" />
+
+<!--只读自定义属性-->
+<PUBLIC:PROPERTY name="validationMessage" get="getValidationMessage" />
+<PUBLIC:PROPERTY name="willValidate" get="getWillValidate" />
+<PUBLIC:PROPERTY name="validity" get="getValidity" />
+
+<!--与标签属性值同步的自定义属性-->
+<PUBLIC:PROPERTY name="placeholder" />
+<PUBLIC:PROPERTY name="pattern" />
+<PUBLIC:PROPERTY name="step" />
+<PUBLIC:PROPERTY name="max" />
+<PUBLIC:PROPERTY name="min" />
+
+<!--自定义事件-->
+<!--<PUBLIC:EVENT name="oninput" id="eventInput" />
+<PUBLIC:EVENT name="oninvalid" id="eventInvalid" />-->
+
+<!--事件绑定-->
+<PUBLIC:ATTACH event="ondocumentready" onevent="documentready()" />
+<PUBLIC:ATTACH event="oncontentready" onevent="isContentReady=!0;" />
+<PUBLIC:ATTACH event="onpropertychange" onevent="propertychange()" />
+<PUBLIC:ATTACH event="onkeypress" onevent="valueChange&&valueChange()" />
+<PUBLIC:ATTACH event="onchange" onevent="valueChange&&valueChange()" />
+
+<SCRIPT>
+/*ValidityState对象原型*/
+if(!window.ValidityState){
+	window.ValidityState = function(){
+	};
+	ValidityState.prototype = {
+		patternMismatch: false,
+		rangeUnderflow: false,
+		rangeOverflow: false,
+		stepMismatch: false,
+		typeMismatch: false,
+		valueMissing: false,
+		customError: false,
+		valid: true
+	};
+}
+/*ValidityState对象原型 END*/
+
+var validityGetter = {
+		patternMismatch: function(){
+			return hasVal() && !!elem.pattern && !new RegExp('^(?:' + elem.pattern + ')$').test(elem.value);
+		},
+		rangeUnderflow: function(){
+			return isNum() && num(elem.value) < num(elem.min);
+		},
+		rangeOverflow: function(){
+			return isNum() && num(elem.value) > num(elem.max);
+		},
+		stepMismatch: function(){
+			return isNum() && elem.step && ( (num(elem.value) - num(elem.min) || (num(elem.max) - num(elem.value)) ) % num(elem.step)) !== 0;;
+		},
+		typeMismatch: function(){
+			var regexp = regexpTypes[getType()];
+			return hasVal() && regexp && !regexp.test(elem.value);
+		},
+		valueMissing: function(){
+			return getWillValidate() && elem.required && !(/^checkbox$/i.test(elem.type) ? elem.checked : (/^radio$/i.test(elem.type) ? isSiblingChecked(elem) : elem.value));
+		}
+	},
+	regexpTypes = {
+		email: /^[a-zA-Z0-9.!#$%&'*+-\/=?\^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+		number: /^[+-]?\d+(\.\d+)?$/,
+		url: /[a-z][\-\.+a-z]*:\/\//i,
+		color: /#[\da-f]{6}/i
+	},
+	typeErrors = {
+		email: "请输入电子邮件地址。",
+		number: "请输入一个数字。",
+		color: "请输入一个颜色值",
+		url: "请输入一个URL。"
+	},
+	strFormNoValidate = "formNoValidate",
+	strNoValidate = "noValidate",
+	strRequired = "required",
+	gtie6 = "XMLHttpRequest" in window,
+	validityObj = new ValidityState(),
+	setTimeout = window.setTimeout,
+	num = top.parseFloat,
+	strCustomError = "",
+	attrData = {},
+	elem = element,
+	oldValue = elem.value,
+	doc = elem.document,
+	isDocumentReady,
+	isContentReady,
+	setFormNoValidate,
+	getFormNoValidate,
+	setNoValidate,
+	getNoValidate,
+	setRequired,
+	getRequired,
+	valueChange,
+	setHolder,
+	$ = window.jQuery;
+
+if(/^form$/i.test(elem.tagName)){
+	elem.checkValidity = function(){
+		var valid = true;
+		for(var i = 0, nodes = elem.elements, node; i < nodes.length; i++){
+			node = nodes[i];
+			if(node.checkValidity && !node.disabled){
+				valid &= node.checkValidity();
+			}
+		}
+		return !!(valid && isDocumentReady);
+	};
+
+	//noValidate属性getter方法
+	getNoValidate = defineGetter(strNoValidate);
+
+	//noValidate属性setter方法
+	setNoValidate = defineSetter(strNoValidate);
+
+
+} else {
+	//formNoValidate属性getter方法
+	getFormNoValidate = defineGetter(strFormNoValidate);
+
+	//formNoValidate属性setter方法
+	setFormNoValidate = defineSetter(strFormNoValidate);
+
+	if(!/^button$/i.test(elem.tagName)){
+		
+		//required属性getter方法
+		getRequired = defineGetter(strRequired);
+	
+		//required属性setter方法
+		setRequired = defineSetter(strRequired);
+
+		if(!gtie6 && /input/i.test(elem.tagName)){
+			elem.className += "type_" + (elem.getAttribute("type", 2) || elem.type);
+		}
+
+		function stepMismatchMsg(){
+			var val = num(elem.value),
+				step = num(elem.step),
+				deff = ( val - num(elem.min) || (num(elem.max) - val) ) % step,
+				min = val - deff,
+				max = min + step;
+			return "值应该为 " + min + " 或 " + max;
+		}
+
+		//validationMessage属性getter方法
+		function getValidationMessage(){
+			return strCustomError || (validityObj.valueMissing ? "请填写此字段。" : (validityObj.patternMismatch ? "请匹配要求的格式。" : (validityObj.typeMismatch ? typeErrors[getType()] : (validityObj.rangeOverflow ? "值必须小于或等于 " + max : (validityObj.rangeUnderflow ? "值必须大于或等于 " + min : (validityObj.stepMismatch ? stepMismatchMsg() : ""))))));
+		}
+
+		//validationMessage属性getter方法
+		function getWillValidate(){
+			return !elem.disabled;
+		}
+
+		//validity属性getter方法
+		getValidity = function(){
+			for(var name in validityGetter){
+				validityObj[name] = validityGetter[name]();
+			}
+			valid();
+			return validityObj;
+		};
+
+		//模拟input事件
+		valueChange = function(){
+			getValidity();
+			if(/^text(area)?|password$/i.test(elem.type)){
+				setTimeout(function(){
+					if(oldValue !== elem.value){
+						oldValue = elem.value;
+//						oEvent = createEventObject();
+//						eventInput.fire(oEvent);
+						$(elem).trigger("input");
+					}
+				}, 0);
+			}
+		};
+	
+		elem.setCustomValidity = function(val) {
+			strCustomError = val;
+			validityObj.customError = !!val;
+			valid();
+		};
+
+		elem.checkValidity = function(){
+			getValidity();
+			var valid = validityObj.valid;
+			if(!valid){
+//				var oEvent = createEventObject();
+//				eventInvalid.fire(oEvent);
+				$(elem).trigger("invalid");
+				//“oEvent.returnValue != false”表示returnValue为1、true、undefined均执行
+				//if( oEvent.returnValue != false && this == "BUTTON_SUBMIT_CLICK_EVENT"){
+					//elem.focus();
+				//}
+			}
+			return valid;
+		};
+
+		setHolder = (function(){
+			var	strPlaceholder = "placeholder",
+				parseInt = window.parseInt,
+				strNormal = "normal",
+				strStatic = "static",
+				strPx = "px",
+				holder,
+				timer,
+				getComputedStyle = window.getComputedStyle ? function(node){
+					return window.getComputedStyle(node, null);
+				} : 0;
+
+			//获取node的style对象，优先使用runtimeStyle
+			function runtimeStyle(node){
+				return node.runtimeStyle || node.style;
+			}
+		
+			//获取node的计算样式，兼容IE，非IE
+			function currentStyle(node){
+				return node.currentStyle || getComputedStyle(node);
+			}
+		
+			//更新placeholder文本
+			function setText(){
+				//读取placeholder
+				var text = elem[strPlaceholder];
+				//如果placeholder属性不为空而node还没有建立
+				if(!holder && text) {
+					//建立一个node
+					holder = doc.createElement(strPlaceholder);
+					holder.onmousedown = function(){
+						//鼠标点holder是文本框获得焦点
+						setTimeout(function(){
+							try {
+								elem.focus();
+							} catch(ex){}
+						}, 1);
+						return false;
+					};
+				}
+				//如果有node，更新其内容为placeholder属性值
+				if(holder){
+					holder.innerHTML = text || "";
+				}
+			}
+			//控制node的样式
+			function setDisplay(){
+				clearTimeout(timer);
+				if(holder){
+					var show = holder.innerHTML && !elem.value && /^text(area)?|password|email|search|tel|url$/i.test(elem.type),
+						currStyle = currentStyle(elem),
+						style = runtimeStyle(holder),
+						parent = elem.parentNode,
+						disp = parent && (elem.offsetHeight || elem.offsetWidth);
+					style.display = show && disp ? "block" : "none";
+					//如果文本框可见时
+					if(!disp){
+						//文本框不可见时延迟运行setDisplay
+						timer = setTimeout(setDisplay, 50);
+					} else if(show) {
+						timer = setTimeout(function(){
+							if(currStyle.position === strStatic && currentStyle(parent).position === strStatic){
+								runtimeStyle(elem).position = "relative";
+							}
+							if(parent === elem.offsetParent && !doc.querySelector && /^normal$/i.test(currentStyle(parent).zoom)) {
+								runtimeStyle(parent).zoom = 1;
+							}
+							//如果文本框或其父元素定位不为static，则自动计算placeholder的位置
+							style.maxWidth = (elem.clientWidth - parseInt(currStyle.paddingLeft) - parseInt(currStyle.paddingRight)) + strPx;
+							style.width = currStyle.textAlign === "left" && (gtie6) ? "auto" : style.maxWidth;
+							style.left = (elem.offsetLeft + elem.clientLeft) + strPx;
+							style.top = (elem.offsetTop + elem.clientTop) + strPx;
+							currCss("marginLeft", "paddingLeft");
+							currCss("marginTop", "paddingTop");
+
+							if(/^input$/i.test(elem.tagName)){
+								style.whiteSpace = "nowrap";
+								style.wordBreak = strNormal;
+							} else {
+								style.whiteSpace = strNormal;
+								style.wordBreak = "break-all";
+							}
+
+							//设置继承样式
+							currCss("lineHeight");
+							currCss("textAlign");
+							currCss("fontFamily");
+							currCss("fontWidth");
+							currCss("fontSize");
+	
+							//将node插入文本框之后
+							if(elem.nextSibling){
+								parent.insertBefore(holder, elem.nextSibling);
+							} else {
+								parent.appendChild(holder);
+							}
+						}, 0);
+					}
+				}
+			}
+
+			//样式继承，取文本框的样式赋值给placeholder
+			function currCss(name,attr){
+				try{
+					runtimeStyle(holder)[name] = currentStyle(elem)[attr || name];
+				}catch(e){}
+			};
+	
+			if(/text(area)?/.test(elem.type)){
+				window.attachEvent("onresize", setDisplay);
+				//初始化placeholder及其样式
+				setText();
+				setDisplay();
+
+				return function(propName){
+					setTimeout(function(){
+						switch(propName){
+							//如placeholder属性发生改变，重置文案和样式
+							case strPlaceholder :
+								setText();
+							//如value属性发生改变，重置重置样式
+							default :
+								setDisplay();
+						}
+					}, 0);
+				};
+			}
+		})();
+	}
+}
+
+function documentready(){
+	isDocumentReady = true;
+	if(elem.focus && elem.attributes.autofocus){
+		try {
+			for(var forms = doc.querySelectorAll ? [doc.querySelectorAll("[autofocus]")] : doc.forms, node, i = 0, j; i < forms.length; i++){
+				for(j = 0,node; j < forms[i].elements.length; j++){
+					node = forms[i].elements[j];
+					if(node.focus && node.attributes.autofocus){
+						try {
+							if(node === elem){
+								node.focus();
+							}
+							return;
+						} catch(ex){
+						}
+					}
+				}
+			}
+		} catch (ex){
+			elem.focus();
+		}
+	}
+}
+
+function propertychange(){
+	var propName = event.propertyName;
+	if(propName in attrData && isContentReady){
+		attrData[propName] = !!elem.attributes[propName];
+	}
+	if(setHolder){
+		setHolder(propName);
+	}
+	if(valueChange){
+		valueChange();
+	}
+}
+
+function defineGetter(name){
+	return function(){
+//		return new RegExp("\\b" + name + "\\b", "i").test(elem.outerHTML);
+		return !!(attrData[name]);
+	};
+}
+
+function defineSetter(name){
+	return function(val){
+		val = !isContentReady || val;
+		attrData[name] = val;
+	};
+}
+
+function valid(){
+	validityObj.valid = !(validityObj.customError || validityObj.valueMissing || validityObj.patternMismatch || validityObj.typeMismatch || validityObj.rangeOverflow || validityObj.rangeUnderflow || validityObj.stepMismatch);
+}
+
+function isSiblingChecked(el) {
+	var siblings = el.form[el.name || el.id];
+	for(var i=0; i<siblings.length; i++){
+		if(siblings[i].checked){
+			return true;
+		}
+	}
+};
+
+function hasVal(){
+	return getWillValidate() && !!elem.value;
+}
+function getType(){
+	return (elem.getAttribute("type", 2) || elem.type).toLowerCase();
+}
+function isNum(){
+	return hasVal() && /^number|range$/i.test(getType());
+}
+</SCRIPT>
+</PUBLIC:COMPONENT>
