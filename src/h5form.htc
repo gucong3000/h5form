@@ -63,6 +63,9 @@ var validityGetter = {
 			var regexp = regexpTypes[getType()];
 			return hasVal() && regexp && !regexp.test(elem.value);
 		},
+		tooLong: function(){
+			elem.value && elem.value.length > elem.maxLength
+		},
 		valueMissing: function(){
 			return getWillValidate() && elem.required && !(/^checkbox$/i.test(elem.type) ? elem.checked : (/^radio$/i.test(elem.type) ? isSiblingChecked(elem) : elem.value));
 		}
@@ -388,7 +391,7 @@ function defineSetter(name){
 }
 
 function valid(){
-	validityObj.valid = !(validityObj.customError || validityObj.valueMissing || validityObj.patternMismatch || validityObj.typeMismatch || validityObj.rangeOverflow || validityObj.rangeUnderflow || validityObj.stepMismatch);
+	validityObj.valid = !(validityObj.tooLong || validityObj.customError || validityObj.valueMissing || validityObj.patternMismatch || validityObj.typeMismatch || validityObj.rangeOverflow || validityObj.rangeUnderflow || validityObj.stepMismatch);
 }
 
 function isSiblingChecked(el) {

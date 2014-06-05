@@ -45,6 +45,7 @@
 		typeMismatch: false,
 		valueMissing: false,
 		customError: false,
+		tooLong: false,
 		valid: true
 	};
 
@@ -119,8 +120,8 @@
 		defineGetter(Element, {
 			validity: function() {
 				var elem = this,
-						validity = validityCache[elem.uniqueID],
-						validityGetter;
+					validity = validityCache[elem.uniqueID],
+					validityGetter;
 
 				function willValidate() {
 					return elem.willValidate;
@@ -161,9 +162,12 @@
 						customError: function() {
 							return !!customCache[elem.uniqueID];
 						},
+						tooLong: function(){
+							elem.value && elem.value.length > elem.maxLength
+						},
 						valid: function() {
 							var validityObj = elem.validity;
-							return !(validityObj.customError || validityObj.valueMissing || validityObj.patternMismatch || validityObj.typeMismatch || validityObj.rangeOverflow || validityObj.rangeUnderflow || validityObj.stepMismatch);
+							return !(validityObj.tooLong || validityObj.customError || validityObj.valueMissing || validityObj.patternMismatch || validityObj.typeMismatch || validityObj.rangeOverflow || validityObj.rangeUnderflow || validityObj.stepMismatch);
 						}
 					};
 					try {
@@ -190,7 +194,6 @@
 				};
 			}
 		});
-
 
 		defineGetter(Element, {
 			checkValidity: function() {
