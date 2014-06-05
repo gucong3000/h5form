@@ -99,16 +99,19 @@
 			//IE 10+中placeholder在文本框focus时则消失，这与其他浏览器有差异，用css干掉其原生的placeholder功能
 			addStyleRule(":-ms-input-" + strPlaceholder, "color:transparent !important;");
 		} else {
+			//即使是Safari支持约束验证API的情况下Safari（版本 5、6）也不会因为表单的数据没有满足约束验证而阻止用户提交。所以一律js重新实现一遍
 			addEventListener("click", function(e){
-				setTimeout(function(){
-					var target = e.target;
-					if(!e.defaultPrevented && isSubmitClick(target)){
+				var target = e.target;
+				if(!e.defaultPrevented && isSubmitClick(target)){
+					if(!target.form.checkValidity()){
+						e.preventDefault();
+						//IE10、IE11中，querySelector（":invalid“）有时会选中disabled状态的文本框，所以加not排除
 						target = target.form.querySelector(":invalid:not(:disabled)");
 						if(target){
 							target.focus();
 						}
 					}
-				}, 0);
+				}
 			}, false);
 			//高端浏览器下写入关于placeholder的css rest
 			addStyleRule(("netscape" in window ? "::-moz-": "::-webkit-input-") + strPlaceholder, placeholderCssRest);
