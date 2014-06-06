@@ -1,6 +1,6 @@
 (function(window, document){
 	"use strict";
-	
+
 	var	documentMode = document.querySelector ? document.documentMode : 7,
 		path = document.scripts || document.querySelector("script"),
 		placeholderCssRest = "color:gray; opacity:1;",
@@ -12,7 +12,7 @@
 		support,
 		jQuery = window.jQuery,
 		JSON = window.JSON;
-	
+
 	//在header中创建元素
 	function createElement(tag){
 		tag = document.createElement(tag);
@@ -59,7 +59,7 @@
 	function getPath(ext){
 		return path.replace(/\.js/, ext);
 	}
-	
+
 	path = path[path.length - 1];
 	try {
 		options = path.innerHTML.replace(/[\r\n\t\s]+/g, " ");
@@ -81,7 +81,7 @@
 		support = true;
 	} catch (ex) {
 	}
-	
+
 	if(support) {
 
 		addEventListener("invalid", function(e){
@@ -99,11 +99,11 @@
 			//IE 10+中placeholder在文本框focus时则消失，这与其他浏览器有差异，用css干掉其原生的placeholder功能
 			addStyleRule(":-ms-input-" + strPlaceholder, "color:transparent !important;");
 		} else {
-			//即使是Safari支持约束验证API的情况下Safari（版本 5、6）也不会因为表单的数据没有满足约束验证而阻止用户提交。所以一律js重新实现一遍
-			addEventListener("click", function(e){
-				var target = e.target;
-				if(!e.defaultPrevented && isSubmitClick(target)){
-					if(!target.form.checkValidity()){
+			setTimeout(function(){
+				addEventListener("click", function(e){
+					var target = e.target;
+					//即使是Safari支持约束验证API的情况下Safari（版本 5、6）也不会因为表单的数据没有满足约束验证而阻止用户提交。所以一律js重新实现一遍
+					if(!e.defaultPrevented && isSubmitClick(target) && !target.form.checkValidity()){
 						e.preventDefault();
 						//IE10、IE11中，querySelector（":invalid“）有时会选中disabled状态的文本框，所以加not排除
 						target = target.form.querySelector(":invalid:not(:disabled)");
@@ -111,8 +111,8 @@
 							target.focus();
 						}
 					}
-				}
-			}, false);
+				}, false);
+			}, 200);
 			//高端浏览器下写入关于placeholder的css rest
 			addStyleRule(("netscape" in window ? "::-moz-": "::-webkit-input-") + strPlaceholder, placeholderCssRest);
 			//未来浏览器厂商推出无前缀的placeholder选择器后，在此行添加css rest

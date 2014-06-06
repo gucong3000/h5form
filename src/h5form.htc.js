@@ -1,54 +1,10 @@
-﻿<PUBLIC:COMPONENT lightWeight="true">
-
-<!--可读写自定义属性-->
-<PUBLIC:PROPERTY name="formNoValidate" put="setFormNoValidate" get="getFormNoValidate" />
-<PUBLIC:PROPERTY name="noValidate" put="setNoValidate" get="getNoValidate" />
-<PUBLIC:PROPERTY name="required" put="setRequired" get="getRequired" />
-
-<!--只读自定义属性-->
-<PUBLIC:PROPERTY name="validationMessage" get="getValidationMessage" />
-<PUBLIC:PROPERTY name="willValidate" get="getWillValidate" />
-<PUBLIC:PROPERTY name="validity" get="getValidity" />
-
-<!--与标签属性值同步的自定义属性-->
-<PUBLIC:PROPERTY name="placeholder" />
-<PUBLIC:PROPERTY name="pattern" />
-<PUBLIC:PROPERTY name="step" />
-<PUBLIC:PROPERTY name="max" />
-<PUBLIC:PROPERTY name="min" />
-
-<!--自定义事件-->
-<!--<PUBLIC:EVENT name="oninput" id="eventInput" />
-<PUBLIC:EVENT name="oninvalid" id="eventInvalid" />-->
-
-<!--事件绑定-->
-<PUBLIC:ATTACH event="ondocumentready" onevent="documentready()" />
-<PUBLIC:ATTACH event="oncontentready" onevent="isContentReady=!0;" />
-<PUBLIC:ATTACH event="onpropertychange" onevent="propertychange()" />
-<PUBLIC:ATTACH event="onkeypress" onevent="valueChange&&valueChange()" />
-<PUBLIC:ATTACH event="onchange" onevent="valueChange&&valueChange()" />
-
-<SCRIPT>
-/*ValidityState对象原型*/
-if(!window.ValidityState){
-	window.ValidityState = function(){
-	};
-	ValidityState.prototype = {
-		patternMismatch: false,
-		rangeUnderflow: false,
-		rangeOverflow: false,
-		stepMismatch: false,
-		typeMismatch: false,
-		valueMissing: false,
-		customError: false,
-		valid: true
-	};
-}
-/*ValidityState对象原型 END*/
-
-var validityGetter = {
+/*global element: false */
+(function(){
+	"use strict";
+})();
+var	validityGetter = {
 		patternMismatch: function(){
-			return hasVal() && !!elem.pattern && !new RegExp('^(?:' + elem.pattern + ')$').test(elem.value);
+			return hasVal() && !!elem.pattern && !new RegExp("^(?:" + elem.pattern + ")$").test(elem.value);
 		},
 		rangeUnderflow: function(){
 			return isNum() && num(elem.value) < num(elem.min);
@@ -57,18 +13,20 @@ var validityGetter = {
 			return isNum() && num(elem.value) > num(elem.max);
 		},
 		stepMismatch: function(){
-			return isNum() && elem.step && ( (num(elem.value) - num(elem.min) || (num(elem.max) - num(elem.value)) ) % num(elem.step)) !== 0;;
+			return isNum() && elem.step && ( (num(elem.value) - num(elem.min) || (num(elem.max) - num(elem.value)) ) % num(elem.step)) !== 0;
 		},
 		typeMismatch: function(){
 			var regexp = regexpTypes[getType()];
 			return hasVal() && regexp && !regexp.test(elem.value);
 		},
 		tooLong: function(){
-			elem.value && elem.value.length > elem.maxLength
+			elem.value && elem.value.length > elem.maxLength;
 		},
 		valueMissing: function(){
-			return getWillValidate() && elem.required && !(/^checkbox$/i.test(elem.type) ? elem.checked : (/^radio$/i.test(elem.type) ? isSiblingChecked(elem) : elem.value));
+			return elem.willValidate && elem.required && !(/^checkbox$/i.test(elem.type) ? elem.checked : (/^radio$/i.test(elem.type) ? isSiblingChecked(elem) : elem.value));
 		}
+	},
+	ValidityState = function(){
 	},
 	regexpTypes = {
 		email: /^[a-zA-Z0-9.!#$%&'*+-\/=?\^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
@@ -87,7 +45,7 @@ var validityGetter = {
 	strRequired = "required",
 	gtie6 = "XMLHttpRequest" in window,
 	validityObj = new ValidityState(),
-	setTimeout = window.setTimeout,
+	setTimeoutFn = window.setTimeout,
 	num = top.parseFloat,
 	strCustomError = "",
 	attrData = {},
@@ -96,22 +54,48 @@ var validityGetter = {
 	doc = elem.document,
 	isDocumentReady,
 	isContentReady,
+	getValidationMessage,
 	setFormNoValidate,
 	getFormNoValidate,
+	getWillValidate,
 	setNoValidate,
 	getNoValidate,
 	setRequired,
 	getRequired,
+	getValidity,
+	stepMismatchMsg,
 	valueChange,
 	setHolder,
+	propertychange,
+	documentready,
 	$ = window.jQuery;
+
+/*ValidityState对象原型*/
+ValidityState.prototype = {
+	patternMismatch: false,
+	rangeUnderflow: false,
+	rangeOverflow: false,
+	stepMismatch: false,
+	typeMismatch: false,
+	valueMissing: false,
+	customError: false,
+	valid: true
+};
+
+if(!window.ValidityState){
+	window.ValidityState = ValidityState;
+}
+/*ValidityState对象原型 END*/
 
 if(/^form$/i.test(elem.tagName)){
 	elem.checkValidity = function(){
-		var valid = true;
-		for(var i = 0, nodes = elem.elements, node; i < nodes.length; i++){
+		var	valid = true,
+			nodes = elem.elements,
+			node,
+			i;
+		for (i = 0; i < nodes.length; i++) {
 			node = nodes[i];
-			if(node.checkValidity && !node.disabled){
+			if (node.checkValidity && node.willValidate) {
 				valid &= node.checkValidity();
 			}
 		}
@@ -133,35 +117,35 @@ if(/^form$/i.test(elem.tagName)){
 	setFormNoValidate = defineSetter(strFormNoValidate);
 
 	if(!/^button$/i.test(elem.tagName)){
-		
+
 		//required属性getter方法
 		getRequired = defineGetter(strRequired);
-	
+
 		//required属性setter方法
 		setRequired = defineSetter(strRequired);
 
 		if(!gtie6 && /input/i.test(elem.tagName)){
-			elem.className += "type_" + (elem.getAttribute("type", 2) || elem.type);
+			elem.className += "type_" + getType();
 		}
 
-		function stepMismatchMsg(){
+		stepMismatchMsg = function(){
 			var val = num(elem.value),
 				step = num(elem.step),
 				deff = ( val - num(elem.min) || (num(elem.max) - val) ) % step,
 				min = val - deff,
 				max = min + step;
 			return "值应该为 " + min + " 或 " + max;
-		}
+		};
 
 		//validationMessage属性getter方法
-		function getValidationMessage(){
-			return strCustomError || (validityObj.valueMissing ? "请填写此字段。" : (validityObj.patternMismatch ? "请匹配要求的格式。" : (validityObj.typeMismatch ? typeErrors[getType()] : (validityObj.rangeOverflow ? "值必须小于或等于 " + max : (validityObj.rangeUnderflow ? "值必须大于或等于 " + min : (validityObj.stepMismatch ? stepMismatchMsg() : ""))))));
-		}
+		getValidationMessage = function(){
+			return strCustomError || (validityObj.valueMissing ? "请填写此字段。" : (validityObj.patternMismatch ? "请匹配要求的格式。" : (validityObj.typeMismatch ? typeErrors[getType()] : (validityObj.rangeOverflow ? "值必须小于或等于 " + elem.max : (validityObj.rangeUnderflow ? "值必须大于或等于 " + elem.min : (validityObj.stepMismatch ? stepMismatchMsg() : ""))))));
+		};
 
 		//validationMessage属性getter方法
-		function getWillValidate(){
+		getWillValidate = function(){
 			return !elem.disabled;
-		}
+		};
 
 		//validity属性getter方法
 		getValidity = function(){
@@ -176,7 +160,7 @@ if(/^form$/i.test(elem.tagName)){
 		valueChange = function(){
 			getValidity();
 			if(/^text(area)?|password$/i.test(elem.type)){
-				setTimeout(function(){
+				setTimeoutFn(function(){
 					if(oldValue !== elem.value){
 						oldValue = elem.value;
 //						oEvent = createEventObject();
@@ -186,7 +170,7 @@ if(/^form$/i.test(elem.tagName)){
 				}, 0);
 			}
 		};
-	
+
 		elem.setCustomValidity = function(val) {
 			strCustomError = val;
 			validityObj.customError = !!val;
@@ -224,12 +208,12 @@ if(/^form$/i.test(elem.tagName)){
 			function runtimeStyle(node){
 				return node.runtimeStyle || node.style;
 			}
-		
+
 			//获取node的计算样式，兼容IE，非IE
 			function currentStyle(node){
 				return node.currentStyle || getComputedStyle(node);
 			}
-		
+
 			//更新placeholder文本
 			function setText(){
 				//读取placeholder
@@ -240,7 +224,7 @@ if(/^form$/i.test(elem.tagName)){
 					holder = doc.createElement(strPlaceholder);
 					holder.onmousedown = function(){
 						//鼠标点holder是文本框获得焦点
-						setTimeout(function(){
+						setTimeoutFn(function(){
 							try {
 								elem.focus();
 							} catch(ex){}
@@ -266,9 +250,9 @@ if(/^form$/i.test(elem.tagName)){
 					//如果文本框可见时
 					if(!disp){
 						//文本框不可见时延迟运行setDisplay
-						timer = setTimeout(setDisplay, 50);
+						timer = setTimeoutFn(setDisplay, 50);
 					} else if(show) {
-						timer = setTimeout(function(){
+						timer = setTimeoutFn(function(){
 							if(currStyle.position === strStatic && currentStyle(parent).position === strStatic){
 								runtimeStyle(elem).position = "relative";
 							}
@@ -297,7 +281,7 @@ if(/^form$/i.test(elem.tagName)){
 							currCss("fontFamily");
 							currCss("fontWidth");
 							currCss("fontSize");
-	
+
 							//将node插入文本框之后
 							if(elem.nextSibling){
 								parent.insertBefore(holder, elem.nextSibling);
@@ -314,8 +298,8 @@ if(/^form$/i.test(elem.tagName)){
 				try{
 					runtimeStyle(holder)[name] = currentStyle(elem)[attr || name];
 				}catch(e){}
-			};
-	
+			}
+
 			if(/^text(area)?|password$/i.test(elem.type)){
 				window.attachEvent("onresize", setDisplay);
 				//初始化placeholder及其样式
@@ -323,12 +307,13 @@ if(/^form$/i.test(elem.tagName)){
 				setDisplay();
 
 				return function(propName){
-					setTimeout(function(){
+					setTimeoutFn(function(){
 						switch(propName){
 							//如placeholder属性发生改变，重置文案和样式
 							case strPlaceholder :
 								setText();
 							//如value属性发生改变，重置重置样式
+							/* falls through */
 							default :
 								setDisplay();
 						}
@@ -339,7 +324,7 @@ if(/^form$/i.test(elem.tagName)){
 	}
 }
 
-function documentready(){
+documentready = function(){
 	isDocumentReady = true;
 	if(elem.focus && elem.attributes.autofocus){
 		try {
@@ -361,9 +346,9 @@ function documentready(){
 			elem.focus();
 		}
 	}
-}
+};
 
-function propertychange(){
+propertychange = function(){
 	var propName = event.propertyName;
 	if(propName in attrData && isContentReady){
 		attrData[propName] = !!elem.attributes[propName];
@@ -374,7 +359,7 @@ function propertychange(){
 	if(valueChange){
 		valueChange();
 	}
-}
+};
 
 function defineGetter(name){
 	return function(){
@@ -395,16 +380,17 @@ function valid(){
 }
 
 function isSiblingChecked(el) {
-	var siblings = el.form[el.name || el.id];
-	for(var i=0; i<siblings.length; i++){
+	var siblings = el.form[el.name || el.id],
+		i;
+	for(i; i<siblings.length; i++){
 		if(siblings[i].checked){
 			return true;
 		}
 	}
-};
+}
 
 function hasVal(){
-	return getWillValidate() && !!elem.value;
+	return elem.willValidate && !!elem.value;
 }
 function getType(){
 	return (elem.getAttribute("type", 2) || elem.type).toLowerCase();
@@ -412,5 +398,3 @@ function getType(){
 function isNum(){
 	return hasVal() && /^number|range$/i.test(getType());
 }
-</SCRIPT>
-</PUBLIC:COMPONENT>

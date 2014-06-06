@@ -25,24 +25,36 @@ module.exports = function( grunt ) {
 		},
 
 		uglify: {
-			all: {
+			options: {
+				banner: "/*! <%= pkg.name %> v<%= pkg.version %>*/\n",
+				preserveComments: "some",
+				report: "min",
+				compress: {
+					hoist_funs: false,
+					loops: false,
+					unused: false
+				}
+			},
+			js: {
 				files: [{
 					expand: true,
-					cwd: "src",			//src目录下
-					src: ["*.js"],		//所有js文件
-					dest: "build"		//输出到此目录下
-				}],
+					cwd: "src",						//src目录下
+					src: ["*.js", "!*.htc.js"],		//所有js文件
+					dest: "build"					//输出到此目录下
+				}]
+			},
+			htc: {
 				options: {
-					preserveComments: "some",
-					report: "min",
-					banner: "/*! <%= pkg.name %> v<%= pkg.version %>*/\n",
-					footer: "",
-					compress: {
-						hoist_funs: false,
-						loops: false,
-						unused: false
-					}
-				}
+					banner: grunt.file.read("src/banner.htc").replace(/<!--[\w\W\r\n]*?-->|[\r\n]+/g,"") + "\n/*! <%= pkg.name %> v<%= pkg.version %>*/\n",
+					footer: "\n</SCRIPT></PUBLIC:COMPONENT>"
+				},
+				files: [{
+					expand: true,
+					cwd: "src",				//src目录下
+					src: ["*.htc.js"],		//所有*.htc.js文件
+					dest: "build",			//输出到此目录下
+					ext: '.htc'
+				}]
 			}
 		}
 	});

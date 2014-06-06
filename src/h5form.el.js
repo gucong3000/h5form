@@ -1,32 +1,32 @@
 (function(window, document) {
 	"use strict";
 
-	var strDOMContentLoaded = "DOMContentLoaded",
-			strInput = "input",
-			strPrototype = "prototype",
-			HTMLFormElementPrototype = getPrototype(HTMLFormElement),
-			documentMode = document.documentMode,
-			enumerable = !documentMode || document.documentMode > 8,
-			setTimeout = window.setTimeout,
-			num = window.parseFloat,
-			regexpTypes = {
-				email: /^[a-zA-Z0-9.!#$%&'*+-\/=?\^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-				number: /^[+-]?\d+(\.\d+)?$/,
-				url: /[a-z][\-\.+a-z]*:\/\//i,
-				color: /#[\da-f]{6}/i
-			},
-	typeErrors = {
-		email: "请输入电子邮件地址。",
-		number: "请输入一个数字。",
-		color: "请输入一个颜色值",
-		url: "请输入一个URL。"
-	},
-	jQuery = window.jQuery,
-			validityCache = {},
-			customCache = {},
-			valueCache = {},
-			setHolder,
-			support;
+	var	strDOMContentLoaded = "DOMContentLoaded",
+		strInput = "input",
+		strPrototype = "prototype",
+		HTMLFormElementPrototype = getPrototype(HTMLFormElement),
+		documentMode = document.documentMode,
+		enumerable = !documentMode || document.documentMode > 8,
+		setTimeout = window.setTimeout,
+		num = window.parseFloat,
+		regexpTypes = {
+			email: /^[a-zA-Z0-9.!#$%&'*+-\/=?\^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+			number: /^[+-]?\d+(\.\d+)?$/,
+			url: /[a-z][\-\.+a-z]*:\/\//i,
+			color: /#[\da-f]{6}/i
+		},
+		typeErrors = {
+			email: "请输入电子邮件地址。",
+			number: "请输入一个数字。",
+			color: "请输入一个颜色值",
+			url: "请输入一个URL。"
+		},
+		jQuery = window.jQuery,
+		validityCache = {},
+		customCache = {},
+		valueCache = {},
+		setHolder,
+		support;
 
 	try {
 		document.querySelector(":invalid");
@@ -163,7 +163,7 @@
 							return !!customCache[elem.uniqueID];
 						},
 						tooLong: function(){
-							elem.value && elem.value.length > elem.maxLength
+							elem.value && elem.value.length > elem.maxLength;
 						},
 						valid: function() {
 							var validityObj = elem.validity;
@@ -399,10 +399,10 @@
 		checkValidity: function() {
 			var form = this;
 			return function() {
-				var valid = true,
-						nodes = form.elements,
-						node,
-						i;
+				var	valid = true,
+					nodes = form.elements,
+					node,
+					i;
 				for (i = 0; i < nodes.length; i++) {
 					node = nodes[i];
 					if (node.checkValidity && !node.disabled) {
