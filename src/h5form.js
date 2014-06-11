@@ -60,18 +60,6 @@
 		return path.replace(/\.js/, ext);
 	}
 
-	//让jquery支持“:invalid”和“:valid”伪类
-	if(jQuery) {
-		jQuery.extend(jQuery.expr[":"], {
-			invalid: function(elm){
-				return elm.validity && !elm.validity.valid;
-			},
-			valid: function(elm){
-				return elm.validity && elm.validity.valid;
-			}
-		});
-	}
-
 	path = path[path.length - 1];
 	try {
 		options = path.innerHTML.replace(/[\r\n\t\s]+/g, " ");
@@ -131,6 +119,19 @@
 			//addStyleRule("::" + strPlaceholder, placeholderCssRest);
 		}
 	} else {
+
+		//让jquery支持“:invalid”和“:valid”伪类
+		if(jQuery) {
+			jQuery.extend(jQuery.expr[":"], {
+				invalid: function(elm){
+					return elm.validity && !elm.validity.valid;
+				},
+				valid: function(elm){
+					return elm.validity && elm.validity.valid;
+				}
+			});
+		}
+
 		document.attachEvent("onclick", function(){
 			var	e = event,
 				btn = e.srcElement,
