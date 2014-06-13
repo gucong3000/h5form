@@ -125,7 +125,7 @@ if(/^form$/i.test(elem.tagName)){
 		setRequired = defineSetter(strRequired);
 
 		if(!gtie6 && /input/i.test(elem.tagName)){
-			elem.className += "type_" + getType();
+			elem.className += " type_" + getType();
 		}
 
 		stepMismatchMsg = function(){
