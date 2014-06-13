@@ -305,26 +305,24 @@
 		setTimeout(function() {
 			if (support) {
 				//重新定义表单提交行为避免IE原生表单验证bug导致该提交时不提交，或不该提交时提交了
-				setTimeout(function() {
-					addEventListener(window, "click", function(e) {
-						var target = e.target,
-								form = target.form;
+				addEventListener(window, "click", function(e) {
+					var target = e.target,
+							form = target.form;
 
-						if (!e.defaultPrevented && target && form && /^submit$/i.test(target.type) && !(target.formNoValidate || form.noValidate)) {
-							if (form.checkValidity()) {
-								form.submit();
-							} else {
-								e.preventDefault();
-								forEach(form.elements, function(node) {
-									if (node.validity && !node.validity.valid && node.focus) {
-										node.focus();
-										return false;
-									}
-								});
-							}
+					if (!e.defaultPrevented && target && form && /^submit$/i.test(target.type) && !(target.formNoValidate || form.noValidate)) {
+						if (form.checkValidity()) {
+							form.submit();
+						} else {
+							e.preventDefault();
+							forEach(form.elements, function(node) {
+								if (node.validity && !node.validity.valid && node.focus) {
+									node.focus();
+									return false;
+								}
+							});
 						}
-					});
-				}, 800);
+					}
+				});
 			} else {
 				//修复autofocus
 				selector("[autofocus]", function(input) {
@@ -343,7 +341,7 @@
 					}
 				}, true);
 			}
-		}, 0);
+		}, 250);
 		if (enumerable) {
 			document.removeEventListener(strDOMContentLoaded, documentready, false);//清除注册的事件监听函数
 		}
@@ -485,7 +483,7 @@
 							} else if (show) {
 								if (currStyle.position === strStatic && currentStyle(parent).position === strStatic) {
 									runtimeStyle(input).position = "relative";
-									setTimeout(setDisplay, 0);
+									timer = setTimeout(setDisplay, 0);
 								} else {
 									//如果文本框或其父元素定位不为static，则自动计算placeholder的位置
 									style.maxWidth = getComputedStyle ? getComputedStyle(input).width : (input.clientWidth - parseInt(currStyle.paddingLeft) - parseInt(currStyle.paddingRight)) + strPx;
@@ -561,6 +559,7 @@
 				}
 
 				on("resize", setDisplay, window);
+				on("scroll", setDisplay, window);
 				//初始化placeholder及其样式
 				setText();
 				setDisplay();
