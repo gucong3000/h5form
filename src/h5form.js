@@ -28,22 +28,25 @@
 	//添加css规则
 	function addStyleRule(sSelector, sStyle){
 		if(styleNode.styleSheet){
-			styleNode.styleSheet.addRule(sSelector, sStyle);
-		} else {
-			styleNode.appendChild(document.createTextNode(sSelector + "{" + sStyle + "}"));
+			try {
+				styleNode.styleSheet.addRule(sSelector, sStyle);
+				return;
+			} catch (ex) {
+				
+			}
+		}
+		sStyle = sSelector + "{" + sStyle + "}";
+		try {
+			styleNode.appendChild(document.createTextNode(sStyle));
+		} catch (ex) {
+			styleNode.cssText += sStyle;
 		}
 	}
 
 	//添加behavior
 	function addBehavior(sSelector, sStyle){
 		sStyle = "behavior: url(" + sStyle + ");";
-		try {
-			addStyleRule(sSelector, sStyle);
-		} catch (ex) {
-			/* jshint ignore:start */
-			document.writeln("<style>" + sSelector + "{" + sStyle + "}</style>");
-			/* jshint ignore:end */
-		}
+		addStyleRule(sSelector, sStyle);
 	}
 
 	//获取元素的对象属性值，当不存在时，获取标签属性值
@@ -62,15 +65,17 @@
 
 	path = path[path.length - 1];
 	try {
-		options = path.innerHTML.replace(/[\r\n\t\s]+/g, " ");
-		if(jQuery){
-			options = jQuery.parseJSON(options);
-		} else if(JSON){
-			options = JSON.parse(options);
-		} else {
-			/* jshint ignore:start */
-			options = new Function("return " + options)() || {};
-			/* jshint ignore:end */
+		options = path.innerHTML.replace(/[\s]+/g, " ");
+		if(options){
+			if(jQuery){
+				options = jQuery.parseJSON(options);
+			} else if(JSON){
+				options = JSON.parse(options);
+			} else {
+				/* jshint ignore:start */
+				options = new Function("return " + options)() || {};
+				/* jshint ignore:end */
+			}
 		}
 	} catch (ex){}
 	options = options || {};
