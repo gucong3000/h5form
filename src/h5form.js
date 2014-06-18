@@ -5,7 +5,7 @@
 		path = document.scripts || document.querySelector("script"),
 		placeholderCssRest = "color:gray; opacity:1;",
 		supportUniqueID = "uniqueID" in document,
-		head = document.documentElement.firstChild,
+		head = document.documentElement.children[0],
 		styleNode = createElement("style"),
 		strPlaceholder = "placeholder",
 		options,
