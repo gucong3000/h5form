@@ -27,26 +27,16 @@
 
 	//添加css规则
 	function addStyleRule(sSelector, sStyle){
+		var cssText = sSelector + "{" + sStyle + "}";
 		if(styleNode.styleSheet){
 			try {
 				styleNode.styleSheet.addRule(sSelector, sStyle);
-				return;
 			} catch (ex) {
-				
+				styleNode.styleSheet.cssText += cssText;
 			}
+		} else {
+			styleNode.appendChild(document.createTextNode(cssText));
 		}
-		sStyle = sSelector + "{" + sStyle + "}";
-		try {
-			styleNode.appendChild(document.createTextNode(sStyle));
-		} catch (ex) {
-			styleNode.cssText += sStyle;
-		}
-	}
-
-	//添加behavior
-	function addBehavior(sSelector, sStyle){
-		sStyle = "behavior: url(" + sStyle + ");";
-		addStyleRule(sSelector, sStyle);
 	}
 
 	//获取元素的对象属性值，当不存在时，获取标签属性值
@@ -60,7 +50,9 @@
 	}
 
 	function getPath(ext){
-		return path.replace(/\.js/, ext);
+		if(path){
+			return path.replace(/\.js/, ext);
+		}
 	}
 
 	path = path[path.length - 1];
@@ -166,10 +158,16 @@
 		addStyleRule(strPlaceholder, "position:absolute;cursor:text;color:gray;padding:0;border:0;overflow:hidden;-ms-user-select:none;user-select:none;pointer-events:none;");
 		if( documentMode < 9 ){
 			//IE6\7\8下通过htc方式加载
-			addBehavior("form,input,select,textarea", options.htc || getPath(".htc"));
+			options.htc = options.htc || getPath(".htc");
+			if(options.htc){
+				addStyleRule("form,input,select,textarea", "behavior: url(" + options.htc + ");");
+			}
 		} else if( supportUniqueID ) {
 			//IE9、10、11下通过js方式加载
-			createElement("script").src = options.js || getPath(".el.js");
+			options.js = options.js || getPath(".el.js");
+			if(options.js){
+				createElement("script").src = options.js;
+			}
 		}
 	}
 
