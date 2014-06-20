@@ -1,4 +1,4 @@
-(function(window, document){
+(function(window, document, undefined){
 	"use strict";
 
 	var	documentMode = document.querySelector ? document.documentMode : 7,
@@ -131,13 +131,14 @@
 
 		document.attachEvent("onclick", function(){
 			var	e = event,
+				returnValue = e.returnValue,
 				btn = e.srcElement,
 				form = btn.form,
 				defaultPrevented,
 				nodes,
 				node,
 				i;
-			if( !!e.returnValue && isSubmitClick(btn) ){
+			if( (!!returnValue || returnValue === undefined) && isSubmitClick(btn) ){
 				for(i = 0, nodes = form.elements; i < nodes.length; i++){
 					node = nodes[i];
 					if(node.checkValidity && !node.checkValidity()){

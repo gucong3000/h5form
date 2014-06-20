@@ -1,7 +1,4 @@
 /*global element: false */
-(function(){
-	"use strict";
-})();
 var	validityGetter = {
 		patternMismatch: function(){
 			return hasVal() && !!elem.pattern && !new RegExp("^(?:" + elem.pattern + ")$").test(elem.value);
