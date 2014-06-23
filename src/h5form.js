@@ -48,6 +48,16 @@
 	function isSubmitClick(btn){
 		return btn && /^submit$/i.test(btn.type) && btn.form && !( getProp(btn, "formNoValidate") || getProp(btn.form, "noValidate"));
 	}
+	
+	//触发表单对象方法
+	function triggerFn(node, fn){
+		fn = fn || "focus";
+		if(node && node[fn]){
+			setTimeout(function(){
+				node[fn]();
+			}, 0);
+		}
+	}
 
 	function getPath(ext){
 		if(path){
@@ -103,10 +113,7 @@
 					if(!e.defaultPrevented && isSubmitClick(target) && !target.form.checkValidity()){
 						e.preventDefault();
 						//IE10、IE11中，querySelector（":invalid“）有时会选中disabled状态的文本框，所以加not排除
-						target = target.form.querySelector(":invalid:not(:disabled)");
-						if(target){
-							target.focus();
-						}
+						triggerFn(target.form.querySelector(":invalid:not(:disabled)"));
 					}
 				}, false);
 			}, 200);
@@ -141,11 +148,12 @@
 			if( (!!returnValue || returnValue === undefined) && isSubmitClick(btn) ){
 				for(i = 0, nodes = form.elements; i < nodes.length; i++){
 					node = nodes[i];
-					if(node.checkValidity && !node.checkValidity()){
+					if(node.validity && !node.validity.valid){
 						if(!defaultPrevented){
 							defaultPrevented = true;
-							node.focus();
+							triggerFn(node);
 						}
+						triggerFn(node, "checkValidity");
 					}
 				}
 				if(defaultPrevented){
