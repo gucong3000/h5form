@@ -29,7 +29,7 @@ HTML5 form Field polyfill
 
 **支持的HTML5表单属性**
 
-- noValidate				`form.placeholder`
+- noValidate				`form.noValidate`
 - formNoValidate			`button.formNoValidate`
 - validationMessage		`field.validationMessage`
 - willValidate			`field.willValidate`
