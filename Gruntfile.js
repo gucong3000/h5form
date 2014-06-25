@@ -26,7 +26,7 @@ module.exports = function( grunt ) {
 
 		uglify: {
 			options: {
-				banner: "/*! <%= pkg.name %> v<%= pkg.version %>*/\n",
+				banner: "/* <%= pkg.name %> v<%= pkg.version %>\n * homepage: <%= pkg.homepage %>\n */\n",
 				preserveComments: "some",
 				report: "min",
 				compress: {

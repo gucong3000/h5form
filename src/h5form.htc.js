@@ -40,7 +40,6 @@ var	validityGetter = {
 	strFormNoValidate = "formNoValidate",
 	strNoValidate = "noValidate",
 	strRequired = "required",
-	gtie6 = "XMLHttpRequest" in window,
 	validityObj = new ValidityState(),
 	setTimeoutFn = window.setTimeout,
 	num = top.parseFloat,
@@ -121,7 +120,7 @@ if(/^form$/i.test(elem.tagName)){
 		//required属性setter方法
 		setRequired = defineSetter(strRequired);
 
-		if(!gtie6 && /input/i.test(elem.tagName)){
+		if(!doc.querySelector && /input/i.test(elem.tagName)){
 			elem.className += " type_" + getType();
 		}
 
@@ -258,7 +257,7 @@ if(/^form$/i.test(elem.tagName)){
 							}
 							//如果文本框或其父元素定位不为static，则自动计算placeholder的位置
 							style.maxWidth = (elem.clientWidth - parseInt(currStyle.paddingLeft) - parseInt(currStyle.paddingRight)) + strPx;
-							style.width = currStyle.textAlign === "left" && (gtie6) ? "auto" : style.maxWidth;
+							style.width = currStyle.textAlign === "left" && ("XMLHttpRequest" in window) ? "auto" : style.maxWidth;
 							style.left = (elem.offsetLeft + elem.clientLeft) + strPx;
 							style.top = (elem.offsetTop + elem.clientTop) + strPx;
 							currCss("marginLeft", "paddingLeft");
@@ -325,7 +324,7 @@ documentready = function(){
 	isDocumentReady = true;
 	if(elem.focus && elem.attributes.autofocus){
 		try {
-			for(var forms = doc.querySelectorAll ? [doc.querySelectorAll("[autofocus]")] : doc.forms, node, i = 0, j; i < forms.length; i++){
+			for(var forms = doc.forms, node, i = 0, j; i < forms.length; i++){
 				for(j = 0,node; j < forms[i].elements.length; j++){
 					node = forms[i].elements[j];
 					if(node.focus && node.attributes.autofocus){
