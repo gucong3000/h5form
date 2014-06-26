@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>H5form by gucong3000</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>H5form</h1>
+        <h2>HTML5 form polyfill</h2>
+        <a href="https://github.com/gucong3000/h5form" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a name="h5form-v0012" class="anchor" href="#h5form-v0012"><span class="octicon octicon-link"></span></a>h5form v0.0.12</h1>
+
+<p>HTML5 form Field polyfill</p>
+
+<hr><blockquote>
+<p>为了解放开发者，HTML5引入了约束验证的概念，一种本地实现的网页表单验证。尽管所有主流浏览器的最新版本都支持了这个特性，但一些浏览器尚未实现。这个项目的主要功能就是让所有浏览器均支持HTML5表单约束验证功能，同时提供placeholder属性和oninput事件等相关功能。</p>
+</blockquote>
+
+<h2>
+<a name="%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95" class="anchor" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="octicon octicon-link"></span></a>使用方法</h2>
+
+<div class="highlight highlight-HTML"><pre><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"build/h5form.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+</pre></div>
+
+<p>加入js后，为Firefox和Chrome等现代浏览器而写的表单验证，IE下也能工作了</p>
+
+<p><code>h5form.js</code>会自动管理依赖的js，IE9+会自动加载<code>h5form.el.js</code>，IE6-8下自动加载<code>h5form.htc</code></p>
+
+<h2>
+<a name="%E7%89%B9%E6%80%A7" class="anchor" href="#%E7%89%B9%E6%80%A7"><span class="octicon octicon-link"></span></a>特性</h2>
+
+<p><strong>支持的浏览器</strong></p>
+
+<ul>
+<li>IE6+      (兼容IE11)</li>
+<li>Chrome</li>
+<li>Firefox</li>
+<li>Safari</li>
+<li>Opera (老版本Presto内核也支持)</li>
+</ul><p><strong>支持的HTML5属性</strong></p>
+
+<ul>
+<li>noValidate                <code>form.noValidate</code>           不验证此表单</li>
+<li>formNoValidate            <code>button.formNoValidate</code>     此按钮所属表单不验证</li>
+<li>validationMessage     <code>field.validationMessage</code>   错误消息</li>
+<li>willValidate          <code>field.willValidate</code>        此元素可进行验证</li>
+<li>placeholder           <code>field.placeholder</code>         文本框展位字符</li>
+<li>required              <code>field.required</code>            此项为必填项</li>
+<li>pattern               <code>field.pattern</code>             正则验证规则</li>
+<li>step                  <code>field.step</code>                数字增量</li>
+<li>max                   <code>field.max</code>                 数字上限</li>
+<li>min                   <code>field.min</code>                 数字下限</li>
+<li>validity              <code>field.validity</code>            约束验证的详细信息
+
+<ul>
+<li>validity.customError      自定义错误</li>
+<li>validity.patternMismatch  正则不匹配</li>
+<li>validity.rangeOverflow        值max越界</li>
+<li>validity.rangeUnderflow   值min越界</li>
+<li>validity.stepMismatch     值不符setp</li>
+<li>validity.tooLong          文本超长</li>
+<li>validity.typeMismatch     值不符type约束</li>
+<li>validity.valid                验证无误</li>
+<li>validity.valueMissing     值为空</li>
+</ul>
+</li>
+</ul><p><strong>支持的HTML5方法</strong></p>
+
+<ul>
+<li>checkValidity()       <code>form.checkValidity()</code>、<code>field.checkValidity()</code>    检查表单，返回布尔值，且在错误时触发oninvalid</li>
+<li>setCustomValidity()   <code>field.setCustomValidity(msg)</code>                  设置自定义错误</li>
+</ul><p><strong>支持的HTML5表单事件</strong>  (IE6-8下需加载jQuery，否则不支持)</p>
+
+<ul>
+<li>oninvalid     表单验证失败事件</li>
+<li>oninput       表单值改变事件</li>
+</ul><p><strong>特性详解</strong></p>
+
+<ul>
+<li>已经支持HTML5表单约束验证的浏览器下，加载文件后会隐藏掉浏览器原生的气泡提示</li>
+<li>修正Safari下invalid事件后表单依然被提交的问题</li>
+<li>当与jQuery共同使用时：
+
+<ul>
+<li>invalid事件向DOM树冒泡（原生invalid事件并不冒泡）</li>
+<li>让jquery支持“:invalid”和“:valid”伪类选择符</li>
+</ul>
+</li>
+<li>对IE低版本添加的功能：
+
+<ul>
+<li>添加IE6-9对placeholder功能的支持</li>
+<li>添加IE6-8对input事件的支持</li>
+<li>添加IE6-9对约束验证功能的支持</li>
+</ul>
+</li>
+<li>对高版本IE的已有的不完善功能的修正
+
+<ul>
+<li>修正IE10+支持HTML5约束验证，但很多细节与其他浏览器有差异的问题</li>
+<li>修正IE10+对placeholder的实现与其他浏览器的差异 (文本框获取焦点但未输入文字时，应该显示占位文本。)</li>
+<li>修正IE9+高版本对可编辑状态元素(如：<code>&lt;p contentEditable=“true”&gt;;</code>)不支持input事件的问题</li>
+<li>修正IE9在删除、剪切等方式操作文本框中的字符串时，不触发input事件的问题 (该死的IE9不再支持propertychange事件)</li>
+</ul>
+</li>
+</ul><h2>
+<a name="%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99" class="anchor" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="octicon octicon-link"></span></a>参考资料</h2>
+
+<p><a href="http://ju.outofmemory.cn/entry/31397">HTML5约束验证API详解</a></p>
+
+<p><a href="http://www.w3school.com.cn/html5/att_input_placeholder.asp">HTML5手册中placeholder属性</a></p>
+
+<h2>
+<a name="%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91" class="anchor" href="#%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91"><span class="octicon octicon-link"></span></a>协同开发</h2>
+
+<p>本项目使用grunt环境编译，提交代码需经过grunt做JSHint代码风格检查以便保证代码质量</p>
+
+<h3>
+<a name="%E5%B7%B2%E7%9F%A5%E9%97%AE%E9%A2%98" class="anchor" href="#%E5%B7%B2%E7%9F%A5%E9%97%AE%E9%A2%98"><span class="octicon octicon-link"></span></a>已知问题</h3>
+
+<p>IE6-8下，页面表单元素较多时，会造成页面加载速度缓慢。</p>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/gucong3000/h5form/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/gucong3000/h5form/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/gucong3000/h5form"></a> is maintained by <a href="https://github.com/gucong3000">gucong3000</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
