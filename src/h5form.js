@@ -110,7 +110,7 @@
 				addEventListener("click", function(e){
 					var target = e.target;
 					//即使是Safari支持约束验证API的情况下Safari（版本 5、6）也不会因为表单的数据没有满足约束验证而阻止用户提交。所以一律js重新实现一遍
-					if(!e.defaultPrevented && isSubmitClick(target) && !target.form.checkValidity()){
+					if(!e.defaultPrevented && e.which === 1 && isSubmitClick(target) && !target.form.checkValidity()){
 						e.preventDefault();
 						//IE10、IE11中，querySelector（":invalid“）有时会选中disabled状态的文本框，所以加not排除
 						triggerFn(target.form.querySelector(":invalid:not(:disabled)"));

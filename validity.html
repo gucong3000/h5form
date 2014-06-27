@@ -47,11 +47,21 @@ $(function(){
 	console.log("全局变量检查");
 	for(var i in window){
 		if(!(i in ifrWin)){
-			console.log(i, window[i]);
+			try {
+				console.log(i, window[i]);
+			} catch (ex){
+			}
 		}
 	}
 	ifr.parentNode.removeChild(ifr);
 	console.log("全局变量检查 done");
+	$("form").submit(function(e) {
+		if(this.checkValidity()){
+			alert("表单效验通过");
+		} else {
+			alert("表单效验失败");
+		}
+    });
 });
 </script>
 </body>
