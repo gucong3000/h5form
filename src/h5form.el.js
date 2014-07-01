@@ -486,7 +486,7 @@
 									timer = setTimeout(setDisplay, 0);
 								} else {
 									//如果文本框或其父元素定位不为static，则自动计算placeholder的位置
-									style.maxWidth = getComputedStyle ? getComputedStyle(input).width : (input.clientWidth - parseInt(currStyle.paddingLeft) - parseInt(currStyle.paddingRight)) + strPx;
+									style.maxWidth = getComputedStyle ? currStyle.width : (input.clientWidth - parseInt(currStyle.paddingLeft) - parseInt(currStyle.paddingRight)) + strPx;
 									style.width = currStyle.textAlign === "left" ? "auto" : style.maxWidth;
 									style.left = (input.offsetLeft + input.clientLeft) + strPx;
 									style.top = (input.offsetTop + input.clientTop) + strPx;
