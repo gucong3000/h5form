@@ -17,10 +17,6 @@
 			return window.getComputedStyle(node, null);
 		} : 0;
 
-	if(h5form[strPlaceholder] && h5form[strPlaceholder].call){
-		return;
-	}
-
 	//判断对象是否文本框
 	function isTextbox(node) {
 		return /^text(area)?|password|email|search|tel|url$/i.test(node.type);
@@ -213,6 +209,10 @@
 
 	function init(){
 		forEach(document.querySelectorAll("input,textarea"), createHolder);
+	}
+
+	if(h5form[strPlaceholder] && h5form[strPlaceholder].call){
+		return;
 	}
 
 	if(addStyleRule){
