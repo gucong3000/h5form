@@ -1,4 +1,4 @@
-h5form v0.0.12
+h5form v0.2.1
 ======
 
 HTML5 form Field polyfill
@@ -86,7 +86,3 @@ HTML5 form Field polyfill
 ## 协同开发 ##
 
 本项目使用grunt环境编译，提交代码需经过grunt做JSHint代码风格检查以便保证代码质量
-
-### 已知问题 ###
-
-IE6-8下，页面表单元素较多时，会造成页面加载速度缓慢。

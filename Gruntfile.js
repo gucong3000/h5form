@@ -8,25 +8,34 @@ module.exports = function( grunt ) {
 		} catch ( e ) {}
 		return data;
 	}
+	var banner = "/* <%= pkg.name %> v<%= pkg.version %>\n * homepage: <%= pkg.homepage %>\n */\n";
 
 	// The concatenated file won't pass onevar
 	// But our modules can
 
 	grunt.initConfig({
-		pkg: grunt.file.readJSON( "package.json" ),
+		pkg: readOptionalJSON( "package.json" ),
 
+		//js代码风格检查
 		jshint: {
-			all: {
-				src: ["src/**/*.js"],
-				options: {
-					jshintrc: true
-				}
-			}
+			options: {
+				jshintrc: true
+			},
+			gruntfile: {
+				src: ["Gruntfile.js"]
+			},
+			js: {
+				src: ["src/**/*.js", "!src/**/*.htc.js"]
+			},
+			htc: {
+				src: ["src/**/*.htc.js"]
+			},
 		},
 
+		//js代码压缩与合并
 		uglify: {
 			options: {
-				banner: "/* <%= pkg.name %> v<%= pkg.version %>\n * homepage: <%= pkg.homepage %>\n */\n",
+				banner: banner,
 				preserveComments: function(o, info){
 					return /@(cc_on|if|else|end|_jscript(_\w+)?)\s/i.test(info.value);
 				},
@@ -48,7 +57,7 @@ module.exports = function( grunt ) {
 			},
 			htc: {
 				options: {
-					banner: grunt.file.read("src/banner.htc").replace(/<!--[\w\W\r\n]*?-->|[\r\n]+/g,"") + "\n/*! <%= pkg.name %> v<%= pkg.version %>*/\n",
+					banner: grunt.file.read("src/banner.htc").replace(/<!--[\w\W\r\n]*?-->|[\r\n]+/g,"") + "\n" + banner,
 					footer: "\n</SCRIPT></PUBLIC:COMPONENT>"
 				},
 				files: [{
@@ -56,16 +65,37 @@ module.exports = function( grunt ) {
 					cwd: "src",				//src目录下
 					src: ["*.htc.js"],		//所有*.htc.js文件
 					dest: "build",			//输出到此目录下
-					ext: '.htc'
+					ext: ".htc"
 				}]
+			}
+		},
+		//文件变化监控
+		watch: {
+			gruntfile: {
+				files: ["Gruntfile.js"],
+				tasks: ["jshint:gruntfile"]
+			},
+			js: {
+				files: ["src/**/*.js", "!**/*.htc.js"],
+				tasks: ["jshint:js", "uglify:js"]
+			},
+			htc: {
+				files: ["src/**/*.htc.js", "src/**/*.htc", "!src/h5form.htc"],
+				tasks: ["jshint:htc", "uglify:htc", "htc"]
 			}
 		}
 	});
 
+	//文件变化监控插件
+	grunt.loadNpmTasks("grunt-contrib-watch");
+	//代码风格检查插件
 	grunt.loadNpmTasks("grunt-contrib-jshint");
 	//文件合并插件
 	grunt.loadNpmTasks("grunt-contrib-uglify");
 
 	// Default grunt
-	grunt.registerTask( "default", [ "jshint", "uglify" ] );
+	grunt.registerTask( "default", [ "jshint", "uglify", "htc" ] );
+	grunt.task.registerTask("htc", "build htc", function() {
+		grunt.file.write("src/h5form.htc", grunt.file.read("src/banner.htc") + grunt.file.read("src/h5form.htc.js") + "\n</SCRIPT></PUBLIC:COMPONENT>");
+	});
 };

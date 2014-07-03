@@ -4,14 +4,13 @@
 	var	documentMode = document.querySelector ? document.documentMode : 7,
 		path = document.scripts || document.querySelector("script"),
 		placeholderCssRest = "color:gray; opacity:1;",
-		supportUniqueID = "uniqueID" in document,
 		head = document.documentElement.children[0],
-		styleNode = createElement("style"),
+		supportUniqueID = "uniqueID" in document,
 		strPlaceholder = "placeholder",
-		options,
-		support,
+		options = window.h5form || {},
 		jQuery = window.jQuery,
-		JSON = window.JSON;
+		styleNode,
+		support;
 
 	//在header中创建元素
 	function createElement(tag){
@@ -27,15 +26,18 @@
 
 	//添加css规则
 	function addStyleRule(sSelector, sStyle){
+		if(!styleNode){
+			styleNode = createElement("style");
+		}
 		var cssText = sSelector + "{" + sStyle + "}";
-		if(styleNode.styleSheet){
+		try {
+			styleNode.appendChild(document.createTextNode(cssText));
+		} catch (ex) {
 			try {
 				styleNode.styleSheet.addRule(sSelector, sStyle);
-			} catch (ex) {
+			} catch(ex){
 				styleNode.styleSheet.cssText += cssText;
 			}
-		} else {
-			styleNode.appendChild(document.createTextNode(cssText));
 		}
 	}
 
@@ -48,7 +50,7 @@
 	function isSubmitClick(btn){
 		return btn && /^submit$/i.test(btn.type) && btn.form && !( getProp(btn, "formNoValidate") || getProp(btn.form, "noValidate"));
 	}
-	
+
 	//触发表单对象方法
 	function triggerFn(node, fn){
 		fn = fn || "focus";
@@ -59,29 +61,20 @@
 		}
 	}
 
-	function getPath(ext){
+	//根据完整url，返回path
+	function getPath(filename){
 		if(path){
-			return path.replace(/\.js/, ext);
+			return path.replace(/[^\/]+$/, filename);
 		}
 	}
 
 	path = path[path.length - 1];
 	try {
-		options = path.innerHTML.replace(/[\s]+/g, " ");
-		if(options){
-			if(jQuery){
-				options = jQuery.parseJSON(options);
-			} else if(JSON){
-				options = JSON.parse(options);
-			} else {
-				/* jshint ignore:start */
-				options = new Function("return " + options)() || {};
-				/* jshint ignore:end */
-			}
-		}
+		options = options || eval.call(window, path.innerHTML) || {};
 	} catch (ex){}
-	options = options || {};
-	path = path.getAttribute("src", 2);
+	window.h5form = options;
+
+	path = path.getAttribute("src", 2) || "";
 
 	try {
 		document.querySelector(":invalid");
@@ -102,10 +95,7 @@
 			}
 		}, true);
 
-		if(documentMode && supportUniqueID){
-			//IE 10+中placeholder在文本框focus时则消失，这与其他浏览器有差异，用css干掉其原生的placeholder功能
-			addStyleRule(":-ms-input-" + strPlaceholder, "color:transparent !important;");
-		} else {
+		if(!(documentMode && supportUniqueID)){
 			setTimeout(function(){
 				addEventListener("click", function(e){
 					var target = e.target;
@@ -164,19 +154,29 @@
 	}
 
 	if(documentMode){
-		addStyleRule(strPlaceholder, "position:absolute;cursor:text;color:gray;padding:0;border:0;overflow:hidden;-ms-user-select:none;user-select:none;pointer-events:none;");
 		if( documentMode < 9 ){
 			//IE6\7\8下通过htc方式加载
-			options.htc = options.htc || getPath(".htc");
+			options.htc = options.htc || getPath("h5form.htc");
 			if(options.htc){
 				addStyleRule("form,input,select,textarea", "behavior: url(" + options.htc + ");");
 			}
 		} else if( supportUniqueID ) {
 			//IE9、10、11下通过js方式加载
-			options.js = options.js || getPath(".el.js");
-			if(options.js){
+			options.js = options.js || getPath("h5form.el.js");
+			if(options.js && (!window.ValidityState || /^\[.*\]$/.test(window.ValidityState))){
 				createElement("script").src = options.js;
 			}
+		}
+	}
+
+	options.addStyleRule = addStyleRule;
+
+	//修复IE9+、Safari下placeholder与其他浏览器的差异
+	//原本opera12以下也需要修复，但找不到办法去除原生样式，加之市场占有率不高，故不作处理了
+	if(!(window.netscape || window.chrome || window.opera)){
+		options[strPlaceholder] = options[strPlaceholder] || getPath(strPlaceholder + ".js");
+		if(options[strPlaceholder] && typeof options[strPlaceholder] === "string"){
+			createElement("script").src = options[strPlaceholder];
 		}
 	}
 

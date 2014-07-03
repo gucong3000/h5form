@@ -25,7 +25,6 @@
 		validityCache = {},
 		customCache = {},
 		valueCache = {},
-		setHolder,
 		support;
 
 	try {
@@ -330,17 +329,6 @@
 					return false;
 				});
 			}
-
-			//修复placeholder
-			selector("input,textarea", setHolder);
-			if (enumerable) {
-				addEventListener(document, "DOMNodeInserted", function(e) {
-					var target = e.target;
-					if (/^input|textarea&/i.test(target.tagName)) {
-						setHolder(target);
-					}
-				}, true);
-			}
 		}, 250);
 		if (enumerable) {
 			document.removeEventListener(strDOMContentLoaded, documentready, false);//清除注册的事件监听函数
@@ -416,160 +404,7 @@
 	fixInputElement(HTMLSelectElement);
 	fixInputElement(HTMLInputElement);
 
-	setHolder = (function() {
-		var strPlaceholder = "placeholder",
-				parseInt = window.parseInt,
-				placeholderCache = {},
-				strNormal = "normal",
-				strStatic = "static",
-				strPx = "px",
-				getComputedStyle = window.getComputedStyle ? function(node) {
-					return window.getComputedStyle(node, null);
-				} : 0;
-
-		//获取node的style对象，优先使用runtimeStyle
-		function runtimeStyle(node) {
-			return node.runtimeStyle || node.style;
-		}
-
-		//获取node的计算样式，兼容IE，非IE
-		function currentStyle(node) {
-			return node.currentStyle || getComputedStyle(node);
-		}
-
-		//为input建立模拟的placeholder
-		function createHolder(input) {
-			var uniqueID = input.uniqueID,
-					holder,
-					timer,
-					on = function(eType, fn, node) {
-						addEventListener(node || input, eType, fn, true);
-					},
-					//更新placeholder文本
-					setText = function() {
-						//读取placeholder
-						var text = input[strPlaceholder];
-						//如果placeholder属性不为空而node还没有建立
-						if (!holder && text) {
-							//建立一个node
-							holder = createElement(strPlaceholder);
-							holder.onmousedown = function() {
-								//鼠标点holder是文本框获得焦点
-								setTimeout(function() {
-									input.focus();
-								}, 1);
-								return false;
-							};
-						}
-						//如果有node，更新其内容为placeholder属性值
-						if (holder) {
-							holder.innerHTML = text || "";
-						}
-					},
-					//控制node的样式
-					setDisplay = function() {
-						clearTimeout(timer);
-						if (holder) {
-							var show = holder.innerHTML && !input.value && isTextbox(input),
-									currStyle = currentStyle(input),
-									style = runtimeStyle(holder),
-									parent = input.parentNode,
-									disp = parent && (input.offsetHeight || input.offsetWidth);
-							style.display = show && disp ? "block" : "none";
-							//如果文本框可见时
-							if (!disp) {
-								//文本框不可见时延迟运行setDisplay
-								timer = setTimeout(setDisplay, 50);
-							} else if (show) {
-								if (currStyle.position === strStatic && currentStyle(parent).position === strStatic) {
-									runtimeStyle(input).position = "relative";
-									timer = setTimeout(setDisplay, 0);
-								} else {
-									//如果文本框或其父元素定位不为static，则自动计算placeholder的位置
-									style.maxWidth = getComputedStyle ? currStyle.width : (input.clientWidth - parseInt(currStyle.paddingLeft) - parseInt(currStyle.paddingRight)) + strPx;
-									style.width = currStyle.textAlign === "left" ? "auto" : style.maxWidth;
-									style.left = (input.offsetLeft + input.clientLeft) + strPx;
-									style.top = (input.offsetTop + input.clientTop) + strPx;
-									currCss("marginLeft", "paddingLeft");
-									currCss("marginTop", "paddingTop");
-
-									if (/^input$/i.test(input.tagName)) {
-										style.whiteSpace = "nowrap";
-										style.wordBreak = strNormal;
-										if (getComputedStyle) {
-											style.lineHeight = getComputedStyle(input).height;
-										} else {
-											currCss("lineHeight");
-										}
-									} else {
-										style.whiteSpace = strNormal;
-										style.wordBreak = "break-all";
-										currCss("lineHeight");
-									}
-
-									currCss("textAlign");
-									currCss("fontFamily");
-									currCss("fontWidth");
-									currCss("fontSize");
-
-									//将node插入文本框之后
-									if (input.nextSibling) {
-										parent.insertBefore(holder, input.nextSibling);
-									} else {
-										parent.appendChild(holder);
-									}
-								}
-							}
-						}
-					},
-					//样式继承，取文本框的样式赋值给placeholder
-					currCss = function(name, attr) {
-						try {
-							runtimeStyle(holder)[name] = currentStyle(input)[attr || name];
-						} catch (e) {
-						}
-					};
-
-			if (!placeholderCache[uniqueID]) {
-				//高级浏览器下事件注册
-				if (enumerable) {
-					forEach([strInput, "DOMAttrModified"], function(eType) {
-						on(eType, function() {
-							setTimeout(function() {
-								setText();
-								setDisplay();
-							}, 0);
-						});
-					});
-				} else {
-					on("propertychange", function() {
-						var propName = event.propertyName;
-						setTimeout(function() {
-							switch (propName) {
-								//如placeholder属性发生改变，重置文案和样式
-								case strPlaceholder :
-									setText();
-									//如value属性发生改变，重置重置样式
-									/* falls through */
-								default :
-									setDisplay();
-							}
-						}, 0);
-					});
-				}
-
-				on("resize", setDisplay, window);
-				on("scroll", setDisplay, window);
-				//初始化placeholder及其样式
-				setText();
-				setDisplay();
-				placeholderCache[uniqueID] = true;
-			}
-		}
-		return createHolder;
-	})();
-
-	//让IE9支持autofocus属性和placeholder属性
+	//让IE9支持autofocus属性、干掉原生的气泡提示、修复某些浏览不会阻止表单提交的问题
 	if (/^interactive|complete$/.test(document.readyState)) {
 		documentready();
 	} else {
