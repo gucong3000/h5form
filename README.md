@@ -5,7 +5,6 @@ HTML5 form Field polyfill
 
 ----------
 
-
 > 为了解放开发者，HTML5引入了约束验证的概念，一种本地实现的网页表单验证。尽管所有主流浏览器的最新版本都支持了这个特性，但一些浏览器尚未实现。这个项目的主要功能就是让所有浏览器均支持HTML5表单约束验证功能，同时提供placeholder属性和oninput事件等相关功能。
 
 ## 使用方法 ##
@@ -42,16 +41,15 @@ HTML5 form Field polyfill
 | max					| `field.max`				| 数字上限			|
 | min					| `field.min`				| 数字下限			|
 | validity				| `field.validity`			| 约束验证的详细信息	|
-
-	- validity.customError		自定义错误
-	- validity.patternMismatch	正则不匹配
-	- validity.rangeOverflow		值max越界
-	- validity.rangeUnderflow	值min越界
-	- validity.stepMismatch		值不符setp
-	- validity.tooLong			文本超长
-	- validity.typeMismatch		值不符type约束
-	- validity.valid				验证无误
-	- validity.valueMissing		值为空
+|| `validity.customError`		|自定义错误
+|| `validity.patternMismatch`	|正则不匹配
+|| `validity.rangeOverflow`		|值max越界
+|| `validity.rangeUnderflow`	|值min越界
+|| `validity.stepMismatch`		|值不符setp
+|| `validity.tooLong`			|文本超长
+|| `validity.typeMismatch`		|值不符type约束
+|| `validity.valid`				|验证无误
+|| `validity.valueMissing`		|值为空
 
 **支持的HTML5方法**
 
