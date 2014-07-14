@@ -263,12 +263,12 @@
 
 	//事件触发
 	function triggerEvent(node, type, cancelBubble) {
-		if (document.createEvent) {
+		if (jQuery) {
+			jQuery(node).trigger(type);
+		} else if (document.createEvent) {
 			var e = document.createEvent("HTMLEvents");
 			e.initEvent(type, !!cancelBubble, true);
 			node.dispatchEvent(e);
-		} else if (jQuery) {
-			jQuery(node).trigger(type);
 		}
 	}
 
