@@ -247,8 +247,8 @@
 				jQuery(node).bind(type + ".h5form", listener);
 			} else {
 				node.attachEvent("on" + type, function() {
-					var e = {},
-							src = event;
+					var	e = {},
+						src = event;
 					e.target = src.srcElement;
 					e.defaultPrevented = src.returnValue === false;
 					e.preventDefault = function() {
@@ -263,12 +263,12 @@
 
 	//事件触发
 	function triggerEvent(node, type, cancelBubble) {
-		if (jQuery) {
-			jQuery(node).trigger(type);
-		} else if (document.createEvent) {
+		if (document.createEvent) {
 			var e = document.createEvent("HTMLEvents");
 			e.initEvent(type, !!cancelBubble, true);
 			node.dispatchEvent(e);
+		} else if (jQuery) {
+			jQuery(node).trigger(type);
 		}
 	}
 
@@ -305,10 +305,10 @@
 			if (support) {
 				//重新定义表单提交行为避免IE原生表单验证bug导致该提交时不提交，或不该提交时提交了
 				addEventListener(window, "click", function(e) {
-					var target = e.target,
-							form = target.form;
+					var	target = e.target,
+						form = target.form;
 
-					if (!e.defaultPrevented && target && form && /^submit$/i.test(target.type) && !(target.formNoValidate || form.noValidate)) {
+					if (!e.defaultPrevented && e.which === 1 && target && form && /^submit$/i.test(target.type) && !(target.formNoValidate || form.noValidate)) {
 						if (form.checkValidity()) {
 							form.submit();
 						} else {

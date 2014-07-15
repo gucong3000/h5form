@@ -77,13 +77,6 @@
 	path = path.getAttribute("src", 2) || "";
 
 	try {
-		document.querySelector(":invalid");
-		support = true;
-	} catch (ex) {
-	}
-
-	if(support) {
-
 		addEventListener("invalid", function(e){
 			if(!e.cancelBubble){
 				e.preventDefault();
@@ -94,6 +87,12 @@
 				}
 			}
 		}, true);
+		document.querySelector(":invalid");
+		support = true;
+	} catch (ex) {
+	}
+
+	if(support) {
 
 		if(!(documentMode && supportUniqueID)){
 			setTimeout(function(){

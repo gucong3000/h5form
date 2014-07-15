@@ -66,8 +66,7 @@
 
 	//为input建立模拟的placeholder
 	function createHolder(input) {
-		var	winEvents = ["resize", "scroll"],
-			currStyle = currentStyle(input),
+		var	currStyle = currentStyle(input),
 			holder = getPlaceholder(input),
 			timer,
 			on = function(eType, fn, node) {
@@ -174,11 +173,7 @@
 					});
 				});
 
-				if(currStyle.resize && !/^none$/.test(currStyle.resize)){
-					//winEvents.push("mousemove");
-				}
-
-				forEach(winEvents, function(eType) {
+				forEach(["resize", "scroll"], function(eType) {
 					on(eType, setDisplay, window);
 				});
 
@@ -217,6 +212,7 @@
 
 	if(addStyleRule){
 		addStyleRule(strPlaceholder, "position:absolute;cursor:text;color:gray;padding:0;border:0;overflow:hidden;-ms-user-select:none;user-select:none;pointer-events:none;");
+		//textarea的滚动条可能和展位字符串重叠，干掉。Firefox和Chrome默认就是auto
 		addStyleRule("textarea", "overflow: auto;");
 	}
 
@@ -226,7 +222,6 @@
 		setInterval(init, 200);
 
 		if(addStyleRule){
-			//textarea的滚动条可能和展位字符串重叠，干掉。Firefox和Chrome默认就是auto
 			//IE 10+、Safari中placeholder在文本框focus时则消失，这与其他浏览器有差异，用css干掉其原生的placeholder功能
 			forEach([":-ms-input-", "::-webkit-input-"], function(prefix){
 				addStyleRule(prefix + strPlaceholder, "color:transparent !important;");
