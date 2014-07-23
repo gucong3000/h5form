@@ -1,47 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src\h5form.el.js - h5form</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.8.0pr2/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <script src="http://yui.yahooapis.com/combo?3.8.0pr2/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            <h1><a href="../index.html"><img src="../assets/css/logo.png">h5form: src\h5form.el.js</a></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.2.2</em>
+        </div>
+    </div>
+    <div class="yui3-g">
+
+        <div id="sidebar" class="yui3-u">
+            <div id="modules" class="sidebox">
+    <div class="hd">
+        <h2 class="no-toc">Modules</h2>
+    </div>
+    <div class="bd">
+        <ul>
+            
+        </ul>
+    </div>
+</div>
+
+<div id="classes" class="sidebox">
+    <div class="hd">
+        <h2 class="no-toc">Classes</h2>
+    </div>
+    <div class="bd">
+        <ul>
+            
+                <li><a href="../classes/h5form.html">h5form</a></li>
+            
+                <li><a href="../classes/HTMLFormElement.html">HTMLFormElement</a></li>
+            
+                <li><a href="../classes/HTMLInputElement.html">HTMLInputElement</a></li>
+            
+                <li><a href="../classes/HTMLTextAreaElement.html">HTMLTextAreaElement</a></li>
+            
+                <li><a href="../classes/ValidityState.html">ValidityState</a></li>
+            
+        </ul>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<div id="fileTree" class="sidebox">
+    <div class="hd">
+        <h2 class="no-toc">Files</h2>
+    </div>
+    <div class="bd">
+        <ul><li>src\h5form.el.js/<ul></ul></li><li>src\h5form.js/<ul></ul></li><li>src\placeholder.js/<ul></ul></li></ul>
+    </div>
+</div>
+
+
+
+        </div>
+
+        <div id="main" class="yui3-u">
+            <div class="content"><h4>src\h5form.el.js</h4>
+
+<pre class="code prettyprint linenums">
 /**
  * 高端浏览器原生对象，h5form提供polyfill
  * @class HTMLInputElement
  */
 
 /**
- * @description autofocus 属性规定在页面加载时，域自动地获得焦点。如：&lt;input type=&quot;text&quot; autofocus&gt;
+ * @description autofocus 属性规定在页面加载时，域自动地获得焦点。如：&amp;lt;input type=&amp;quot;text&amp;quot; autofocus&amp;gt;
  * @property {Boolean} autofocus
  * @default false
  */
 
 /**
- * @description 用在button和input节点上，来阻止提交时验证此节点。如：&lt;input type="submit" value="Do NOT Validate" formnovalidate&gt; 
+ * @description 用在button和input节点上，来阻止提交时验证此节点。如：&amp;lt;input type=&quot;submit&quot; value=&quot;Do NOT Validate&quot; formnovalidate&amp;gt; 
  * @property {Boolean} formNoValidate
  */
 
 /**
  * @description 规定输入域所允许的最小值。适用于以下类型的 input 标签：date pickers、number 以及 range。
  * @property {Number|String} min
- * @default ""
+ * @default &quot;&quot;
  */
 
 /**
  * @description 规定输入域所允许的最大值。适用于以下类型的 input 标签：date pickers、number 以及 range。
  * @property {Number|String} max
- * @default ""
+ * @default &quot;&quot;
  */
 
 /**
- * @description 输入域规定合法的数字间隔（如果 step="3"，则合法的数是 -3,0,3,6 等）。适用于以下类型的 input 标签：date pickers、number 以及 range。
+ * @description 输入域规定合法的数字间隔（如果 step=&quot;3&quot;，则合法的数是 -3,0,3,6 等）。适用于以下类型的 input 标签：date pickers、number 以及 range。
  * @property {Number|String} step
- * @default ""
+ * @default &quot;&quot;
  */
 
 /**
  * @description 正则表达式，用于验证 input 域。
  * @property {String} pattern
- * @default ""
+ * @default &quot;&quot;
  */
 
 /**
  * @description placeholder 属性提供一种提示（hint），描述输入域所期待的值。适用于以下类型的 input 标签：text, search, url, telephone, email 以及 password。
  * @property {String} placeholder
- * @default ""
+ * @default &quot;&quot;
  */
 
 /**
@@ -98,7 +180,7 @@
  */
 
 /**
- * @description 当使用这个属性的时候，就表示表单所有的输入内容在提交时不需要验证了, 如：&lt;form novalidate&gt;&lt;/form&gt;
+ * @description 当使用这个属性的时候，就表示表单所有的输入内容在提交时不需要验证了, 如：&amp;lt;form novalidate&amp;gt;&amp;lt;/form&amp;gt;
  * @property {Boolean} noValidate
  */
 
@@ -158,32 +240,32 @@
 /**
  * @description 使用自定义的验证错误提示信息。
  * 有时候，不太适合使用浏览器内置的验证错误提示信息，需要自己定义。当输入值不符合语义规则时，会提示自定义的错误提示信息。
- * 通常使用setCustomValidity()方法自定义错误提示信息：setCustomValidity(message)会把错误提示信息自定义为message，此时customError属性值为true；setCustomValidity("")会清除自定义的错误信息，此时customError属性值为false。
+ * 通常使用setCustomValidity()方法自定义错误提示信息：setCustomValidity(message)会把错误提示信息自定义为message，此时customError属性值为true；setCustomValidity(&quot;&quot;)会清除自定义的错误信息，此时customError属性值为false。
  * @property {Boolean} customError
  */
 
 (function(window, document) {
-	"use strict";
+	&quot;use strict&quot;;
 
-	var	strDOMContentLoaded = "DOMContentLoaded",
-		strInput = "input",
-		strPrototype = "prototype",
+	var	strDOMContentLoaded = &quot;DOMContentLoaded&quot;,
+		strInput = &quot;input&quot;,
+		strPrototype = &quot;prototype&quot;,
 		HTMLFormElementPrototype = getPrototype(HTMLFormElement),
 		documentMode = document.documentMode,
-		enumerable = !documentMode || document.documentMode > 8,
+		enumerable = !documentMode || document.documentMode &gt; 8,
 		setTimeout = window.setTimeout,
 		num = window.parseFloat,
 		regexpTypes = {
-			email: /^[a-zA-Z0-9.!#$%&'*+-\/=?\^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+			email: /^[a-zA-Z0-9.!#$%&amp;&#x27;*+-\/=?\^_&#x60;{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
 			number: /^[+-]?\d+(\.\d+)?$/,
 			url: /[a-z][\-\.+a-z]*:\/\//i,
 			color: /#[\da-f]{6}/i
 		},
 		typeErrors = {
-			email: "请输入电子邮件地址。",
-			number: "请输入一个数字。",
-			color: "请输入一个颜色值",
-			url: "请输入一个URL。"
+			email: &quot;请输入电子邮件地址。&quot;,
+			number: &quot;请输入一个数字。&quot;,
+			color: &quot;请输入一个颜色值&quot;,
+			url: &quot;请输入一个URL。&quot;
 		},
 		jQuery = window.jQuery,
 		validityCache = {},
@@ -192,7 +274,7 @@
 		support;
 
 	try {
-		document.querySelector(":invalid");
+		document.querySelector(&quot;:invalid&quot;);
 		support = true;
 	} catch (ex) {
 	}
@@ -235,7 +317,7 @@
 	}
 
 	function getElemType(elem) {
-		return (elem.getAttribute("type", 2) || elem.type).toLowerCase();
+		return (elem.getAttribute(&quot;type&quot;, 2) || elem.type).toLowerCase();
 	}
 
 	function defineAttr(Element, prop) {
@@ -272,7 +354,7 @@
 				deff = (val - num(elem.min) || (num(elem.max) - val)) % step,
 				min = val - deff,
 				max = min + step;
-		return "值应该为 " + min + " 或 " + max;
+		return &quot;值应该为 &quot; + min + &quot; 或 &quot; + max;
 	}
 
 	function fixInputElement(Element) {
@@ -290,13 +372,13 @@
 					return elem.willValidate;
 				}
 				function hasVal() {
-					return willValidate() && !!elem.value;
+					return willValidate() &amp;&amp; !!elem.value;
 				}
 				function getType() {
 					return getElemType(elem);
 				}
 				function isNum() {
-					return hasVal() && /^number|range$/i.test(getType());
+					return hasVal() &amp;&amp; /^number|range$/i.test(getType());
 				}
 
 				if (!validity) {
@@ -304,29 +386,29 @@
 
 					validityGetter = {
 						patternMismatch: function() {
-							return hasVal() && !!elem.pattern && !new RegExp("^(?:" + elem.pattern + ")$").test(elem.value);
+							return hasVal() &amp;&amp; !!elem.pattern &amp;&amp; !new RegExp(&quot;^(?:&quot; + elem.pattern + &quot;)$&quot;).test(elem.value);
 						},
 						rangeUnderflow: function() {
-							return isNum() && num(elem.value) < num(elem.min);
+							return isNum() &amp;&amp; num(elem.value) &lt; num(elem.min);
 						},
 						rangeOverflow: function() {
-							return isNum() && num(elem.value) > num(elem.max);
+							return isNum() &amp;&amp; num(elem.value) &gt; num(elem.max);
 						},
 						stepMismatch: function() {
-							return isNum() && elem.step && ((num(elem.value) - num(elem.min) || (num(elem.max) - num(elem.value))) % num(elem.step)) !== 0;
+							return isNum() &amp;&amp; elem.step &amp;&amp; ((num(elem.value) - num(elem.min) || (num(elem.max) - num(elem.value))) % num(elem.step)) !== 0;
 						},
 						typeMismatch: function() {
 							var regexp = regexpTypes[getType()];
-							return hasVal() && regexp && !regexp.test(elem.value);
+							return hasVal() &amp;&amp; regexp &amp;&amp; !regexp.test(elem.value);
 						},
 						valueMissing: function() {
-							return willValidate() && elem.required && !(/^checkbox$/i.test(elem.type) ? elem.checked : (/^radio$/i.test(elem.type) ? elem.form.querySelector("[name='" + elem.name + "']:checked") : elem.value));
+							return willValidate() &amp;&amp; elem.required &amp;&amp; !(/^checkbox$/i.test(elem.type) ? elem.checked : (/^radio$/i.test(elem.type) ? elem.form.querySelector(&quot;[name=&#x27;&quot; + elem.name + &quot;&#x27;]:checked&quot;) : elem.value));
 						},
 						customError: function() {
 							return !!customCache[elem.uniqueID];
 						},
 						tooLong: function(){
-							elem.value && elem.value.length > elem.maxLength;
+							elem.value &amp;&amp; elem.value.length &gt; elem.maxLength;
 						},
 						valid: function() {
 							var validityObj = elem.validity;
@@ -336,7 +418,7 @@
 					try {
 						defineGetter(validity, validityGetter);
 					} catch (ex) {
-						validity = createElement("ValidityState");
+						validity = createElement(&quot;ValidityState&quot;);
 						defineGetter(validity, validityGetter);
 					}
 					validityCache[elem.uniqueID] = validity;
@@ -348,7 +430,7 @@
 			},
 			validationMessage: function() {
 				var validityObj = this.validity;
-				return customCache[this.uniqueID] || (validityObj.valueMissing ? "请填写此字段。" : (validityObj.patternMismatch ? "请匹配要求的格式。" : (validityObj.typeMismatch ? typeErrors[getElemType(this)] : (validityObj.rangeOverflow ? "值必须小于或等于 " + this.max : (validityObj.rangeUnderflow ? "值必须大于或等于 " + this.min : (validityObj.stepMismatch ? stepMismatchMsg(this) : ""))))));
+				return customCache[this.uniqueID] || (validityObj.valueMissing ? &quot;请填写此字段。&quot; : (validityObj.patternMismatch ? &quot;请匹配要求的格式。&quot; : (validityObj.typeMismatch ? typeErrors[getElemType(this)] : (validityObj.rangeOverflow ? &quot;值必须小于或等于 &quot; + this.max : (validityObj.rangeUnderflow ? &quot;值必须大于或等于 &quot; + this.min : (validityObj.stepMismatch ? stepMismatchMsg(this) : &quot;&quot;))))));
 			},
 			setCustomValidity: function() {
 				var uniqueID = this.uniqueID;
@@ -364,7 +446,7 @@
 				return function() {
 					var valid = node.validity.valid;
 					if (!valid) {
-						triggerEvent(node, "invalid");
+						triggerEvent(node, &quot;invalid&quot;);
 					}
 					return valid;
 				};
@@ -376,8 +458,8 @@
 	function forEach(array, fn) {
 		if (array) {
 			var i;
-			if ("length" in array) {
-				for (i = 0; i < array.length; i++) {
+			if (&quot;length&quot; in array) {
+				for (i = 0; i &lt; array.length; i++) {
 					if (fn(array[i]) === false) {
 						return;
 					}
@@ -404,13 +486,13 @@
 			if (jQuery) {
 				jQuery(listener);
 			} else {
-				window.attachEvent("load", listener);
+				window.attachEvent(&quot;load&quot;, listener);
 			}
 		} else {
-			if (jQuery && type === strInput) {
-				jQuery(node).bind(type + ".h5form", listener);
+			if (jQuery &amp;&amp; type === strInput) {
+				jQuery(node).bind(type + &quot;.h5form&quot;, listener);
 			} else {
-				node.attachEvent("on" + type, function() {
+				node.attachEvent(&quot;on&quot; + type, function() {
 					var	e = {},
 						src = event;
 					e.target = src.srcElement;
@@ -428,7 +510,7 @@
 	//事件触发
 	function triggerEvent(node, type, cancelBubble) {
 		if (document.createEvent) {
-			var e = document.createEvent("HTMLEvents");
+			var e = document.createEvent(&quot;HTMLEvents&quot;);
 			e.initEvent(type, !!cancelBubble, true);
 			node.dispatchEvent(e);
 		} else if (jQuery) {
@@ -468,17 +550,17 @@
 		setTimeout(function() {
 			if (support) {
 				//重新定义表单提交行为避免IE原生表单验证bug导致该提交时不提交，或不该提交时提交了
-				addEventListener(window, "click", function(e) {
+				addEventListener(window, &quot;click&quot;, function(e) {
 					var	target = e.target,
 						form = target.form;
 
-					if (!e.defaultPrevented && e.which === 1 && target && form && /^submit$/i.test(target.type) && !(target.formNoValidate || form.noValidate)) {
+					if (!e.defaultPrevented &amp;&amp; e.which === 1 &amp;&amp; target &amp;&amp; form &amp;&amp; /^submit$/i.test(target.type) &amp;&amp; !(target.formNoValidate || form.noValidate)) {
 						if (form.checkValidity()) {
 							form.submit();
 						} else {
 							e.preventDefault();
 							forEach(form.elements, function(node) {
-								if (node.validity && !node.validity.valid && node.focus) {
+								if (node.validity &amp;&amp; !node.validity.valid &amp;&amp; node.focus) {
 									node.focus();
 									return false;
 								}
@@ -488,7 +570,7 @@
 				});
 			} else {
 				//修复autofocus
-				selector("[autofocus]", function(input) {
+				selector(&quot;[autofocus]&quot;, function(input) {
 					input.focus();
 					return false;
 				});
@@ -504,14 +586,14 @@
 	 * IE9以上有contenteditable属性的元素没有input事件
 	 * IE9以下，完全没有input事件
 	 */
-	forEach([strInput, "focusin"], function(eType) {
+	forEach([strInput, &quot;focusin&quot;], function(eType) {
 		addEventListener(window, eType, function(e) {
 			var target = e.target;
 			valueCache[target.uniqueID] = getText(target);
 		}, true);
 	});
 
-	forEach("change cut keypress focusout propertychange".split(/\s/), function(eType) {
+	forEach(&quot;change cut keypress focusout propertychange&quot;.split(/\s/), function(eType) {
 		addEventListener(window, eType, checkValChange, true);
 	});
 
@@ -553,10 +635,10 @@
 					nodes = form.elements,
 					node,
 					i;
-				for (i = 0; i < nodes.length; i++) {
+				for (i = 0; i &lt; nodes.length; i++) {
 					node = nodes[i];
-					if (node.checkValidity && !node.disabled) {
-						valid &= node.checkValidity();
+					if (node.checkValidity &amp;&amp; !node.disabled) {
+						valid &amp;= node.checkValidity();
 					}
 				}
 				return valid;
@@ -576,3 +658,16 @@
 	}
 
 })(this, document);
+
+</pre>
+
+</div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/js/tabs.js"></script>
+</body>
+</html>

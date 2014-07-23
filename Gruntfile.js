@@ -15,6 +15,21 @@ module.exports = function( grunt ) {
 
 	grunt.initConfig({
 		pkg: readOptionalJSON( "package.json" ),
+		//js文档生成
+		yuidoc: {
+			compile: {
+				name: "<%= pkg.name %>",
+				description: "<%= pkg.description %>",
+				version: "<%= pkg.version %>",
+				url: "<%= pkg.homepage %>",
+				options: {
+/*					themedir: "node_modules/yuidocjs/themes/default",*/
+					themedir: "node_modules/yuidocjs/themes/simple",
+					outdir: "doc/",
+					paths: "src/"
+				}
+			}
+		},
 
 		//js代码风格检查
 		jshint: {
@@ -92,9 +107,11 @@ module.exports = function( grunt ) {
 	grunt.loadNpmTasks("grunt-contrib-jshint");
 	//文件合并插件
 	grunt.loadNpmTasks("grunt-contrib-uglify");
+	//文档生成
+	grunt.loadNpmTasks("grunt-contrib-yuidoc");
 
 	// Default grunt
-	grunt.registerTask( "default", [ "jshint", "uglify", "htc" ] );
+	grunt.registerTask( "default", [ "jshint", "uglify", "htc", "yuidoc" ] );
 	grunt.task.registerTask("htc", "build htc", function() {
 		grunt.file.write("src/h5form.htc", grunt.file.read("src/banner.htc") + grunt.file.read("src/h5form.htc.js") + "\n</SCRIPT></PUBLIC:COMPONENT>");
 	});

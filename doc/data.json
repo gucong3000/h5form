@@ -1,0 +1,406 @@
+{
+    "project": {
+        "name": "h5form",
+        "description": "JavaScript library for browser info",
+        "version": "0.2.2",
+        "url": "http://gucong3000.github.io/h5form/"
+    },
+    "files": {
+        "src\\h5form.el.js": {
+            "name": "src\\h5form.el.js",
+            "modules": {},
+            "classes": {
+                "HTMLInputElement": 1,
+                "HTMLFormElement": 1,
+                "HTMLTextAreaElement": 1,
+                "ValidityState": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src\\h5form.js": {
+            "name": "src\\h5form.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src\\placeholder.js": {
+            "name": "src\\placeholder.js",
+            "modules": {},
+            "classes": {
+                "h5form": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {},
+    "classes": {
+        "HTMLInputElement": {
+            "name": "HTMLInputElement",
+            "shortname": "HTMLInputElement",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src\\h5form.el.js",
+            "line": 1,
+            "description": "高端浏览器原生对象，h5form提供polyfill"
+        },
+        "HTMLFormElement": {
+            "name": "HTMLFormElement",
+            "shortname": "HTMLFormElement",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src\\h5form.el.js",
+            "line": 95,
+            "description": "高端浏览器原生对象，h5form提供polyfill"
+        },
+        "HTMLTextAreaElement": {
+            "name": "HTMLTextAreaElement",
+            "shortname": "HTMLTextAreaElement",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src\\h5form.el.js",
+            "line": 105,
+            "description": "高端浏览器原生对象，h5form提供polyfill，方法、属性、事件请参考HTMLInputElement",
+            "see": [
+                "HTMLInputElement"
+            ]
+        },
+        "ValidityState": {
+            "name": "ValidityState",
+            "shortname": "ValidityState",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src\\h5form.el.js",
+            "line": 111,
+            "description": "ValidityState对象是通过表单域的 validity 属性获取的，该对象属性值均为布尔值。"
+        },
+        "h5form": {
+            "name": "h5form",
+            "shortname": "h5form",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src\\placeholder.js",
+            "line": 1,
+            "description": "HTML5 form polyfill",
+            "author": "gucong3000"
+        }
+    },
+    "classitems": [
+        {
+            "file": "src\\h5form.el.js",
+            "line": 6,
+            "description": "autofocus 属性规定在页面加载时，域自动地获得焦点。如：&lt;input type=&quot;text&quot; autofocus&gt;",
+            "itemtype": "property",
+            "name": "autofocus",
+            "type": "Boolean",
+            "default": "false",
+            "class": "HTMLInputElement"
+        },
+        {
+            "file": "src\\h5form.el.js",
+            "line": 12,
+            "description": "用在button和input节点上，来阻止提交时验证此节点。如：&lt;input type=\"submit\" value=\"Do NOT Validate\" formnovalidate&gt;",
+            "itemtype": "property",
+            "name": "formNoValidate",
+            "type": "Boolean",
+            "class": "HTMLInputElement"
+        },
+        {
+            "file": "src\\h5form.el.js",
+            "line": 17,
+            "description": "规定输入域所允许的最小值。适用于以下类型的 input 标签：date pickers、number 以及 range。",
+            "itemtype": "property",
+            "name": "min",
+            "type": "Number|String",
+            "default": "\"\"",
+            "class": "HTMLInputElement"
+        },
+        {
+            "file": "src\\h5form.el.js",
+            "line": 23,
+            "description": "规定输入域所允许的最大值。适用于以下类型的 input 标签：date pickers、number 以及 range。",
+            "itemtype": "property",
+            "name": "max",
+            "type": "Number|String",
+            "default": "\"\"",
+            "class": "HTMLInputElement"
+        },
+        {
+            "file": "src\\h5form.el.js",
+            "line": 29,
+            "description": "输入域规定合法的数字间隔（如果 step=\"3\"，则合法的数是 -3,0,3,6 等）。适用于以下类型的 input 标签：date pickers、number 以及 range。",
+            "itemtype": "property",
+            "name": "step",
+            "type": "Number|String",
+            "default": "\"\"",
+            "class": "HTMLInputElement"
+        },
+        {
+            "file": "src\\h5form.el.js",
+            "line": 35,
+            "description": "正则表达式，用于验证 input 域。",
+            "itemtype": "property",
+            "name": "pattern",
+            "type": "String",
+            "default": "\"\"",
+            "class": "HTMLInputElement"
+        },
+        {
+            "file": "src\\h5form.el.js",
+            "line": 41,
+            "description": "placeholder 属性提供一种提示（hint），描述输入域所期待的值。适用于以下类型的 input 标签：text, search, url, telephone, email 以及 password。",
+            "itemtype": "property",
+            "name": "placeholder",
+            "type": "String",
+            "default": "\"\"",
+            "class": "HTMLInputElement"
+        },
+        {
+            "file": "src\\h5form.el.js",
+            "line": 47,
+            "description": "规定必须在提交之前填写输入域（不能为空）。",
+            "itemtype": "property",
+            "name": "required",
+            "type": "Boolean",
+            "default": "false",
+            "class": "HTMLInputElement"
+        },
+        {
+            "file": "src\\h5form.el.js",
+            "line": 53,
+            "description": "willValidate 属性标识了这个DOM节点是否使用约束验证。对于可以提交的元素来说这个属性会被设置成 true 除非因为某些原因被禁止使用约束验证，例如有 disabled 属性时。",
+            "itemtype": "property",
+            "name": "willValidate",
+            "type": "{Boolean}",
+            "default": "true",
+            "readonly": "",
+            "class": "HTMLInputElement"
+        },
+        {
+            "file": "src\\h5form.el.js",
+            "line": 61,
+            "description": "Dom节点的validity 属性会返回一个 ValidityState对象，它包含了一系列与节点相关的布尔属性的验证结果。",
+            "itemtype": "property",
+            "name": "validity",
+            "type": "ValidityState",
+            "readonly": "",
+            "class": "HTMLInputElement"
+        },
+        {
+            "file": "src\\h5form.el.js",
+            "line": 67,
+            "description": "浏览器为这个属性提供了一个默认的本地化信息。如果DOM节点不需要验证或者节点包含正确的内容，那么validationMessage会被设置为空字符串。",
+            "itemtype": "property",
+            "name": "validationMessage",
+            "type": "String",
+            "readonly": "",
+            "class": "HTMLInputElement"
+        },
+        {
+            "file": "src\\h5form.el.js",
+            "line": 73,
+            "description": "表单元素节点的checkValidity方法在元素包含正确内容的时候会返回 true。表单（form）节点的checkValidity方法会在其所有子节点都包含正确内容的时候返回true。另外，每次通过checkValidity方法验证表单元素正确性的时候且验证失败，出错节点的invalid事件会被触发。",
+            "itemtype": "method",
+            "name": "checkValidity",
+            "return": {
+                "description": "元素包含正确内容的时候会返回 true",
+                "type": "Boolean"
+            },
+            "class": "HTMLInputElement"
+        },
+        {
+            "file": "src\\h5form.el.js",
+            "line": 79,
+            "description": "setCustomValidity方法改变了validationMessage属性，也允许你添加自定义的验证规则。",
+            "itemtype": "method",
+            "name": "setCustomValidity",
+            "params": [
+                {
+                    "name": "CustomValidityMessage",
+                    "description": "新的错误消息",
+                    "type": "String"
+                }
+            ],
+            "class": "HTMLInputElement"
+        },
+        {
+            "file": "src\\h5form.el.js",
+            "line": 85,
+            "description": "文本变化事件，用于替代keypress事件，以便解决中文输入不触发问题",
+            "itemtype": "event",
+            "name": "input",
+            "class": "HTMLInputElement"
+        },
+        {
+            "file": "src\\h5form.el.js",
+            "line": 90,
+            "description": "表单验证失败事件",
+            "itemtype": "event",
+            "name": "invalid",
+            "class": "HTMLInputElement"
+        },
+        {
+            "file": "src\\h5form.el.js",
+            "line": 100,
+            "description": "当使用这个属性的时候，就表示表单所有的输入内容在提交时不需要验证了, 如：&lt;form novalidate&gt;&lt;/form&gt;",
+            "itemtype": "property",
+            "name": "noValidate",
+            "type": "Boolean",
+            "class": "HTMLFormElement"
+        },
+        {
+            "file": "src\\h5form.el.js",
+            "line": 116,
+            "description": "必填的表单元素的值为空。\n如果表单元素设置了required特性，则为必填项。如果必填项的值为空，就无法通过表单验证，valueMissing属性会返回true，否则返回false。",
+            "itemtype": "property",
+            "name": "valueMissing",
+            "type": "Boolean",
+            "class": "ValidityState"
+        },
+        {
+            "file": "src\\h5form.el.js",
+            "line": 122,
+            "description": "输入值与type类型不匹配。\nHTML 5新增的表单类型如email、number、url等，都包含一个原始的类型验证。如果用户输入的内容与表单类型不符合，则typeMismatch属性将返回true，否则返回false。",
+            "itemtype": "property",
+            "name": "typeMismatch",
+            "type": "Boolean",
+            "class": "ValidityState"
+        },
+        {
+            "file": "src\\h5form.el.js",
+            "line": 128,
+            "description": "输入值与pattern特性的正则不匹配。\n表单元素可通过pattern特性设置正则表达式的验证模式。如果输入的内容不符合验证模式的规则，则patternMismatch属性将返回true，否则返回false。",
+            "itemtype": "property",
+            "name": "patternMismatch",
+            "type": "Boolean",
+            "class": "ValidityState"
+        },
+        {
+            "file": "src\\h5form.el.js",
+            "line": 134,
+            "description": "输入的内容超过了表单元素的maxLength 特性限定的字符长度。\n表单元素可使用maxLength特性设置输入内容的最大长度。虽然在输入的时候会限制表单内容的长度，但在某种情况下，如通过程序设置，还是会超出最大长度限制。如果输入的内容超过了最大长度限制，则tooLong属性返回true，否则返回false。",
+            "itemtype": "property",
+            "name": "tooLong",
+            "type": "Boolean",
+            "class": "ValidityState"
+        },
+        {
+            "file": "src\\h5form.el.js",
+            "line": 140,
+            "description": "输入的值小于min特性的值。\n一般用于填写数值的表单元素，都可能会使用min特性设置数值范围的最小值。如果输入的数值小于最小值，则rangeUnderflow属性返回true，否则返回false。",
+            "itemtype": "property",
+            "name": "rangeUnderflow",
+            "type": "Boolean",
+            "class": "ValidityState"
+        },
+        {
+            "file": "src\\h5form.el.js",
+            "line": 146,
+            "description": "输入的值大于max特性的值。\n一般用于填写数值的表单元素，也可能会使用max特性设置数值范围的最大值。如果输入的数值大于最大值，则rangeOverflow属性返回true，否则返回false。",
+            "itemtype": "property",
+            "name": "rangeOverflow",
+            "type": "Boolean",
+            "class": "ValidityState"
+        },
+        {
+            "file": "src\\h5form.el.js",
+            "line": 152,
+            "description": "输入的值不符合step特性所推算出的规则。\n用于填写数值的表单元素，可能需要同时设置min、max和step特性，这就限制了输入的值必须是最小值与step特性值的倍数之和。如范围从0到10，step特性值为2，因为合法值为该范围内的偶数，其他数值均无法通过验证。如果输入值不符合要求，则stepMismatch属性返回true，否则返回false。",
+            "itemtype": "property",
+            "name": "stepMismatch",
+            "type": "Boolean",
+            "class": "ValidityState"
+        },
+        {
+            "file": "src\\h5form.el.js",
+            "line": 158,
+            "description": "使用自定义的验证错误提示信息。\n有时候，不太适合使用浏览器内置的验证错误提示信息，需要自己定义。当输入值不符合语义规则时，会提示自定义的错误提示信息。\n通常使用setCustomValidity()方法自定义错误提示信息：setCustomValidity(message)会把错误提示信息自定义为message，此时customError属性值为true；setCustomValidity(\"\")会清除自定义的错误信息，此时customError属性值为false。",
+            "itemtype": "property",
+            "name": "customError",
+            "type": "Boolean",
+            "class": "ValidityState"
+        },
+        {
+            "file": "src\\h5form.js",
+            "line": 33,
+            "itemtype": "method",
+            "name": "addStyleRule",
+            "params": [
+                {
+                    "name": "sSelector",
+                    "description": "css选择符",
+                    "type": "String"
+                },
+                {
+                    "name": "sStyle",
+                    "description": "css属性",
+                    "type": "String"
+                }
+            ],
+            "class": "h5form"
+        },
+        {
+            "file": "src\\h5form.js",
+            "line": 168,
+            "itemtype": "property",
+            "name": "htc",
+            "type": "String",
+            "description": "h5form.htc文件所在路径",
+            "default": "当前js所在目录下的h5form.htc",
+            "class": "h5form"
+        },
+        {
+            "file": "src\\h5form.js",
+            "line": 179,
+            "itemtype": "property",
+            "name": "js",
+            "type": "String",
+            "description": "h5form.el.js文件所在路径",
+            "default": "当前js所在目录下的h5form.el.js",
+            "class": "h5form"
+        },
+        {
+            "file": "src\\h5form.js",
+            "line": 194,
+            "description": "placeholder.js文件所在路径",
+            "itemtype": "property",
+            "name": "placeholder",
+            "type": "String",
+            "default": "当前js所在目录下的placeholder.js",
+            "class": "h5form"
+        },
+        {
+            "file": "src\\placeholder.js",
+            "line": 71,
+            "itemtype": "method",
+            "name": "placeholder",
+            "params": [
+                {
+                    "name": "node",
+                    "description": "需要修正placeholder的DOM元素",
+                    "type": "HTMLInputElement | HTMLTextAreaElement"
+                }
+            ],
+            "description": "修正或更新文本框的placeholder功能 默认只在低端浏览器下使用",
+            "class": "h5form"
+        }
+    ],
+    "warnings": []
+}

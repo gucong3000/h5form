@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src\h5form.js - h5form</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.8.0pr2/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <script src="http://yui.yahooapis.com/combo?3.8.0pr2/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            <h1><a href="../index.html"><img src="../assets/css/logo.png">h5form: src\h5form.js</a></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.2.2</em>
+        </div>
+    </div>
+    <div class="yui3-g">
+
+        <div id="sidebar" class="yui3-u">
+            <div id="modules" class="sidebox">
+    <div class="hd">
+        <h2 class="no-toc">Modules</h2>
+    </div>
+    <div class="bd">
+        <ul>
+            
+        </ul>
+    </div>
+</div>
+
+<div id="classes" class="sidebox">
+    <div class="hd">
+        <h2 class="no-toc">Classes</h2>
+    </div>
+    <div class="bd">
+        <ul>
+            
+                <li><a href="../classes/h5form.html">h5form</a></li>
+            
+                <li><a href="../classes/HTMLFormElement.html">HTMLFormElement</a></li>
+            
+                <li><a href="../classes/HTMLInputElement.html">HTMLInputElement</a></li>
+            
+                <li><a href="../classes/HTMLTextAreaElement.html">HTMLTextAreaElement</a></li>
+            
+                <li><a href="../classes/ValidityState.html">ValidityState</a></li>
+            
+        </ul>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<div id="fileTree" class="sidebox">
+    <div class="hd">
+        <h2 class="no-toc">Files</h2>
+    </div>
+    <div class="bd">
+        <ul><li>src\h5form.el.js/<ul></ul></li><li>src\h5form.js/<ul></ul></li><li>src\placeholder.js/<ul></ul></li></ul>
+    </div>
+</div>
+
+
+
+        </div>
+
+        <div id="main" class="yui3-u">
+            <div class="content"><h4>src\h5form.js</h4>
+
+<pre class="code prettyprint linenums">
+/**
+ * @description HTML5 form polyfill
+ * @class h5form
+ * @author gucong3000
+ */
+
+(function(window, document, undefined){
+	&quot;use strict&quot;;
+
+	var	documentMode = document.querySelector ? document.documentMode : 7,
+		path = document.scripts || document.querySelector(&quot;script&quot;),
+		placeholderCssRest = &quot;color:gray; opacity:1;&quot;,
+		head = document.documentElement.children[0],
+		supportUniqueID = &quot;uniqueID&quot; in document,
+		strPlaceholder = &quot;placeholder&quot;,
+		options = window.h5form || {},
+		jQuery = window.jQuery,
+		styleNode,
+		support;
+
+	//在header中创建元素
+	function createElement(tag){
+		tag = document.createElement(tag);
+		head.insertBefore(tag, head.firstChild);
+		return tag;
+	}
+
+	//事件绑定
+	function addEventListener(type, listener, useCapture){
+		window.addEventListener(type, listener, useCapture);
+	}
+
+		/**
+		 * @method addStyleRule
+		 * @param {String} sSelector css选择符
+		 * @param {String} sStyle css属性
+		 */
+
+		function addStyleRule(sSelector, sStyle){
+		if(!styleNode){
+			styleNode = createElement(&quot;style&quot;);
+		}
+		var cssText = sSelector + &quot;{&quot; + sStyle + &quot;}&quot;;
+		try {
+			styleNode.appendChild(document.createTextNode(cssText));
+		} catch (ex) {
+			try {
+				styleNode.styleSheet.addRule(sSelector, sStyle);
+			} catch(ex){
+				styleNode.styleSheet.cssText += cssText;
+			}
+		}
+	}
+
+	//获取元素的对象属性值，当不存在时，获取标签属性值
+	function getProp(elem, name){
+		return name in elem ? elem[name] : !!elem.attributes[name];
+	}
+
+	//判断一个元素是submit按钮，且其所属表单未禁止表单验证
+	function isSubmitClick(btn){
+		return btn &amp;&amp; /^submit$/i.test(btn.type) &amp;&amp; btn.form &amp;&amp; !( getProp(btn, &quot;formNoValidate&quot;) || getProp(btn.form, &quot;noValidate&quot;));
+	}
+
+	//触发表单对象方法
+	function triggerFn(node, fn){
+		fn = fn || &quot;focus&quot;;
+		if(node &amp;&amp; node[fn]){
+			setTimeout(function(){
+				node[fn]();
+			}, 0);
+		}
+	}
+
+	//根据完整url，返回path
+	function getPath(filename){
+		if(path){
+			return path.replace(/[^\/]+$/, filename);
+		}
+	}
+
+	path = path[path.length - 1];
+	try {
+		options = options || eval.call(window, path.innerHTML) || {};
+	} catch (ex){}
+	window.h5form = options;
+
+	path = path.getAttribute(&quot;src&quot;, 2) || &quot;&quot;;
+
+	try {
+		addEventListener(&quot;invalid&quot;, function(e){
+			if(!e.cancelBubble){
+				e.preventDefault();
+				if(jQuery){
+					e.stopPropagation();
+					e.stopImmediatePropagation();
+					jQuery(e.target).trigger(&quot;invalid&quot;);
+				}
+			}
+		}, true);
+		document.querySelector(&quot;:invalid&quot;);
+		support = true;
+	} catch (ex) {
+	}
+
+	if(support) {
+
+		if(!(documentMode &amp;&amp; supportUniqueID)){
+			setTimeout(function(){
+				addEventListener(&quot;click&quot;, function(e){
+					var target = e.target;
+					//即使是Safari支持约束验证API的情况下Safari（版本 5、6）也不会因为表单的数据没有满足约束验证而阻止用户提交。所以一律js重新实现一遍
+					if(!e.defaultPrevented &amp;&amp; e.which === 1 &amp;&amp; isSubmitClick(target) &amp;&amp; !target.form.checkValidity()){
+						e.preventDefault();
+						//IE10、IE11中，querySelector（&quot;:invalid“）有时会选中disabled状态的文本框，所以加not排除
+						triggerFn(target.form.querySelector(&quot;:invalid:not(:disabled)&quot;));
+					}
+				}, false);
+			}, 200);
+			//高端浏览器下写入关于placeholder的css rest
+			addStyleRule((&quot;netscape&quot; in window ? &quot;::-moz-&quot;: &quot;::-webkit-input-&quot;) + strPlaceholder, placeholderCssRest);
+			//未来浏览器厂商推出无前缀的placeholder选择器后，在此行添加css rest
+			//addStyleRule(&quot;::&quot; + strPlaceholder, placeholderCssRest);
+		}
+	} else {
+
+		//让jquery支持“:invalid”和“:valid”伪类
+		if(jQuery) {
+			jQuery.extend(jQuery.expr[&quot;:&quot;], {
+				invalid: function(elm){
+					return elm.validity &amp;&amp; !elm.validity.valid;
+				},
+				valid: function(elm){
+					return elm.validity &amp;&amp; elm.validity.valid;
+				}
+			});
+		}
+
+		document.attachEvent(&quot;onclick&quot;, function(){
+			var	e = event,
+				returnValue = e.returnValue,
+				btn = e.srcElement,
+				form = btn.form,
+				defaultPrevented,
+				nodes,
+				node,
+				i;
+			if( (!!returnValue || returnValue === undefined) &amp;&amp; isSubmitClick(btn) ){
+				for(i = 0, nodes = form.elements; i &lt; nodes.length; i++){
+					node = nodes[i];
+					if(node.validity &amp;&amp; !node.validity.valid){
+						if(!defaultPrevented){
+							defaultPrevented = true;
+							triggerFn(node);
+						}
+						triggerFn(node, &quot;checkValidity&quot;);
+					}
+				}
+				if(defaultPrevented){
+					e.returnValue = !defaultPrevented;
+				}
+			}
+		});
+	}
+
+	if(documentMode){
+		if( documentMode &lt; 9 ){
+			/**
+			 * @property {String} htc
+			 * @description h5form.htc文件所在路径
+			 * @default 当前js所在目录下的h5form.htc
+			 */
+			//IE6\7\8下通过htc方式加载
+			options.htc = options.htc || getPath(&quot;h5form.htc&quot;);
+			if(options.htc){
+				addStyleRule(&quot;form,input,select,textarea&quot;, &quot;behavior: url(&quot; + options.htc + &quot;);&quot;);
+			}
+		} else if( supportUniqueID ) {
+			/**
+			 * @property {String} js
+			 * @description h5form.el.js文件所在路径
+			 * @default 当前js所在目录下的h5form.el.js
+			 */
+			//IE9、10、11下通过js方式加载
+			options.js = options.js || getPath(&quot;h5form.el.js&quot;);
+			if(options.js &amp;&amp; (!window.ValidityState || /^\[.*\]$/.test(window.ValidityState))){
+				createElement(&quot;script&quot;).src = options.js;
+			}
+		}
+	}
+
+	options.addStyleRule = addStyleRule;
+
+	/**
+	 * @description placeholder.js文件所在路径
+	 * @property {String} placeholder
+	 * @default 当前js所在目录下的placeholder.js
+	 */
+
+	//修复IE9+、Safari下placeholder与其他浏览器的差异
+	//原本opera12以下也需要修复，但找不到办法去除原生样式，加之市场占有率不高，故不作处理了
+	if(!(window.netscape || window.chrome || window.opera)){
+		options[strPlaceholder] = options[strPlaceholder] || getPath(strPlaceholder + &quot;.js&quot;);
+		if(options[strPlaceholder] &amp;&amp; typeof options[strPlaceholder] === &quot;string&quot;){
+			createElement(&quot;script&quot;).src = options[strPlaceholder];
+		}
+	}
+
+})(this, document);
+
+</pre>
+
+</div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/js/tabs.js"></script>
+</body>
+</html>

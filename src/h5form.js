@@ -1,3 +1,9 @@
+/**
+ * @description HTML5 form polyfill
+ * @class h5form
+ * @author gucong3000
+ */
+
 (function(window, document, undefined){
 	"use strict";
 
@@ -23,6 +29,12 @@
 	function addEventListener(type, listener, useCapture){
 		window.addEventListener(type, listener, useCapture);
 	}
+
+	/**
+	 * @method addStyleRule
+	 * @param {String} sSelector css选择符
+	 * @param {String} sStyle css属性
+	 */
 
 	//添加css规则
 	function addStyleRule(sSelector, sStyle){
@@ -154,12 +166,22 @@
 
 	if(documentMode){
 		if( documentMode < 9 ){
+			/**
+			 * @property {String} htc
+			 * @description h5form.htc文件所在路径
+			 * @default 当前js所在目录下的h5form.htc
+			 */
 			//IE6\7\8下通过htc方式加载
 			options.htc = options.htc || getPath("h5form.htc");
 			if(options.htc){
 				addStyleRule("form,input,select,textarea", "behavior: url(" + options.htc + ");");
 			}
 		} else if( supportUniqueID ) {
+			/**
+			 * @property {String} js
+			 * @description h5form.el.js文件所在路径
+			 * @default 当前js所在目录下的h5form.el.js
+			 */
 			//IE9、10、11下通过js方式加载
 			options.js = options.js || getPath("h5form.el.js");
 			if(options.js && (!window.ValidityState || /^\[.*\]$/.test(window.ValidityState))){
@@ -169,6 +191,12 @@
 	}
 
 	options.addStyleRule = addStyleRule;
+
+	/**
+	 * @description placeholder.js文件所在路径
+	 * @property {String} placeholder
+	 * @default 当前js所在目录下的placeholder.js
+	 */
 
 	//修复IE9+、Safari下placeholder与其他浏览器的差异
 	//原本opera12以下也需要修复，但找不到办法去除原生样式，加之市场占有率不高，故不作处理了
