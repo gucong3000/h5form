@@ -29,7 +29,7 @@
     "yuidocjs": "^0.3.50",
     "grunt-cli": "^0.1.13",
     "grunt-contrib-watch": "^0.6.1",
-    "grunt-contrib-uglify": "^0.5.0",
+    "grunt-contrib-uglify": "^0.5.1",
     "grunt-contrib-jshint": "^0.10.0",
     "grunt-contrib-yuidoc": "^0.5.2"
   },

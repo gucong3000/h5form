@@ -23,8 +23,7 @@ module.exports = function( grunt ) {
 				version: "<%= pkg.version %>",
 				url: "<%= pkg.homepage %>",
 				options: {
-/*					themedir: "node_modules/yuidocjs/themes/default",*/
-					themedir: "node_modules/yuidocjs/themes/simple",
+					themedir: "node_modules/yuidocjs/themes/default",
 					outdir: "doc/",
 					paths: "src/"
 				}

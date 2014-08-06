@@ -3,42 +3,43 @@
 <head>
     <meta charset="utf-8">
     <title>ValidityState - h5form</title>
-    <link rel="stylesheet" href="http://yui.yahooapis.com/3.8.0pr2/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
-    <script src="http://yui.yahooapis.com/combo?3.8.0pr2/build/yui/yui-min.js"></script>
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
 </head>
 <body class="yui3-skin-sam">
 
 <div id="doc">
     <div id="hd" class="yui3-g header">
         <div class="yui3-u-3-4">
-            <h1><a href="../index.html"><img src="../assets/css/logo.png">h5form: ValidityState</a></h1>
+            
+                <h1><img src="../assets/css/logo.png" title="h5form"></h1>
+            
         </div>
         <div class="yui3-u-1-4 version">
             <em>API Docs for: 0.2.2</em>
         </div>
     </div>
-    <div class="yui3-g">
+    <div id="bd" class="yui3-g">
 
-        <div id="sidebar" class="yui3-u">
-            <div id="modules" class="sidebox">
-    <div class="hd">
-        <h2 class="no-toc">Modules</h2>
-    </div>
-    <div class="bd">
-        <ul>
-            
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
         </ul>
-    </div>
-</div>
 
-<div id="classes" class="sidebox">
-    <div class="hd">
-        <h2 class="no-toc">Classes</h2>
-    </div>
-    <div class="bd">
-        <ul>
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
             
                 <li><a href="../classes/h5form.html">h5form</a></li>
             
@@ -50,159 +51,558 @@
             
                 <li><a href="../classes/ValidityState.html">ValidityState</a></li>
             
-        </ul>
-    </div>
-</div>
+            </ul>
 
-
-
-
-
-
-
-
-
-
-<div id="fileTree" class="sidebox">
-    <div class="hd">
-        <h2 class="no-toc">Files</h2>
-    </div>
-    <div class="bd">
-        <ul><li>src\h5form.el.js/<ul></ul></li><li>src\h5form.js/<ul></ul></li><li>src\placeholder.js/<ul></ul></li></ul>
-    </div>
-</div>
-
-
-
+            <ul id="api-modules" class="apis modules">
+            
+            </ul>
         </div>
+    </div>
+</div>
 
-        <div id="main" class="yui3-u">
-            <div class="content"><h4>Class ValidityState</h4>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
 
 
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1>ValidityState Class</h1>
+<div class="box meta">
+    
 
-<span class="foundat">Class defined in: <a href="../../files/src_h5form.el.js.html#l111"><code>src\h5form.el.js:111</code></a></span>
-<div class="intro"><p>ValidityState对象是通过表单域的 validity 属性获取的，该对象属性值均为布尔值。</p>
+    
+
+    
+        <div class="foundat">
+            Defined in: <a href="../files/src_h5form.el.js.html#l111"><code>src\h5form.el.js:111</code></a>
+        </div>
+    
+
+    
+
+    
 </div>
 
 
 
-<div id="classdocs">
-    <ul>
+<div class="box intro">
+    <p>ValidityState对象是通过表单域的 validity 属性获取的，该对象属性值均为布尔值。</p>
+
+</div>
+
+
+
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
         
         
-        <li><a href="#props">Properties</a></li>
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
         
         
         
     </ul>
+
     <div>
-        
-        
-            <div id="props">
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
             
-                <a name="props_customError"></a>
-<div class="props item">
-    <code>customError</code> &lt;<strong>Boolean</strong>&gt;<br>
-    <span class="foundat"><a href="../../files/src_h5form.el.js.html#l158"><code>src\h5form.el.js:158</code></a></span>
-    <p>使用自定义的验证错误提示信息。
+
+            
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                        
+                            <li class="index-item property">
+                                <a href="#property_customError">customError</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_patternMismatch">patternMismatch</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_rangeOverflow">rangeOverflow</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_rangeUnderflow">rangeUnderflow</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_stepMismatch">stepMismatch</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_tooLong">tooLong</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_typeMismatch">typeMismatch</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_valueMissing">valueMissing</a>
+
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
+            
+
+            
+
+            
+        </div>
+
+        
+
+        
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+                
+                    <div id="property_customError" class="property item">
+    <h3 class="name"><code>customError</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_h5form.el.js.html#l158"><code>src\h5form.el.js:158</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>使用自定义的验证错误提示信息。
 有时候，不太适合使用浏览器内置的验证错误提示信息，需要自己定义。当输入值不符合语义规则时，会提示自定义的错误提示信息。
 通常使用setCustomValidity()方法自定义错误提示信息：setCustomValidity(message)会把错误提示信息自定义为message，此时customError属性值为true；setCustomValidity(&quot;&quot;)会清除自定义的错误信息，此时customError属性值为false。</p>
 
+    </div>
+
+    
+
+    
+
     
 </div>
 
+                
+                    <div id="property_patternMismatch" class="property item">
+    <h3 class="name"><code>patternMismatch</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
             
-                <a name="props_patternMismatch"></a>
-<div class="props item">
-    <code>patternMismatch</code> &lt;<strong>Boolean</strong>&gt;<br>
-    <span class="foundat"><a href="../../files/src_h5form.el.js.html#l128"><code>src\h5form.el.js:128</code></a></span>
-    <p>输入值与pattern特性的正则不匹配。
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_h5form.el.js.html#l128"><code>src\h5form.el.js:128</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>输入值与pattern特性的正则不匹配。
 表单元素可通过pattern特性设置正则表达式的验证模式。如果输入的内容不符合验证模式的规则，则patternMismatch属性将返回true，否则返回false。</p>
 
+    </div>
+
+    
+
+    
+
     
 </div>
 
+                
+                    <div id="property_rangeOverflow" class="property item">
+    <h3 class="name"><code>rangeOverflow</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
             
-                <a name="props_rangeOverflow"></a>
-<div class="props item">
-    <code>rangeOverflow</code> &lt;<strong>Boolean</strong>&gt;<br>
-    <span class="foundat"><a href="../../files/src_h5form.el.js.html#l146"><code>src\h5form.el.js:146</code></a></span>
-    <p>输入的值大于max特性的值。
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_h5form.el.js.html#l146"><code>src\h5form.el.js:146</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>输入的值大于max特性的值。
 一般用于填写数值的表单元素，也可能会使用max特性设置数值范围的最大值。如果输入的数值大于最大值，则rangeOverflow属性返回true，否则返回false。</p>
 
+    </div>
+
+    
+
+    
+
     
 </div>
 
+                
+                    <div id="property_rangeUnderflow" class="property item">
+    <h3 class="name"><code>rangeUnderflow</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
             
-                <a name="props_rangeUnderflow"></a>
-<div class="props item">
-    <code>rangeUnderflow</code> &lt;<strong>Boolean</strong>&gt;<br>
-    <span class="foundat"><a href="../../files/src_h5form.el.js.html#l140"><code>src\h5form.el.js:140</code></a></span>
-    <p>输入的值小于min特性的值。
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_h5form.el.js.html#l140"><code>src\h5form.el.js:140</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>输入的值小于min特性的值。
 一般用于填写数值的表单元素，都可能会使用min特性设置数值范围的最小值。如果输入的数值小于最小值，则rangeUnderflow属性返回true，否则返回false。</p>
 
+    </div>
+
+    
+
+    
+
     
 </div>
 
+                
+                    <div id="property_stepMismatch" class="property item">
+    <h3 class="name"><code>stepMismatch</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
             
-                <a name="props_stepMismatch"></a>
-<div class="props item">
-    <code>stepMismatch</code> &lt;<strong>Boolean</strong>&gt;<br>
-    <span class="foundat"><a href="../../files/src_h5form.el.js.html#l152"><code>src\h5form.el.js:152</code></a></span>
-    <p>输入的值不符合step特性所推算出的规则。
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_h5form.el.js.html#l152"><code>src\h5form.el.js:152</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>输入的值不符合step特性所推算出的规则。
 用于填写数值的表单元素，可能需要同时设置min、max和step特性，这就限制了输入的值必须是最小值与step特性值的倍数之和。如范围从0到10，step特性值为2，因为合法值为该范围内的偶数，其他数值均无法通过验证。如果输入值不符合要求，则stepMismatch属性返回true，否则返回false。</p>
 
+    </div>
+
+    
+
+    
+
     
 </div>
 
+                
+                    <div id="property_tooLong" class="property item">
+    <h3 class="name"><code>tooLong</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
             
-                <a name="props_tooLong"></a>
-<div class="props item">
-    <code>tooLong</code> &lt;<strong>Boolean</strong>&gt;<br>
-    <span class="foundat"><a href="../../files/src_h5form.el.js.html#l134"><code>src\h5form.el.js:134</code></a></span>
-    <p>输入的内容超过了表单元素的maxLength 特性限定的字符长度。
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_h5form.el.js.html#l134"><code>src\h5form.el.js:134</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>输入的内容超过了表单元素的maxLength 特性限定的字符长度。
 表单元素可使用maxLength特性设置输入内容的最大长度。虽然在输入的时候会限制表单内容的长度，但在某种情况下，如通过程序设置，还是会超出最大长度限制。如果输入的内容超过了最大长度限制，则tooLong属性返回true，否则返回false。</p>
 
+    </div>
+
+    
+
+    
+
     
 </div>
 
+                
+                    <div id="property_typeMismatch" class="property item">
+    <h3 class="name"><code>typeMismatch</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
             
-                <a name="props_typeMismatch"></a>
-<div class="props item">
-    <code>typeMismatch</code> &lt;<strong>Boolean</strong>&gt;<br>
-    <span class="foundat"><a href="../../files/src_h5form.el.js.html#l122"><code>src\h5form.el.js:122</code></a></span>
-    <p>输入值与type类型不匹配。
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_h5form.el.js.html#l122"><code>src\h5form.el.js:122</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>输入值与type类型不匹配。
 HTML 5新增的表单类型如email、number、url等，都包含一个原始的类型验证。如果用户输入的内容与表单类型不符合，则typeMismatch属性将返回true，否则返回false。</p>
 
+    </div>
+
+    
+
+    
+
     
 </div>
 
+                
+                    <div id="property_valueMissing" class="property item">
+    <h3 class="name"><code>valueMissing</code></h3>
+    <span class="type">Boolean</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
             
-                <a name="props_valueMissing"></a>
-<div class="props item">
-    <code>valueMissing</code> &lt;<strong>Boolean</strong>&gt;<br>
-    <span class="foundat"><a href="../../files/src_h5form.el.js.html#l116"><code>src\h5form.el.js:116</code></a></span>
-    <p>必填的表单元素的值为空。
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_h5form.el.js.html#l116"><code>src\h5form.el.js:116</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>必填的表单元素的值为空。
 如果表单元素设置了required特性，则为必填项。如果必填项的值为空，就无法通过表单验证，valueMissing属性会返回true，否则返回false。</p>
 
+    </div>
+
+    
+
+    
+
     
 </div>
 
-            
+                
             </div>
         
+
         
+
         
     </div>
 </div>
-</div>
+
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 <script src="../assets/vendor/prettify/prettify-min.js"></script>
 <script>prettyPrint();</script>
 <script src="../assets/js/yui-prettify.js"></script>
-<script src="../assets/js/tabs.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
 </body>
 </html>

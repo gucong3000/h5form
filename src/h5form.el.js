@@ -103,7 +103,7 @@
  */
 
 /**
- * @description 高端浏览器原生对象，h5form提供polyfill，方法、属性、事件请参考HTMLInputElement
+ * @description 高端浏览器原生对象，h5form提供polyfill，方法、属性、事件请参考[HTMLInputElement](HTMLInputElement.html)
  * @see HTMLInputElement
  * @class HTMLTextAreaElement
  */

@@ -71,7 +71,7 @@
             "extension_for": [],
             "file": "src\\h5form.el.js",
             "line": 105,
-            "description": "高端浏览器原生对象，h5form提供polyfill，方法、属性、事件请参考HTMLInputElement",
+            "description": "高端浏览器原生对象，h5form提供polyfill，方法、属性、事件请参考[HTMLInputElement](HTMLInputElement.html)",
             "see": [
                 "HTMLInputElement"
             ]
@@ -99,7 +99,8 @@
             "file": "src\\placeholder.js",
             "line": 1,
             "description": "HTML5 form polyfill",
-            "author": "gucong3000"
+            "author": "gucong3000",
+            "static": 1
         }
     },
     "classitems": [
@@ -339,7 +340,7 @@
         },
         {
             "file": "src\\h5form.js",
-            "line": 33,
+            "line": 34,
             "itemtype": "method",
             "name": "addStyleRule",
             "params": [
@@ -358,7 +359,7 @@
         },
         {
             "file": "src\\h5form.js",
-            "line": 168,
+            "line": 170,
             "itemtype": "property",
             "name": "htc",
             "type": "String",
@@ -368,7 +369,7 @@
         },
         {
             "file": "src\\h5form.js",
-            "line": 179,
+            "line": 181,
             "itemtype": "property",
             "name": "js",
             "type": "String",
@@ -378,7 +379,7 @@
         },
         {
             "file": "src\\h5form.js",
-            "line": 194,
+            "line": 196,
             "description": "placeholder.js文件所在路径",
             "itemtype": "property",
             "name": "placeholder",

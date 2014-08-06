@@ -2,6 +2,7 @@
  * @description HTML5 form polyfill
  * @class h5form
  * @author gucong3000
+ * @static
  */
 
 (function(window, document, undefined){
