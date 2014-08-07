@@ -2,11 +2,11 @@
  * @class h5form
  */
 
-(function(window, document, undefined){
+(function(window, document, undefined) {
 
 	"use strict";
 
-	var	h5form = window.h5form || (window.h5form = {}),
+	var h5form = window.h5form || (window.h5form = {}),
 		addStyleRule = h5form.addStyleRule,
 		strPlaceholder = "placeholder",
 		attrName = "data-" + strPlaceholder + new Date().getTime() + Math.random(),
@@ -27,8 +27,8 @@
 	}
 
 	//设置节点的holder
-	function setPlaceholder(node, value){
-		if(node.uniqueID){
+	function setPlaceholder(node, value) {
+		if (node.uniqueID) {
 			placeholderCache[node.uniqueID] = value;
 		} else {
 			node[attrName] = value;
@@ -36,9 +36,9 @@
 	}
 
 	//获取节点的holder状态
-	function getPlaceholder(node){
+	function getPlaceholder(node) {
 		var value;
-		if(node.uniqueID){
+		if (node.uniqueID) {
 			value = placeholderCache[node.uniqueID];
 			placeholderCache[node.uniqueID] = value || true;
 		} else {
@@ -76,7 +76,7 @@
 
 	//为input建立模拟的placeholder
 	function createHolder(input) {
-		var	currStyle = currentStyle(input),
+		var currStyle = currentStyle(input),
 			holder = getPlaceholder(input),
 			timer,
 			on = function(eType, fn, node) {
@@ -87,7 +87,7 @@
 				//读取placeholder
 				var text = input[strPlaceholder];
 				//如果placeholder属性不为空而node还没有建立
-				if((!holder || !holder.tagName) && text){
+				if ((!holder || !holder.tagName) && text) {
 					//建立一个node
 					holder = document.createElement(strPlaceholder);
 					holder.onmousedown = function() {
@@ -108,7 +108,7 @@
 			setDisplay = function() {
 				clearTimeout(timer);
 				if (holder && holder.tagName) {
-					var	show = holder.innerHTML && !input.value && isTextbox(input),
+					var show = holder.innerHTML && !input.value && isTextbox(input),
 						style = runtimeStyle(holder),
 						parent = input.parentNode,
 						disp = parent && (input.offsetHeight || input.offsetWidth);
@@ -170,7 +170,7 @@
 				}
 			};
 
-		if(!holder){
+		if (!holder) {
 			try {
 
 				//高级浏览器下事件注册
@@ -187,24 +187,24 @@
 					on(eType, setDisplay, window);
 				});
 
-			} catch(ex) {
+			} catch (ex) {
 				window.attachEvent("onresize", setDisplay);
-				input.attachEvent("onpropertychange", function(){
+				input.attachEvent("onpropertychange", function() {
 					var propName = event.propName;
-					setTimeout(function(){
-						switch(propName){
+					setTimeout(function() {
+						switch (propName) {
 							//如placeholder属性发生改变，重置文案和样式
-							case strPlaceholder :
+							case strPlaceholder:
 								setText();
-							//如value属性发生改变，重置重置样式
-							/* falls through */
-							default :
+								//如value属性发生改变，重置重置样式
+								/* falls through */
+							default:
 								setDisplay();
 						}
 					}, 0);
 				});
 			}
-		} else if(supportDOMAttrModified) {
+		} else if (supportDOMAttrModified) {
 			return;
 		}
 		//初始化placeholder及其样式
@@ -212,15 +212,15 @@
 		setDisplay();
 	}
 
-	function init(){
+	function init() {
 		forEach(document.querySelectorAll("input,textarea"), createHolder);
 	}
 
-	if(h5form[strPlaceholder] && h5form[strPlaceholder].call){
+	if (h5form[strPlaceholder] && h5form[strPlaceholder].call) {
 		return;
 	}
 
-	if(addStyleRule){
+	if (addStyleRule) {
 		addStyleRule(strPlaceholder, "position:absolute;cursor:text;color:gray;padding:0;border:0;overflow:hidden;-ms-user-select:none;user-select:none;pointer-events:none;");
 		//textarea的滚动条可能和展位字符串重叠，干掉。Firefox和Chrome默认就是auto
 		addStyleRule("textarea", "overflow: auto;");
@@ -231,9 +231,9 @@
 		//init();
 		setInterval(init, 200);
 
-		if(addStyleRule){
+		if (addStyleRule) {
 			//IE 10+、Safari中placeholder在文本框focus时则消失，这与其他浏览器有差异，用css干掉其原生的placeholder功能
-			forEach([":-ms-input-", "::-webkit-input-"], function(prefix){
+			forEach([":-ms-input-", "::-webkit-input-"], function(prefix) {
 				addStyleRule(prefix + strPlaceholder, "color:transparent !important;");
 			});
 		}
@@ -247,8 +247,8 @@
 			}
 
 			root.addEventListener(strDOMAttrModified, fn, false);
-			root.id = "mass";//更新属性
-			root.id = id;//无论如何也还原它
+			root.id = "mass"; //更新属性
+			root.id = id; //无论如何也还原它
 			return supportDOMAttrModified;
 		})();
 	} catch(ex) {

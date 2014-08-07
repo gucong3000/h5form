@@ -1,23 +1,46 @@
-(function() {
-	var form = document.getElementById("fixture"),
-	formElem = document.getElementById("other"),
-	disabledElem = document.getElementById("disabled"),
-	email = document.getElementById("email"),
-	url = document.getElementById("url"),
-	postcode = document.getElementById("postcode"),
-	chkbox = document.getElementById("chkbox"),
-	nickname = document.getElementById("nickname"),
-	radioFemale = document.getElementById("female"),
-	radioMale = document.getElementById("male"),
-	select = document.getElementById("select"),
-	input_submit = document.getElementById("input_submit"),
-	input_submit_novalidate = document.getElementById("input_submit_novalidate"),
-	button_submit_novalidate = document.getElementById("button_submit_novalidate");
+(function(window, factory) {
+	if (window.$) {
+		$(factory);
+	} else {
+		window.onload = factory;
+	}
+
+})(this, function() {
+	var form = document.getElementById("fixture") || document.getElementById("qunit-fixture"),
+		formElem = document.getElementById("other"),
+		disabledElem = document.getElementById("disabled"),
+		email = document.getElementById("email"),
+		url = document.getElementById("url"),
+		postcode = document.getElementById("postcode"),
+		chkbox = document.getElementById("chkbox"),
+		nickname = document.getElementById("nickname"),
+		radioFemale = document.getElementById("female"),
+		radioMale = document.getElementById("male"),
+		select = document.getElementById("select"),
+		input_submit = document.getElementById("input_submit"),
+		input_submit_novalidate = document.getElementById("input_submit_novalidate"),
+		button_submit_novalidate = document.getElementById("button_submit_novalidate");
+
+	if (window.HTMLInputElement) {
+
+		module("检测Dom");
+		test("input对象", function() {
+			var tester = document.createElement("input");
+			["checkValidity", "setCustomValidity", "autofocus", "formNoValidate", "max", "min", "pattern", "placeholder", "required", "step", "validationMessage", "validity", "willValidate"].forEach(function(prop) {
+				ok(prop in tester, "检测input是否拥有" + prop);
+			});
+		});
+		test("textarea对象", function() {
+			var tester = document.createElement("textarea");
+			["checkValidity", "setCustomValidity", "autofocus", "placeholder", "required", "validationMessage", "validity", "willValidate"].forEach(function(prop) {
+				ok(prop in tester, "检测textarea是否拥有" + prop);
+			});
+		});
+	}
 
 	module("Validity API");
 
-	test("Form element js attributes",
-	function() {
+	test("Form element js attributes", function() {
 		ok(formElem.validity, "validity 属性存在");
 
 		ok(!formElem.validity.customError, "validity.customError 属性存在");
@@ -27,17 +50,22 @@
 		ok(!formElem.validity.stepMismatch, "validity.stepMismatch 属性存在");
 		ok(!formElem.validity.valueMissing, "validity.valueMissing 属性存在");
 		ok(formElem.validity.valid, "validity.valid 属性存在");
-		equal(formElem.checkValidity(), formElem.validity.valid, "checkValidity()返回结果与validity.valid一致" );
+		equal(formElem.checkValidity(), formElem.validity.valid, "checkValidity()返回结果与validity.valid一致");
 	});
 
 	module("Checkboxes/radios");
 
 	// Trigger form validation
-//	form.checkValidity();
+	//	form.checkValidity();
 
 
 	test("have correct properties", function() {
 		chkbox.checked = false;
+
+		//Firefox下由于qunit把form清空导致ff测试不通过
+		if (!chkbox.form) {
+			form.appendChild(chkbox);
+		}
 		ok(chkbox.validity, "Checkbox has validity property");
 		equal(chkbox.validity.valueMissing, true, "validity.valueMissing is true");
 		equal(chkbox.validity.valid, false, "Checkbox is currently invalid");
@@ -49,8 +77,16 @@
 		ok(chkbox.validity.valid, "Checkbox is valid");
 	});
 
-	radioFemale.checked = radioMale.checked = false;
 	test("radio buttons	have correct properties", function() {
+		radioFemale.checked = radioMale.checked = false;
+
+		//Firefox下由于qunit把form清空导致ff测试不通过
+		if (!radioFemale.form) {
+			form.appendChild(radioFemale);
+		}
+		if (!radioMale.form) {
+			form.appendChild(radioMale);
+		}
 		ok(radioFemale.validity, "Female Radio button has validity propery");
 		equal(radioFemale.validity.valid, false, "Female RadioButton is currently invalid ");
 		ok(radioMale.validity, "Male Radio button has validity propery");
@@ -87,7 +123,7 @@
 		equal(formElem.validationMessage, "Not valid for some reason", "validationMessage is 'Not valid for some reason'");
 		equal(formElem.validity.customError, true, "formElem.validity.customError equal true");
 		equal(formElem.checkValidity(), false, "formElem.checkValidity() equal false");
-		
+
 		formElem.setCustomValidity("");
 	});
 
@@ -100,15 +136,15 @@
 		ret = email.validity.typeMismatch;
 		email.value = "";
 
-		return !! ret;
+		return !!ret;
 	}
 	test("Email", function() {
 		try {
-			if(!/^email$/i.test(email.getAttribute("type", 2))){
+			if (!/^email$/i.test(email.getAttribute("type", 2))) {
 				//用IE10或以上的IE9模式，会有bug，详见http://www.zhangxinxu.com/wordpress/?p=2844
 				email.type = "email";
 			}
-		} catch(ex) {
+		} catch (ex) {
 			return;
 		}
 		// A valid email varies between browsers FF4 and Opera: ry@an is valid, where as Chrome requires atleast ry@an.c
@@ -123,15 +159,15 @@
 		ret = url.checkValidity();
 		url.value = "";
 
-		return !! ret;
+		return !!ret;
 	}
 	test("URL", function() {
 		try {
-			if(!/^url$/i.test(url.getAttribute("type", 2))){
+			if (!/^url$/i.test(url.getAttribute("type", 2))) {
 				//用IE10或以上的IE9模式，会有bug，详见http://www.zhangxinxu.com/wordpress/?p=2844
 				url.type = "url";
 			}
-		} catch(ex) {
+		} catch (ex) {
 			return;
 		}
 		equal(testURL("example.com"), false, "Setting URL value to example.com is invalid");
@@ -147,7 +183,7 @@
 		ret = nickname.checkValidity();
 		nickname.value = "";
 
-		return !! ret;
+		return !!ret;
 	}
 	test("pattern", function() {
 		equal(testPattern("ry"), false, "Nickname field has pattern that requires atleast 4 alphanumeric characters, only set two");
@@ -156,11 +192,11 @@
 
 	test("min, max and step", function() {
 		try {
-			if(!/^number$/i.test(postcode.getAttribute("type", 2))){
+			if (!/^number$/i.test(postcode.getAttribute("type", 2))) {
 				//用IE10或以上的IE9模式，会有bug，详见http://www.zhangxinxu.com/wordpress/?p=2844
 				postcode.type = "number";
 			}
-		} catch(ex) {
+		} catch (ex) {
 			return;
 		}
 		postcode.value = "1000";
@@ -189,4 +225,4 @@
 	});
 
 
-})();
+});

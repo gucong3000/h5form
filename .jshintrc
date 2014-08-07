@@ -1,8 +1,10 @@
 {
+	"boss": true,
 	"curly": true,
 	"eqeqeq": true,
 	"eqnull": true,
 	"expr": true,
+	"immed": true,
 	"noarg": true,
 	"onevar": true,
 	"quotmark": "double",
@@ -11,10 +13,5 @@
 	"undef": true,
 	"unused": true,
 	"browser": true,
-	"node": true,
-	"evil": true,
-	"globals": {
-		"define": true,
-		"opera": true
-	}
+	"node": true
 }

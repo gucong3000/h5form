@@ -1466,7 +1466,6 @@ Test.prototype = {
 				test.teardown();
 			});
 			synchronize(function() {
-
 				test.finish();
 			});
 		}

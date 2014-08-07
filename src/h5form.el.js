@@ -10,7 +10,7 @@
  */
 
 /**
- * @description 用在button和input节点上，来阻止提交时验证此节点。如：&lt;input type="submit" value="Do NOT Validate" formnovalidate&gt; 
+ * @description 用在button和input节点上，来阻止提交时验证此节点。如：&lt;input type="submit" value="Do NOT Validate" formnovalidate&gt;
  * @property {Boolean} formNoValidate
  */
 
@@ -66,7 +66,7 @@
 
 /**
  * @description 浏览器为这个属性提供了一个默认的本地化信息。如果DOM节点不需要验证或者节点包含正确的内容，那么validationMessage会被设置为空字符串。
- * @property {String} validationMessage 
+ * @property {String} validationMessage
  * @readOnly
  */
 
@@ -244,7 +244,7 @@
 			forEach(prop, function(aName) {
 				defineProperty(Element, aName, prop[aName] ? {
 					get: function() {
-						return this.getAttribute(aName, 2);
+						return this.getAttribute(aName, 2) || "";
 					},
 					set: function(val) {
 						this.setAttribute(aName, val);
@@ -267,11 +267,11 @@
 	}
 
 	function stepMismatchMsg(elem) {
-		var val = num(elem.value),
-				step = num(elem.step),
-				deff = (val - num(elem.min) || (num(elem.max) - val)) % step,
-				min = val - deff,
-				max = min + step;
+		var	val = num(elem.value),
+			step = num(elem.step),
+			deff = (val - num(elem.min) || (num(elem.max) - val)) % step,
+			min = val - deff,
+			max = min + step;
 		return "值应该为 " + min + " 或 " + max;
 	}
 
@@ -289,12 +289,15 @@
 				function willValidate() {
 					return elem.willValidate;
 				}
+
 				function hasVal() {
 					return willValidate() && !!elem.value;
 				}
+
 				function getType() {
 					return getElemType(elem);
 				}
+
 				function isNum() {
 					return hasVal() && /^number|range$/i.test(getType());
 				}
@@ -320,12 +323,12 @@
 							return hasVal() && regexp && !regexp.test(elem.value);
 						},
 						valueMissing: function() {
-							return willValidate() && elem.required && !(/^checkbox$/i.test(elem.type) ? elem.checked : (/^radio$/i.test(elem.type) ? elem.form.querySelector("[name='" + elem.name + "']:checked") : elem.value));
+							return willValidate() && elem.required && !(/^checkbox$/i.test(elem.type) ? elem.checked : (/^radio$/i.test(elem.type) ? (elem.form || document).querySelector("[name='" + elem.name + "']:checked") : elem.value));
 						},
 						customError: function() {
 							return !!customCache[elem.uniqueID];
 						},
-						tooLong: function(){
+						tooLong: function() {
 							elem.value && elem.value.length > elem.maxLength;
 						},
 						valid: function() {
@@ -495,7 +498,8 @@
 			}
 		}, 250);
 		if (enumerable) {
-			document.removeEventListener(strDOMContentLoaded, documentready, false);//清除注册的事件监听函数
+			//清除注册的事件监听函数
+			document.removeEventListener(strDOMContentLoaded, documentready, false);
 		}
 	}
 

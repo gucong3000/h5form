@@ -6,7 +6,6 @@
 <title>H5F Test Suite</title>
 <!-- Load local QUnit (grunt requires v1.0.0 or newer). -->
 <link rel="stylesheet" href="qunit.css" media="screen">
-<script src="jquery.js"></script>
 <script src="../build/h5form.js"></script>
 <style>
 form input,
@@ -133,20 +132,5 @@ form li {
 	</form>
 	<script src="qunit.js"></script>
 	<script src="h5form_test.js"></script>
-	<script>
-	$(function(){
-		var invalidClass = "ui-invalid";
-		$(document).on("change", function(e){
-			//e.target.checkValidity();
-		}).on("invalid", function(e){
-			$(e.target).addClass(invalidClass);
-		}).on("input change", function(e){
-			var target = e.target;
-			if(target.validity && target.validity.valid){
-				$(target).removeClass(invalidClass);
-			}
-		});
-	});
-	</script>
 </body>
 </html>

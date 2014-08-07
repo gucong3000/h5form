@@ -1,25 +1,25 @@
 /*global element: false */
-var	validityGetter = {
-		patternMismatch: function(){
+var validityGetter = {
+		patternMismatch: function() {
 			return hasVal() && !!elem.pattern && !new RegExp("^(?:" + elem.pattern + ")$").test(elem.value);
 		},
-		rangeUnderflow: function(){
+		rangeUnderflow: function() {
 			return isNum() && num(elem.value) < num(elem.min);
 		},
-		rangeOverflow: function(){
+		rangeOverflow: function() {
 			return isNum() && num(elem.value) > num(elem.max);
 		},
-		stepMismatch: function(){
-			return isNum() && elem.step && ( (num(elem.value) - num(elem.min) || (num(elem.max) - num(elem.value)) ) % num(elem.step)) !== 0;
+		stepMismatch: function() {
+			return isNum() && elem.step && ((num(elem.value) - num(elem.min) || (num(elem.max) - num(elem.value))) % num(elem.step)) !== 0;
 		},
-		typeMismatch: function(){
+		typeMismatch: function() {
 			var regexp = regexpTypes[getType()];
 			return hasVal() && regexp && !regexp.test(elem.value);
 		},
-		tooLong: function(){
+		tooLong: function() {
 			elem.value && elem.value.length > elem.maxLength;
 		},
-		valueMissing: function(){
+		valueMissing: function() {
 			return elem.willValidate && elem.required && !(/^checkbox$/i.test(elem.type) ? elem.checked : (/^radio$/i.test(elem.type) ? isSiblingChecked(elem) : elem.value));
 		}
 	},
@@ -78,14 +78,14 @@ ValidityState.prototype = {
 	valid: true
 };
 
-if(!window.ValidityState){
+if (!window.ValidityState) {
 	window.ValidityState = ValidityState;
 }
 /*ValidityState对象原型 END*/
 
-if(/^form$/i.test(elem.tagName)){
-	elem.checkValidity = function(){
-		var	valid = true,
+if (/^form$/i.test(elem.tagName)) {
+	elem.checkValidity = function() {
+		var valid = true,
 			nodes = elem.elements,
 			node,
 			i;
@@ -112,7 +112,7 @@ if(/^form$/i.test(elem.tagName)){
 	//formNoValidate属性setter方法
 	setFormNoValidate = defineSetter(strFormNoValidate);
 
-	if(!/^button$/i.test(elem.tagName)){
+	if (!/^button$/i.test(elem.tagName)) {
 
 		//required属性getter方法
 		getRequired = defineGetter(strRequired);
@@ -120,32 +120,32 @@ if(/^form$/i.test(elem.tagName)){
 		//required属性setter方法
 		setRequired = defineSetter(strRequired);
 
-		if(!doc.querySelector && /input/i.test(elem.tagName)){
+		if (!doc.querySelector && /input/i.test(elem.tagName)) {
 			elem.className += " type_" + getType();
 		}
 
-		stepMismatchMsg = function(){
+		stepMismatchMsg = function() {
 			var val = num(elem.value),
 				step = num(elem.step),
-				deff = ( val - num(elem.min) || (num(elem.max) - val) ) % step,
+				deff = (val - num(elem.min) || (num(elem.max) - val)) % step,
 				min = val - deff,
 				max = min + step;
 			return "值应该为 " + min + " 或 " + max;
 		};
 
 		//validationMessage属性getter方法
-		getValidationMessage = function(){
+		getValidationMessage = function() {
 			return strCustomError || (validityObj.valueMissing ? "请填写此字段。" : (validityObj.patternMismatch ? "请匹配要求的格式。" : (validityObj.typeMismatch ? typeErrors[getType()] : (validityObj.rangeOverflow ? "值必须小于或等于 " + elem.max : (validityObj.rangeUnderflow ? "值必须大于或等于 " + elem.min : (validityObj.stepMismatch ? stepMismatchMsg() : ""))))));
 		};
 
 		//validationMessage属性getter方法
-		getWillValidate = function(){
+		getWillValidate = function() {
 			return !elem.disabled;
 		};
 
 		//validity属性getter方法
-		getValidity = function(){
-			for(var name in validityGetter){
+		getValidity = function() {
+			for (var name in validityGetter) {
 				validityObj[name] = validityGetter[name]();
 			}
 			valid();
@@ -153,14 +153,14 @@ if(/^form$/i.test(elem.tagName)){
 		};
 
 		//模拟input事件
-		valueChange = function(){
+		valueChange = function() {
 			getValidity();
-			if(/^text(area)?|password$/i.test(elem.type)){
-				setTimeoutFn(function(){
-					if(oldValue !== elem.value){
+			if (/^text(area)?|password$/i.test(elem.type)) {
+				setTimeoutFn(function() {
+					if (oldValue !== elem.value) {
 						oldValue = elem.value;
-//						oEvent = createEventObject();
-//						eventInput.fire(oEvent);
+						//						oEvent = createEventObject();
+						//						eventInput.fire(oEvent);
 						$(elem).trigger("input");
 					}
 				}, 0);
@@ -173,23 +173,34 @@ if(/^form$/i.test(elem.tagName)){
 			valid();
 		};
 
-		elem.checkValidity = function(){
+		elem.checkValidity = function() {
 			getValidity();
 			var valid = validityObj.valid;
-			if(!valid){
-//				var oEvent = createEventObject();
-//				eventInvalid.fire(oEvent);
+			if (!valid) {
+				//				var oEvent = createEventObject();
+				//				eventInvalid.fire(oEvent);
 				$(elem).trigger("invalid");
 				//“oEvent.returnValue != false”表示returnValue为1、true、undefined均执行
 				//if( oEvent.returnValue != false && this == "BUTTON_SUBMIT_CLICK_EVENT"){
-					//elem.focus();
+				//elem.focus();
 				//}
 			}
 			return valid;
 		};
 
-		setHolder = function(){
-			if(window.h5form && window.h5form.placeholder && /^text(area)?|password$/i.test(elem.type)){
+		//未设置placeholder等属性的元素，方位该属性应返回空字符串而非null
+		(function() {
+			var propNames = ["placeholder", "pattern", "step", "max", "min"];
+			for (var i = 0; i < propNames.length; i++) {
+				if (!elem.getAttribute(propNames[i], 2)) {
+					elem[propNames[i]] = "";
+				}
+			}
+		})();
+
+
+		setHolder = function() {
+			if (window.h5form && window.h5form.placeholder && /^text(area)?|password$/i.test(elem.type)) {
 				window.h5form.placeholder(elem);
 			}
 		};
@@ -197,16 +208,16 @@ if(/^form$/i.test(elem.tagName)){
 	}
 }
 
-documentready = function(){
+documentready = function() {
 	isDocumentReady = true;
-	if(elem.focus && elem.attributes.autofocus){
+	if (elem.focus && elem.attributes.autofocus) {
 		try {
-			for(var forms = doc.forms, node, i = 0, j; i < forms.length; i++){
-				for(j = 0,node; j < forms[i].elements.length; j++){
+			for (var forms = doc.forms, node, i = 0, j; i < forms.length; i++) {
+				for (j = 0, node; j < forms[i].elements.length; j++) {
 					node = forms[i].elements[j];
-					if(node.focus && node.attributes.autofocus){
+					if (node.focus && node.attributes.autofocus) {
 						try {
-							if(node === elem){
+							if (node === elem) {
 								node.focus();
 							}
 							return;
@@ -215,59 +226,61 @@ documentready = function(){
 					}
 				}
 			}
-		} catch (ex){
+		} catch (ex) {
 			elem.focus();
 		}
 	}
 };
 
-propertychange = function(){
+propertychange = function() {
 	var propName = event.propertyName;
-	if(propName in attrData && isContentReady){
+	if (propName in attrData && isContentReady) {
 		attrData[propName] = !!elem.attributes[propName];
 	}
-	if(setHolder){
+	if (setHolder) {
 		setHolder(propName);
 	}
-	if(valueChange){
+	if (valueChange) {
 		valueChange();
 	}
 };
 
-function defineGetter(name){
-	return function(){
-//		return new RegExp("\\b" + name + "\\b", "i").test(elem.outerHTML);
+function defineGetter(name) {
+	return function() {
+		//		return new RegExp("\\b" + name + "\\b", "i").test(elem.outerHTML);
 		return !!(attrData[name]);
 	};
 }
 
-function defineSetter(name){
-	return function(val){
+function defineSetter(name) {
+	return function(val) {
 		val = !isContentReady || val;
 		attrData[name] = val;
 	};
 }
 
-function valid(){
+function valid() {
 	validityObj.valid = !(validityObj.tooLong || validityObj.customError || validityObj.valueMissing || validityObj.patternMismatch || validityObj.typeMismatch || validityObj.rangeOverflow || validityObj.rangeUnderflow || validityObj.stepMismatch);
 }
 
 function isSiblingChecked(el) {
 	var siblings = el.form[el.name || el.id],
 		i;
-	for(i; i<siblings.length; i++){
-		if(siblings[i].checked){
+	for (i; i < siblings.length; i++) {
+		if (siblings[i].checked) {
 			return true;
 		}
 	}
 }
 
-function hasVal(){
+function hasVal() {
 	return elem.willValidate && !!elem.value;
 }
-function getType(){
+
+function getType() {
 	return (elem.getAttribute("type", 2) || elem.type).toLowerCase();
 }
-function isNum(){
+
+function isNum() {
 	return hasVal() && /^number|range$/i.test(getType());
 }

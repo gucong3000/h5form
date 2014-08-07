@@ -106,7 +106,7 @@
  */
 
 /**
- * @description 用在button和input节点上，来阻止提交时验证此节点。如：&amp;lt;input type=&quot;submit&quot; value=&quot;Do NOT Validate&quot; formnovalidate&amp;gt; 
+ * @description 用在button和input节点上，来阻止提交时验证此节点。如：&amp;lt;input type=&quot;submit&quot; value=&quot;Do NOT Validate&quot; formnovalidate&amp;gt;
  * @property {Boolean} formNoValidate
  */
 
@@ -162,7 +162,7 @@
 
 /**
  * @description 浏览器为这个属性提供了一个默认的本地化信息。如果DOM节点不需要验证或者节点包含正确的内容，那么validationMessage会被设置为空字符串。
- * @property {String} validationMessage 
+ * @property {String} validationMessage
  * @readOnly
  */
 
@@ -340,7 +340,7 @@
 			forEach(prop, function(aName) {
 				defineProperty(Element, aName, prop[aName] ? {
 					get: function() {
-						return this.getAttribute(aName, 2);
+						return this.getAttribute(aName, 2) || &quot;&quot;;
 					},
 					set: function(val) {
 						this.setAttribute(aName, val);
@@ -363,11 +363,11 @@
 	}
 
 	function stepMismatchMsg(elem) {
-		var val = num(elem.value),
-				step = num(elem.step),
-				deff = (val - num(elem.min) || (num(elem.max) - val)) % step,
-				min = val - deff,
-				max = min + step;
+		var	val = num(elem.value),
+			step = num(elem.step),
+			deff = (val - num(elem.min) || (num(elem.max) - val)) % step,
+			min = val - deff,
+			max = min + step;
 		return &quot;值应该为 &quot; + min + &quot; 或 &quot; + max;
 	}
 
@@ -385,12 +385,15 @@
 				function willValidate() {
 					return elem.willValidate;
 				}
+
 				function hasVal() {
 					return willValidate() &amp;&amp; !!elem.value;
 				}
+
 				function getType() {
 					return getElemType(elem);
 				}
+
 				function isNum() {
 					return hasVal() &amp;&amp; /^number|range$/i.test(getType());
 				}
@@ -416,12 +419,12 @@
 							return hasVal() &amp;&amp; regexp &amp;&amp; !regexp.test(elem.value);
 						},
 						valueMissing: function() {
-							return willValidate() &amp;&amp; elem.required &amp;&amp; !(/^checkbox$/i.test(elem.type) ? elem.checked : (/^radio$/i.test(elem.type) ? elem.form.querySelector(&quot;[name=&#x27;&quot; + elem.name + &quot;&#x27;]:checked&quot;) : elem.value));
+							return willValidate() &amp;&amp; elem.required &amp;&amp; !(/^checkbox$/i.test(elem.type) ? elem.checked : (/^radio$/i.test(elem.type) ? (elem.form || document).querySelector(&quot;[name=&#x27;&quot; + elem.name + &quot;&#x27;]:checked&quot;) : elem.value));
 						},
 						customError: function() {
 							return !!customCache[elem.uniqueID];
 						},
-						tooLong: function(){
+						tooLong: function() {
 							elem.value &amp;&amp; elem.value.length &gt; elem.maxLength;
 						},
 						valid: function() {
@@ -591,7 +594,8 @@
 			}
 		}, 250);
 		if (enumerable) {
-			document.removeEventListener(strDOMContentLoaded, documentready, false);//清除注册的事件监听函数
+			//清除注册的事件监听函数
+			document.removeEventListener(strDOMContentLoaded, documentready, false);
 		}
 	}
 
@@ -672,7 +676,6 @@
 	}
 
 })(this, document);
-
     </pre>
 </div>
 
