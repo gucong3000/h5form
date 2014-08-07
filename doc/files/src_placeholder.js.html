@@ -215,10 +215,13 @@
 						//文本框不可见时延迟运行setDisplay
 						timer = setTimeout(setDisplay, 50);
 					} else if (show) {
-						if (currStyle.position === strStatic &amp;&amp; currentStyle(parent).position === strStatic) {
-							runtimeStyle(input).position = &quot;relative&quot;;
-							timer = setTimeout(setDisplay, 0);
-						} else {
+						timer = setTimeout(function() {
+							if (currStyle.position === strStatic &amp;&amp; currentStyle(parent).position === strStatic) {
+								runtimeStyle(input).position = &quot;relative&quot;;
+							}
+							if (parent === input.offsetParent &amp;&amp; !document.querySelector &amp;&amp; /^normal$/i.test(currentStyle(parent).zoom)) {
+								runtimeStyle(parent).zoom = 1;
+							}
 							//如果文本框或其父元素定位不为static，则自动计算placeholder的位置
 							style.maxWidth = getComputedStyle &amp;&amp; !/^auto$/.test(currStyle.width) ? currStyle.width : (input.clientWidth - parseInt(currStyle.paddingLeft) - parseInt(currStyle.paddingRight)) + strPx;
 							style.width = &quot;XMLHttpRequest&quot; in window &amp;&amp; currStyle.textAlign === &quot;left&quot; ? &quot;auto&quot; : style.maxWidth;
@@ -254,7 +257,8 @@
 							} else {
 								parent.appendChild(holder);
 							}
-						}
+						}, 0);
+
 					}
 				}
 			},
@@ -262,8 +266,7 @@
 			currCss = function(name, attr) {
 				try {
 					runtimeStyle(holder)[name] = currentStyle(input)[attr || name];
-				} catch (e) {
-				}
+				} catch (e) {}
 			};
 
 		if (!holder) {
@@ -347,8 +350,7 @@
 			root.id = id; //无论如何也还原它
 			return supportDOMAttrModified;
 		})();
-	} catch(ex) {
-	}
+	} catch (ex) {}
 
 	h5form[strPlaceholder] = createHolder;
 

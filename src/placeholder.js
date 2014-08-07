@@ -119,10 +119,13 @@
 						//文本框不可见时延迟运行setDisplay
 						timer = setTimeout(setDisplay, 50);
 					} else if (show) {
-						if (currStyle.position === strStatic && currentStyle(parent).position === strStatic) {
-							runtimeStyle(input).position = "relative";
-							timer = setTimeout(setDisplay, 0);
-						} else {
+						timer = setTimeout(function() {
+							if (currStyle.position === strStatic && currentStyle(parent).position === strStatic) {
+								runtimeStyle(input).position = "relative";
+							}
+							if (parent === input.offsetParent && !document.querySelector && /^normal$/i.test(currentStyle(parent).zoom)) {
+								runtimeStyle(parent).zoom = 1;
+							}
 							//如果文本框或其父元素定位不为static，则自动计算placeholder的位置
 							style.maxWidth = getComputedStyle && !/^auto$/.test(currStyle.width) ? currStyle.width : (input.clientWidth - parseInt(currStyle.paddingLeft) - parseInt(currStyle.paddingRight)) + strPx;
 							style.width = "XMLHttpRequest" in window && currStyle.textAlign === "left" ? "auto" : style.maxWidth;
@@ -158,7 +161,8 @@
 							} else {
 								parent.appendChild(holder);
 							}
-						}
+						}, 0);
+
 					}
 				}
 			},
@@ -227,8 +231,11 @@
 	}
 
 	try {
-		addEventListener(document, "DOMContentLoaded", init);
-		//init();
+		if (/interactive|complete/.test(document.readyState)) {
+			init();
+		} else {
+			addEventListener(document, "DOMContentLoaded", init);
+		}
 		setInterval(init, 200);
 
 		if (addStyleRule) {
