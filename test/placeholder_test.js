@@ -11,8 +11,8 @@
 
 		module("检查是否免检浏览器");
 
-		test("浏览器品种", function() {
-			expect(1);
+		QUnit.test("浏览器品种", function() {
+			QUnit.expect(1);
 			var broInf = {
 				netscape: "Firefox浏览器",
 				chrome: "基于Chrome的浏览器",
@@ -21,7 +21,7 @@
 
 			for (var i in broInf) {
 				if (window[i]) {
-					ok(i, broInf[i] + "原生支持placeholder");
+					QUnit.ok(i, broInf[i] + "原生支持placeholder");
 				}
 			}
 		});
@@ -46,20 +46,20 @@
 			} catch (ex) {}
 			module("检查placeholder");
 
-			test("检查placeholder是否字符串", function() {
+			QUnit.test("检查placeholder是否字符串", function() {
 				each(function(node, i) {
-					ok(typeof node.placeholder === "string", "检查第" + i + "个元素:\t" + node.placeholder);
+					QUnit.ok(typeof node.placeholder === "string", "检查第" + i + "个元素:\t" + node.placeholder);
 				});
 			});
 
-			test("检查placeholder的数量是否正确", function() {
+			QUnit.test("检查placeholder的数量是否正确", function() {
 				each(function(node, i) {
 					var phNum = $(node).closest("li").find("placeholder").length
-					equal(phNum, node.placeholder ? 1 : 0, "检查第" + i + "个元素placeholder数量:\t" + phNum);
+					QUnit.equal(phNum, node.placeholder ? 1 : 0, "检查第" + i + "个元素placeholder数量:\t" + phNum);
 				});
 			});
 
-			test("检查placeholder位置是否正确", function() {
+			QUnit.test("检查placeholder位置是否正确", function() {
 				each(function(node, i) {
 					if (node.placeholder) {
 						var textbox = $(node);
@@ -70,15 +70,15 @@
 
 						// var pix = node.offsetLeft - holder.offsetLeft;
 
-						// ok(Math.abs(pix) < 2, "检查第" + i + "个元素水平位移:\t" + pix);
+						// QUnit.ok(Math.abs(pix) < 2, "检查第" + i + "个元素水平位移:\t" + pix);
 						if (/^input$/i.test(node.tagName)) {
 							pixY = offsetPholder.top + (pholder.outerHeight() / 2) - offsetTextbox.top - (textbox.outerHeight() / 2);
-							ok(Math.abs(pixY) < 1, "检查第" + i + "个元素垂直位移:\t" + pixY);
+							QUnit.ok(Math.abs(pixY) < 1, "检查第" + i + "个元素垂直位移:\t" + pixY);
 						} else {
-							ok(offsetPholder.top >= offsetTextbox.top, "检查第" + i + "个元素上边界");
-							ok(textbox.height() >= pholder.height(), "检查第" + i + "个元素下边界");
-							ok(offsetPholder.left >= offsetTextbox.left, "检查第" + i + "个元素左边界");
-							ok(textbox.width() >= pholder.width(), "检查第" + i + "个元素右边界");
+							QUnit.ok(offsetPholder.top >= offsetTextbox.top, "检查第" + i + "个元素上边界");
+							QUnit.ok(textbox.height() >= pholder.height(), "检查第" + i + "个元素下边界");
+							QUnit.ok(offsetPholder.left >= offsetTextbox.left, "检查第" + i + "个元素左边界");
+							QUnit.ok(textbox.width() >= pholder.width(), "检查第" + i + "个元素右边界");
 						}
 
 					}

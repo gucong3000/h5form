@@ -359,7 +359,7 @@
         },
         {
             "file": "src\\h5form.js",
-            "line": 170,
+            "line": 169,
             "itemtype": "property",
             "name": "htc",
             "type": "String",
@@ -369,7 +369,7 @@
         },
         {
             "file": "src\\h5form.js",
-            "line": 181,
+            "line": 180,
             "itemtype": "property",
             "name": "js",
             "type": "String",
@@ -379,7 +379,7 @@
         },
         {
             "file": "src\\h5form.js",
-            "line": 196,
+            "line": 195,
             "description": "placeholder.js文件所在路径",
             "itemtype": "property",
             "name": "placeholder",

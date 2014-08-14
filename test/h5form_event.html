@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <title>H5F Test Suite</title>
-<!-- Load local QUnit (grunt requires v1.0.0 or newer). -->
 <link rel="stylesheet" href="qunit.css" media="screen">
+<script src="jquery.js"></script>
 <script src="../build/h5form.js"></script>
 <style>
 form {
@@ -125,13 +125,13 @@ form li {
 				</li>
 				<li>
 					<input id="input_submit" type="submit" value="submit">
-					<input id="input_submit_novalidate" type="submit" value="formnovalidate" formnovalidate>
-					<button id="button_submit_novalidate" type="submit" formnovalidate>button tag</button>
+					<input id="input_submit_novalidate" type="submit" value="formnovalidate" formNoValidate>
+					<button id="button_submit_novalidate" type="submit" formNoValidate>button tag</button>
 				</li>
 			</ol>
 		</fieldset>
 	</form>
 	<script src="qunit.js"></script>
-	<script src="h5form_test.js"></script>
+	<script src="event_test.js"></script>
 </body>
 </html>

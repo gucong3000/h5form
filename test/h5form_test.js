@@ -23,61 +23,61 @@
 
 	if (window.HTMLInputElement) {
 
-		module("检测Dom");
-		test("input对象", function() {
+		QUnit.module("检测Dom");
+		QUnit.test("input对象", function() {
 			var tester = document.createElement("input");
 			["checkValidity", "setCustomValidity", "autofocus", "formNoValidate", "max", "min", "pattern", "placeholder", "required", "step", "validationMessage", "validity", "willValidate"].forEach(function(prop) {
-				ok(prop in tester, "检测input是否拥有" + prop);
+				QUnit.ok(prop in tester, "检测input是否拥有" + prop);
 			});
 		});
-		test("textarea对象", function() {
+		QUnit.test("textarea对象", function() {
 			var tester = document.createElement("textarea");
 			["checkValidity", "setCustomValidity", "autofocus", "placeholder", "required", "validationMessage", "validity", "willValidate"].forEach(function(prop) {
-				ok(prop in tester, "检测textarea是否拥有" + prop);
+				QUnit.ok(prop in tester, "检测textarea是否拥有" + prop);
 			});
 		});
 	}
 
-	module("Validity API");
+	QUnit.module("Validity API");
 
-	test("Form element js attributes", function() {
-		ok(formElem.validity, "validity 属性存在");
+	QUnit.test("Form element js attributes", function() {
+		QUnit.ok(formElem.validity, "validity 属性存在");
 
-		ok(!formElem.validity.customError, "validity.customError 属性存在");
-		ok(!formElem.validity.patternMismatch, "validity.patternMismatch 属性存在");
-		ok(!formElem.validity.rangeOverflow, "validity.rangeOverflow 属性存在");
-		ok(!formElem.validity.rangeUnderflow, "validity.rangeUnderflow 属性存在");
-		ok(!formElem.validity.stepMismatch, "validity.stepMismatch 属性存在");
-		ok(!formElem.validity.valueMissing, "validity.valueMissing 属性存在");
-		ok(formElem.validity.valid, "validity.valid 属性存在");
-		equal(formElem.checkValidity(), formElem.validity.valid, "checkValidity()返回结果与validity.valid一致");
+		QUnit.ok(!formElem.validity.customError, "validity.customError 属性存在");
+		QUnit.ok(!formElem.validity.patternMismatch, "validity.patternMismatch 属性存在");
+		QUnit.ok(!formElem.validity.rangeOverflow, "validity.rangeOverflow 属性存在");
+		QUnit.ok(!formElem.validity.rangeUnderflow, "validity.rangeUnderflow 属性存在");
+		QUnit.ok(!formElem.validity.stepMismatch, "validity.stepMismatch 属性存在");
+		QUnit.ok(!formElem.validity.valueMissing, "validity.valueMissing 属性存在");
+		QUnit.ok(formElem.validity.valid, "validity.valid 属性存在");
+		QUnit.equal(formElem.checkValidity(), formElem.validity.valid, "checkValidity()返回结果与validity.valid一致");
 	});
 
-	module("Checkboxes/radios");
+	QUnit.module("Checkboxes/radios");
 
 	// Trigger form validation
 	//	form.checkValidity();
 
 
-	test("have correct properties", function() {
+	QUnit.test("have correct properties", function() {
 		chkbox.checked = false;
 
 		//Firefox下由于qunit把form清空导致ff测试不通过
 		if (!chkbox.form) {
 			form.appendChild(chkbox);
 		}
-		ok(chkbox.validity, "Checkbox has validity property");
-		equal(chkbox.validity.valueMissing, true, "validity.valueMissing is true");
-		equal(chkbox.validity.valid, false, "Checkbox is currently invalid");
+		QUnit.ok(chkbox.validity, "Checkbox has validity property");
+		QUnit.equal(chkbox.validity.valueMissing, true, "validity.valueMissing is true");
+		QUnit.equal(chkbox.validity.valid, false, "Checkbox is currently invalid");
 	});
 
-	test("checked vs unchecked state", function() {
+	QUnit.test("checked vs unchecked state", function() {
 		// Check the checkbox
 		chkbox.checked = true;
-		ok(chkbox.validity.valid, "Checkbox is valid");
+		QUnit.ok(chkbox.validity.valid, "Checkbox is valid");
 	});
 
-	test("radio buttons	have correct properties", function() {
+	QUnit.test("radio buttons	have correct properties", function() {
 		radioFemale.checked = radioMale.checked = false;
 
 		//Firefox下由于qunit把form清空导致ff测试不通过
@@ -87,47 +87,47 @@
 		if (!radioMale.form) {
 			form.appendChild(radioMale);
 		}
-		ok(radioFemale.validity, "Female Radio button has validity propery");
-		equal(radioFemale.validity.valid, false, "Female RadioButton is currently invalid ");
-		ok(radioMale.validity, "Male Radio button has validity propery");
-		equal(radioMale.validity.valid, false, "Female RadioButton is currently invalid ");
+		QUnit.ok(radioFemale.validity, "Female Radio button has validity propery");
+		QUnit.equal(radioFemale.validity.valid, false, "Female RadioButton is currently invalid ");
+		QUnit.ok(radioMale.validity, "Male Radio button has validity propery");
+		QUnit.equal(radioMale.validity.valid, false, "Female RadioButton is currently invalid ");
 	});
 
-	test("check validity of radio buttons if one option is checked", function() {
-		ok(radioFemale.validity, "Female Radio button is valid");
-		ok(radioMale.validity, "Male Radio button is valid when Female is checked");
+	QUnit.test("check validity of radio buttons if one option is checked", function() {
+		QUnit.ok(radioFemale.validity, "Female Radio button is valid");
+		QUnit.ok(radioMale.validity, "Male Radio button is valid when Female is checked");
 	});
 
-	module("Form validity");
+	QUnit.module("Form validity");
 
-	test("checkValidity method", function() {
-		ok(form.checkValidity, "checkValidity method exists on parent form");
+	QUnit.test("checkValidity method", function() {
+		QUnit.ok(form.checkValidity, "checkValidity method exists on parent form");
 
-		ok(formElem.checkValidity, "checkValidity method exists on element");
+		QUnit.ok(formElem.checkValidity, "checkValidity method exists on element");
 	});
 
-	test("disabled element", function() {
-		equal(disabledElem.checkValidity(), true, "Disabled element should be exempt from validation");
-		ok(disabledElem.disabled, "Disabled element should return true on disabled property");
-		ok(disabledElem.validity.valid, "Disabled element should return true on disabled property even though it's invalid");
-		ok(!disabledElem.validity.valueMissing, "Disabled element should be false on it's actual error if it weren't disabled");
+	QUnit.test("disabled element", function() {
+		QUnit.equal(disabledElem.checkValidity(), true, "Disabled element should be exempt from validation");
+		QUnit.ok(disabledElem.disabled, "Disabled element should return true on disabled property");
+		QUnit.ok(disabledElem.validity.valid, "Disabled element should return true on disabled property even though it's invalid");
+		QUnit.ok(!disabledElem.validity.valueMissing, "Disabled element should be false on it's actual error if it weren't disabled");
 	});
 
-	module("Custom validation");
+	QUnit.module("Custom validation");
 
-	test("setCustomValidity and validationMessage", function() {
-		ok(!formElem.validity.customError, "customError attribute is false");
-		equal(formElem.validationMessage, "", "validationMessage is empty");
-		ok(formElem.setCustomValidity, "setCustomValidity method exists");
+	QUnit.test("setCustomValidity and validationMessage", function() {
+		QUnit.ok(!formElem.validity.customError, "customError attribute is false");
+		QUnit.equal(formElem.validationMessage, "", "validationMessage is empty");
+		QUnit.ok(formElem.setCustomValidity, "setCustomValidity method exists");
 		formElem.setCustomValidity("Not valid for some reason");
-		equal(formElem.validationMessage, "Not valid for some reason", "validationMessage is 'Not valid for some reason'");
-		equal(formElem.validity.customError, true, "formElem.validity.customError equal true");
-		equal(formElem.checkValidity(), false, "formElem.checkValidity() equal false");
+		QUnit.equal(formElem.validationMessage, "Not valid for some reason", "validationMessage is 'Not valid for some reason'");
+		QUnit.equal(formElem.validity.customError, true, "formElem.validity.customError equal true");
+		QUnit.equal(formElem.checkValidity(), false, "formElem.checkValidity() equal false");
 
 		formElem.setCustomValidity("");
 	});
 
-	module("Input type email and URL");
+	QUnit.module("Input type email and URL");
 
 	function testEmail(address) {
 		var ret;
@@ -138,7 +138,7 @@
 
 		return !!ret;
 	}
-	test("Email", function() {
+	QUnit.test("Email", function() {
 		try {
 			if (!/^email$/i.test(email.getAttribute("type", 2))) {
 				//用IE10或以上的IE9模式，会有bug，详见http://www.zhangxinxu.com/wordpress/?p=2844
@@ -148,8 +148,8 @@
 			return;
 		}
 		// A valid email varies between browsers FF4 and Opera: ry@an is valid, where as Chrome requires atleast ry@an.c
-		equal(testEmail("notvalidemail"), true, "Setting email value to 'notvalidemail' is invalid");
-		equal(testEmail("ryan@awesome.com"), false, "Setting email value to h5f@awesome.com is valid");
+		QUnit.equal(testEmail("notvalidemail"), true, "Setting email value to 'notvalidemail' is invalid");
+		QUnit.equal(testEmail("ryan@awesome.com"), false, "Setting email value to h5f@awesome.com is valid");
 	});
 
 	function testURL(address) {
@@ -161,7 +161,7 @@
 
 		return !!ret;
 	}
-	test("URL", function() {
+	QUnit.test("URL", function() {
 		try {
 			if (!/^url$/i.test(url.getAttribute("type", 2))) {
 				//用IE10或以上的IE9模式，会有bug，详见http://www.zhangxinxu.com/wordpress/?p=2844
@@ -170,11 +170,11 @@
 		} catch (ex) {
 			return;
 		}
-		equal(testURL("example.com"), false, "Setting URL value to example.com is invalid");
-		equal(testURL("http://example.com"), true, "Setting URL value to http://example.com is valid");
+		QUnit.equal(testURL("example.com"), false, "Setting URL value to example.com is invalid");
+		QUnit.equal(testURL("http://example.com"), true, "Setting URL value to http://example.com is valid");
 	});
 
-	module("Field attributes");
+	QUnit.module("Field attributes");
 
 	function testPattern(val) {
 		var ret;
@@ -185,12 +185,12 @@
 
 		return !!ret;
 	}
-	test("pattern", function() {
-		equal(testPattern("ry"), false, "Nickname field has pattern that requires atleast 4 alphanumeric characters, only set two");
-		equal(testPattern("ryan"), true, "Set four characters on nickname field, will be valid");
+	QUnit.test("pattern", function() {
+		QUnit.equal(testPattern("ry"), false, "Nickname field has pattern that requires atleast 4 alphanumeric characters, only set two");
+		QUnit.equal(testPattern("ryan"), true, "Set four characters on nickname field, will be valid");
 	});
 
-	test("min, max and step", function() {
+	QUnit.test("min, max and step", function() {
 		try {
 			if (!/^number$/i.test(postcode.getAttribute("type", 2))) {
 				//用IE10或以上的IE9模式，会有bug，详见http://www.zhangxinxu.com/wordpress/?p=2844
@@ -200,28 +200,28 @@
 			return;
 		}
 		postcode.value = "1000";
-		ok(postcode.validity.rangeUnderflow, "Value of 1000 is below min attribute, 1001, and will be invalid");
+		QUnit.ok(postcode.validity.rangeUnderflow, "Value of 1000 is below min attribute, 1001, and will be invalid");
 		postcode.value = "8001";
-		ok(postcode.validity.rangeOverflow, "Value of 8001 is above max attribute, 8000, and will be invalid");
+		QUnit.ok(postcode.validity.rangeOverflow, "Value of 8001 is above max attribute, 8000, and will be invalid");
 		postcode.value = "1002";
-		ok(postcode.validity.stepMismatch, "Value is within range but does not increment by specified step attribute of 2");
+		QUnit.ok(postcode.validity.stepMismatch, "Value is within range but does not increment by specified step attribute of 2");
 		postcode.value = "1003";
-		ok(!postcode.validity.stepMismatch, "Value is within range and adheres to the step attribute of incements of 2");
+		QUnit.ok(!postcode.validity.stepMismatch, "Value is within range and adheres to the step attribute of incements of 2");
 		postcode.value = "";
 	});
 
-	test("formNoValidate, noValidate", function() {
-		equal(form.noValidate, false, "form.noValidate的值初始为false");
-		equal(form.checkValidity(), false, "form.checkValidity()的返回值为false");
-		equal(input_submit.formNoValidate, false, "<input type=\"submit\">的formNoValidate值为false");
-		equal(input_submit_novalidate.formNoValidate, true, "<input type=\"submit\" formnovalidate>的formNoValidate值为true");
+	QUnit.test("formNoValidate, noValidate", function() {
+		QUnit.equal(form.noValidate, false, "form.noValidate的值初始为false");
+		QUnit.equal(form.checkValidity(), false, "form.checkValidity()的返回值为false");
+		QUnit.equal(input_submit.formNoValidate, false, "<input type=\"submit\">的formNoValidate值为false");
+		QUnit.equal(input_submit_novalidate.formNoValidate, true, "<input type=\"submit\" formnovalidate>的formNoValidate值为true");
 	});
 
-	module("Select");
+	QUnit.module("Select");
 
-	test("required", function() {
+	QUnit.test("required", function() {
 		select.selectedIndex = 0;
-		equal(select.validity.valid, false, "Select is currently invalid");
+		QUnit.equal(select.validity.valid, false, "Select is currently invalid");
 	});
 
 
