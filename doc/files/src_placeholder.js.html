@@ -266,7 +266,8 @@
 			currCss = function(name, attr) {
 				try {
 					runtimeStyle(holder)[name] = currentStyle(input)[attr || name];
-				} catch (e) {}
+				} catch (e) {
+				}
 			};
 
 		if (!holder) {
@@ -326,8 +327,11 @@
 	}
 
 	try {
-		addEventListener(document, &quot;DOMContentLoaded&quot;, init);
-		//init();
+		if (/interactive|complete/.test(document.readyState)) {
+			init();
+		} else {
+			addEventListener(document, &quot;DOMContentLoaded&quot;, init);
+		}
 		setInterval(init, 200);
 
 		if (addStyleRule) {
@@ -350,7 +354,8 @@
 			root.id = id; //无论如何也还原它
 			return supportDOMAttrModified;
 		})();
-	} catch (ex) {}
+	} catch(ex) {
+	}
 
 	h5form[strPlaceholder] = createHolder;
 

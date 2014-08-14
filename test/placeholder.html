@@ -9,7 +9,7 @@
 <script src="jquery.js"></script>
 <script src="../build/h5form.js"></script>
 <style>
-html {
+form {
 	position: relative;
 }
 form input,
@@ -19,8 +19,11 @@ form textarea {
 	background: none;
 	box-shadow: none;
 	outline: none;
-	padding: 0;
-	margin: 0;
+	padding: 3px;
+	border: 2px solid gray;
+	font-size: 18px;
+	margin: 5px;
+	text-align: inherit;
 }
 [type="radio"] {
 	-webkit-border-radius: 100%;
@@ -57,63 +60,63 @@ form li {
 			<ol>
 				<li>
 					<label for="fullname">Name *</label> 
-					<input type="text" id="fullname" name="fullname" placeholder="Full name" autofocus required>
+					<input type="text" name="fullname" placeholder="Full name" autofocus required>
 				</li>
 				<li>
 					<label for="email">Email *</label> 
-					<input type="email" id="email" name="email" placeholder="e.g. ryan@example.net" title="Please enter a valid email" required>
+					<input type="email" name="email" placeholder="e.g. ryan@example.net" title="Please enter a valid email" required>
 				</li>
 				<li>
 					<label for="url">Website *</label> 
-					<input type="url" id="url" name="url" required>
+					<input type="url" name="url" required>
 				</li>
 				<li>
 					<label for="tel">Phone *</label> 
-					<input type="tel" id="tel" name="tel" pattern="\d{10}" placeholder="Please enter a ten digit phone number" required>
+					<input type="tel" name="tel" pattern="\d{10}" placeholder="Please enter a ten digit phone number" required>
 				</li>
 				<li>
 					<label for="date">Date *</label> 
-					<input type="date" id="date" name="date" required>
+					<input type="date" name="date" required>
 				</li>
 				<li>
 					<label for="nickname">Nick name</label> 
-					<input type="text" id="nickname" name="nickname" pattern="\w{4,}" placeholder="A nickname that is atleast four characters">
+					<input type="text" name="nickname" pattern="\w{4,}" placeholder="A nickname that is atleast four characters">
 				</li>
 				<li>
 					<label for="password">Password</label> 
-					<input type="password" id="password" name="password" pattern="\w{4,}" placeholder="A password that is atleast four characters" required>
+					<input type="password" name="password" pattern="\w{4,}" placeholder="A password that is atleast four characters" required>
 				</li>
 				<li>
 					<label for="postcode">Post code *</label>
-					<input id="postcode" name="postcode" type="number" min="1001" step="2" max="8000" required>
+					<input name="postcode" type="number" min="1001" step="2" max="8000" required>
 				</li>
 				<li>
 					<label for="other">Other</label> 
-					<input type="text" id="other" name="other" placeholder="Other information">
+					<input type="text" name="other" placeholder="Other information">
 				</li>
 				<li>
 					<label for="disabled">Other</label> 
-					<input type="text" id="disabled" name="disabled" required disabled placeholder="Other information">
+					<input type="text" name="disabled" required disabled placeholder="Other information">
 				</li>
 				<li>
 					<label for="gen">Generic</label> 
-					<input type="text" id="gen" name="gen" placeholder="Other information">
+					<input type="text" name="gen" placeholder="Other information">
 				</li>
 				<li>
 					<label for="gen">Checkbox</label> 
-					<input type="checkbox" required id="chkbox" name="chkbox">
+					<input type="checkbox" required name="chkbox">
 				</li>
 				<li>
 					<label for="female">Female</label>
-					<input type="radio" id="female" name="gender" value="female" required>
+					<input type="radio" name="gender" value="female" required>
 				</li>
 				<li>
 					<label for="male">Male</label>
-					<input type="radio" id="male" name="gender" value="male" required>
+					<input type="radio" name="gender" value="male" required>
 				</li>
 				<li>
 					<label for="select">Select *</label>
-					<select id="select" name="select" required>
+					<select name="select" required>
 						<option value="">0</option>
 						<option value="1">1</option>
 						<option value="2">2</option>
@@ -123,67 +126,67 @@ form li {
 				</li>
 				<li>
 					<label for="textarea">textarea *</label>
-					<textarea id="textarea" placeholder="textarea" required></textarea>
+					<textarea placeholder="textarea" required></textarea>
 				</li>
 								<li style="position: relative;">
 					<label for="fullname">Name *</label> 
-					<input type="text" id="fullname" name="fullname" placeholder="Full name" autofocus required>
+					<input type="text" name="fullname" placeholder="Full name" autofocus required>
 				</li>
 				<li style="position: relative;">
 					<label for="email">Email *</label> 
-					<input type="email" id="email" name="email" placeholder="e.g. ryan@example.net" title="Please enter a valid email" required>
+					<input type="email" name="email" placeholder="e.g. ryan@example.net" title="Please enter a valid email" required>
 				</li>
 				<li style="position: relative;">
 					<label for="url">Website *</label> 
-					<input type="url" id="url" name="url" required>
+					<input type="url" name="url" required>
 				</li>
 				<li style="position: relative;">
 					<label for="tel">Phone *</label> 
-					<input type="tel" id="tel" name="tel" pattern="\d{10}" placeholder="Please enter a ten digit phone number" required>
+					<input type="tel" name="tel" pattern="\d{10}" placeholder="Please enter a ten digit phone number" required>
 				</li>
 				<li style="position: relative;">
 					<label for="date">Date *</label> 
-					<input type="date" id="date" name="date" required>
+					<input type="date" name="date" required>
 				</li>
 				<li style="position: relative;">
 					<label for="nickname">Nick name</label> 
-					<input type="text" id="nickname" name="nickname" pattern="\w{4,}" placeholder="A nickname that is atleast four characters">
+					<input type="text" name="nickname" pattern="\w{4,}" placeholder="A nickname that is atleast four characters">
 				</li>
 				<li style="position: relative;">
 					<label for="password">Password</label> 
-					<input type="password" id="password" name="password" pattern="\w{4,}" placeholder="A password that is atleast four characters" required>
+					<input type="password" name="password" pattern="\w{4,}" placeholder="A password that is atleast four characters" required>
 				</li>
 				<li style="position: relative;">
 					<label for="postcode">Post code *</label>
-					<input id="postcode" name="postcode" type="number" min="1001" step="2" max="8000" required>
+					<input name="postcode" type="number" min="1001" step="2" max="8000" required>
 				</li>
 				<li style="position: relative;">
 					<label for="other">Other</label> 
-					<input type="text" id="other" name="other" placeholder="Other information">
+					<input type="text" name="other" placeholder="Other information">
 				</li>
 				<li style="position: relative;">
 					<label for="disabled">Other</label> 
-					<input type="text" id="disabled" name="disabled" required disabled placeholder="Other information">
+					<input type="text" name="disabled" required disabled placeholder="Other information">
 				</li>
 				<li style="position: relative;">
 					<label for="gen">Generic</label> 
-					<input type="text" id="gen" name="gen" placeholder="Other information">
+					<input type="text" name="gen" placeholder="Other information">
 				</li>
 				<li style="position: relative;">
 					<label for="gen">Checkbox</label> 
-					<input type="checkbox" required id="chkbox" name="chkbox">
+					<input type="checkbox" required name="chkbox">
 				</li>
 				<li style="position: relative;">
 					<label for="female">Female</label>
-					<input type="radio" id="female" name="gender" value="female" required>
+					<input type="radio" name="gender" value="female" required>
 				</li>
 				<li style="position: relative;">
 					<label for="male">Male</label>
-					<input type="radio" id="male" name="gender" value="male" required>
+					<input type="radio" name="gender" value="male" required>
 				</li>
 				<li style="position: relative;">
 					<label for="select">Select *</label>
-					<select id="select" name="select" required>
+					<select name="select" required>
 						<option value="">0</option>
 						<option value="1">1</option>
 						<option value="2">2</option>
@@ -193,8 +196,74 @@ form li {
 				</li>
 				<li style="position: relative;">
 					<label for="textarea">textarea *</label>
-					<textarea id="textarea" placeholder="textarea" required></textarea>
+					<textarea placeholder="textarea" required></textarea>
 				</li>
+                <li>
+                    <label for="email">Email *</label> 
+                    <input style="text-align: right;" type="email" name="email" placeholder="e.g. ryan@example.net" title="Please enter a valid email" required>
+                </li>
+                <li>
+                    <label for="url">Website *</label> 
+                    <input style="text-align: right;" type="url" name="url" required>
+                </li>
+                <li>
+                    <label for="tel">Phone *</label> 
+                    <input style="text-align: right;" type="tel" name="tel" pattern="\d{10}" placeholder="Please enter a ten digit phone number" required>
+                </li>
+                <li>
+                    <label for="date">Date *</label> 
+                    <input style="text-align: right;" type="date" name="date" required>
+                </li>
+                <li>
+                    <label for="nickname">Nick name</label> 
+                    <input style="text-align: right;" type="text" name="nickname" pattern="\w{4,}" placeholder="A nickname that is atleast four characters">
+                </li>
+                <li>
+                    <label for="password">Password</label> 
+                    <input style="text-align: right;" type="password" name="password" pattern="\w{4,}" placeholder="A password that is atleast four characters" required>
+                </li>
+                <li>
+                    <label for="postcode">Post code *</label>
+                    <input style="text-align: right;" name="postcode" type="number" min="1001" step="2" max="8000" required>
+                </li>
+                <li>
+                    <label for="other">Other</label> 
+                    <input style="text-align: right;" type="text" name="other" placeholder="Other information">
+                </li>
+                <li>
+                    <label for="disabled">Other</label> 
+                    <input style="text-align: right;" type="text" name="disabled" required disabled placeholder="Other information">
+                </li>
+                <li>
+                    <label for="gen">Generic</label> 
+                    <input style="text-align: right;" type="text" name="gen" placeholder="Other information">
+                </li>
+                <li>
+                    <label for="gen">Checkbox</label> 
+                    <input style="text-align: right;" type="checkbox" required name="chkbox">
+                </li>
+                <li>
+                    <label for="female">Female</label>
+                    <input style="text-align: right;" type="radio" name="gender" value="female" required>
+                </li>
+                <li>
+                    <label for="male">Male</label>
+                    <input style="text-align: right;" type="radio" name="gender" value="male" required>
+                </li>
+                <li>
+                    <label for="select">Select *</label>
+                    <select style="text-align: right;" name="select" required>
+                        <option value="">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+                </li>
+                <li>
+                    <label for="textarea">textarea *</label>
+                    <textarea style="text-align: right;" placeholder="textarea" required></textarea>
+                </li>
 				<li>
 					<input id="input_submit" type="submit" value="submit">
 					<input id="input_submit_novalidate" type="submit" value="formnovalidate" formnovalidate>
@@ -205,6 +274,5 @@ form li {
 	</form>
 	<script src="qunit.js"></script>
 	<script src="placeholder_test.js"></script>
-
 </body>
 </html>

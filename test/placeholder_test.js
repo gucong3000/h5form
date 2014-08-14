@@ -62,13 +62,25 @@
 			test("检查placeholder位置是否正确", function() {
 				each(function(node, i) {
 					if (node.placeholder) {
+						var textbox = $(node);
+						var pholder = textbox.siblings("placeholder");
+						var offsetTextbox = textbox.offset();
+						var offsetPholder = pholder.offset();
+						var pixX, pixY;
 
-						var holder = $(node).parent().find("placeholder")[0];
-						var pix = node.offsetLeft - holder.offsetLeft;
+						// var pix = node.offsetLeft - holder.offsetLeft;
 
-						ok(Math.abs(pix) < 2, "检查第" + i + "个元素水平位移:\t" + pix);
-						var pix = node.offsetTop - holder.offsetTop;
-						ok(Math.abs(pix) < 2, "检查第" + i + "个元素垂直位移:\t" + node.offsetTop + "|" + $(holder).css("top") );
+						// ok(Math.abs(pix) < 2, "检查第" + i + "个元素水平位移:\t" + pix);
+						if (/^input$/i.test(node.tagName)) {
+							pixY = offsetPholder.top + (pholder.outerHeight() / 2) - offsetTextbox.top - (textbox.outerHeight() / 2);
+							ok(Math.abs(pixY) < 1, "检查第" + i + "个元素垂直位移:\t" + pixY);
+						} else {
+							ok(offsetPholder.top >= offsetTextbox.top, "检查第" + i + "个元素上边界");
+							ok(textbox.height() >= pholder.height(), "检查第" + i + "个元素下边界");
+							ok(offsetPholder.left >= offsetTextbox.left, "检查第" + i + "个元素左边界");
+							ok(textbox.width() >= pholder.width(), "检查第" + i + "个元素右边界");
+						}
+
 					}
 				});
 			});
