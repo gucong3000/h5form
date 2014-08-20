@@ -86,4 +86,5 @@ HTML5 form Field polyfill
 
 ## 协同开发 ##
 
-本项目使用grunt环境编译，提交代码需经过grunt做JSHint代码风格检查以便保证代码质量
+- 本项目使用grunt编译，提交代码需经过grunt做JSHint代码风格检查和QUnit单元测试
+- grunt运行后doc目录将生成YUIDoc文档
