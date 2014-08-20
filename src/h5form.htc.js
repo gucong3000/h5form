@@ -159,9 +159,12 @@ if (/^form$/i.test(elem.tagName)) {
 				setTimeoutFn(function() {
 					if (oldValue !== elem.value) {
 						oldValue = elem.value;
-						//						oEvent = createEventObject();
-						//						eventInput.fire(oEvent);
-						$(elem).trigger("input");
+						if ($) {
+							$(elem).trigger("input");
+						/*} else if (typeof eventInvalid !== "undefined") {
+							oEvent = createEventObject();
+							eventInput.fire(oEvent);*/
+						}
 					}
 				}, 0);
 			}
@@ -177,13 +180,17 @@ if (/^form$/i.test(elem.tagName)) {
 			getValidity();
 			var valid = validityObj.valid;
 			if (!valid) {
-				//				var oEvent = createEventObject();
-				//				eventInvalid.fire(oEvent);
-				$(elem).trigger("invalid");
-				//“oEvent.returnValue != false”表示returnValue为1、true、undefined均执行
-				//if( oEvent.returnValue != false && this == "BUTTON_SUBMIT_CLICK_EVENT"){
-				//elem.focus();
-				//}
+				if ($) {
+					$(elem).trigger("invalid");
+				/*} else if (typeof eventInvalid !== "undefined") {
+					var oEvent = createEventObject();
+					eventInvalid.fire(oEvent);
+					//“oEvent.returnValue != false”表示returnValue为1、true、undefined均执行
+					if (oEvent.returnValue != false && this == "BUTTON_SUBMIT_CLICK_EVENT") {
+						elem.focus();
+					}*/
+				}
+
 			}
 			return valid;
 		};
