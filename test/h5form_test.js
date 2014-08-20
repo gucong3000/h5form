@@ -1,5 +1,7 @@
 (function(window, factory) {
-	if (window.$) {
+	if (document.addEventListener) {
+		document.addEventListener("DOMContentLoaded", factory, false);
+	} else if (window.$) {
 		$(factory);
 	} else {
 		window.onload = factory;
@@ -21,7 +23,7 @@
 		input_submit_novalidate = document.getElementById("input_submit_novalidate"),
 		button_submit_novalidate = document.getElementById("button_submit_novalidate");
 
-	if (window.HTMLInputElement) {
+	if (window.HTMLInputElement && (!document.documentMode || document.documentMode > 8)) {
 
 		QUnit.module("检测Dom");
 		QUnit.test("input对象", function() {

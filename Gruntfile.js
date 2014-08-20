@@ -72,7 +72,7 @@ module.exports = function(grunt) {
 			htc: {
 				options: {
 					banner: grunt.file.read("src/banner.htc").replace(/<!--[\w\W\r\n]*?-->|[\r\n]+/g, "") + "\n" + banner,
-					footer: "\n</SCRIPT></PUBLIC:COMPONENT>"
+					footer: "\n</SCRIPT><script type=\"text/vbscript\"></script></PUBLIC:COMPONENT>"
 				},
 				files: [{
 					expand: true,
