@@ -2,7 +2,7 @@
     "project": {
         "name": "h5form",
         "description": "JavaScript library for browser info",
-        "version": "0.2.2",
+        "version": "0.2.3",
         "url": "http://gucong3000.github.io/h5form/"
     },
     "files": {
