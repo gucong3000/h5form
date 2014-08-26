@@ -28,18 +28,18 @@ HTML5 form Field polyfill
 
 **支持的HTML5属性**
 
-| 属性					| 调用形式         			| 说明				|
-| --------------------- | ------------------------- | ----------------- |
-| noValidate			| `form.noValidate`			| 不验证此表单		|
-| formNoValidate		| `button.formNoValidate`	| 此按钮所属表单不验证|
-| validationMessage		| `field.validationMessage`	| 错误消息			|
-| willValidate			| `field.willValidate`		| 此元素可进行验证	|
+| 属性					| 调用形式         			| 说明					|
+| :-------------------- | :------------------------ | :-------------------- |
+| noValidate			| `form.noValidate`			| 不验证此表单			|
+| formNoValidate		| `button.formNoValidate`	| 此按钮所属表单不验证	|
+| validationMessage		| `field.validationMessage`	| 错误消息				|
+| willValidate			| `field.willValidate`		| 此元素可进行验证		|
 | placeholder			| `field.placeholder`		| 文本框展位字符		|
-| required				| `field.required`			| 此项为必填项		|
-| pattern				| `field.pattern`			| 正则验证规则		|
-| step					| `field.step`				| 数字增量			|
-| max					| `field.max`				| 数字上限			|
-| min					| `field.min`				| 数字下限			|
+| required				| `field.required`			| 此项为必填项			|
+| pattern				| `field.pattern`			| 正则验证规则			|
+| step					| `field.step`				| 数字增量				|
+| max					| `field.max`				| 数字上限				|
+| min					| `field.min`				| 数字下限				|
 | validity				| `field.validity`			| 约束验证的详细信息	|
 || `validity.customError`		|自定义错误
 || `validity.patternMismatch`	|正则不匹配
