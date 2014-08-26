@@ -28,7 +28,7 @@ HTML5 form Field polyfill
 
 **支持的HTML5属性**
 
-| 属性					| 调用形式         			| 说明					|
+| 属性					| 调用形式					| 说明					|
 | :-------------------- | :------------------------ | :-------------------- |
 | noValidate			| `form.noValidate`			| 不验证此表单			|
 | formNoValidate		| `button.formNoValidate`	| 此按钮所属表单不验证	|
