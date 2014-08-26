@@ -29,7 +29,7 @@
       <div class="inner clearfix">
         <section id="main-content">
           <h1>
-<a name="h5form-v021" class="anchor" href="#h5form-v021"><span class="octicon octicon-link"></span></a>h5form v0.2.1</h1>
+<a name="h5form-v022" class="anchor" href="#h5form-v022"><span class="octicon octicon-link"></span></a>h5form v0.2.2</h1>
 
 <p>HTML5 form Field polyfill</p>
 
@@ -45,7 +45,7 @@
 
 <p>加入js后，为Firefox和Chrome等现代浏览器而写的表单验证，IE下也能工作了</p>
 
-<p><code>h5form.js</code>会自动管理依赖的js，IE9+会自动加载<code>h5form.el.js</code>，IE6-8下自动加载<code>h5form.htc</code></p>
+<p><code>h5form.js</code>会自动管理依赖的js，IE9+会自动加载<code>h5form.el.js</code>，IE6-8下自动加载<code>h5form.htc</code>，IE6+、Safari下将会加载<code>placeholder.js</code></p>
 
 <h2>
 <a name="%E7%89%B9%E6%80%A7" class="anchor" href="#%E7%89%B9%E6%80%A7"><span class="octicon octicon-link"></span></a>特性</h2>
@@ -60,32 +60,115 @@
 <li>Opera (老版本Presto内核也支持)</li>
 </ul><p><strong>支持的HTML5属性</strong></p>
 
-<ul>
-<li>noValidate                <code>form.noValidate</code>           不验证此表单</li>
-<li>formNoValidate            <code>button.formNoValidate</code>     此按钮所属表单不验证</li>
-<li>validationMessage     <code>field.validationMessage</code>   错误消息</li>
-<li>willValidate          <code>field.willValidate</code>        此元素可进行验证</li>
-<li>placeholder           <code>field.placeholder</code>         文本框展位字符</li>
-<li>required              <code>field.required</code>            此项为必填项</li>
-<li>pattern               <code>field.pattern</code>             正则验证规则</li>
-<li>step                  <code>field.step</code>                数字增量</li>
-<li>max                   <code>field.max</code>                 数字上限</li>
-<li>min                   <code>field.min</code>                 数字下限</li>
-<li>validity              <code>field.validity</code>            约束验证的详细信息
-
-<ul>
-<li>validity.customError      自定义错误</li>
-<li>validity.patternMismatch  正则不匹配</li>
-<li>validity.rangeOverflow        值max越界</li>
-<li>validity.rangeUnderflow   值min越界</li>
-<li>validity.stepMismatch     值不符setp</li>
-<li>validity.tooLong          文本超长</li>
-<li>validity.typeMismatch     值不符type约束</li>
-<li>validity.valid                验证无误</li>
-<li>validity.valueMissing     值为空</li>
-</ul>
-</li>
-</ul><p><strong>支持的HTML5方法</strong></p>
+<table>
+<thead><tr>
+<th>属性</th>
+<th>调用形式</th>
+<th>说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>noValidate</td>
+<td><code>form.noValidate</code></td>
+<td>不验证此表单</td>
+</tr>
+<tr>
+<td>formNoValidate</td>
+<td><code>button.formNoValidate</code></td>
+<td>此按钮所属表单不验证</td>
+</tr>
+<tr>
+<td>validationMessage</td>
+<td><code>field.validationMessage</code></td>
+<td>错误消息</td>
+</tr>
+<tr>
+<td>willValidate</td>
+<td><code>field.willValidate</code></td>
+<td>此元素可进行验证</td>
+</tr>
+<tr>
+<td>placeholder</td>
+<td><code>field.placeholder</code></td>
+<td>文本框展位字符</td>
+</tr>
+<tr>
+<td>required</td>
+<td><code>field.required</code></td>
+<td>此项为必填项</td>
+</tr>
+<tr>
+<td>pattern</td>
+<td><code>field.pattern</code></td>
+<td>正则验证规则</td>
+</tr>
+<tr>
+<td>step</td>
+<td><code>field.step</code></td>
+<td>数字增量</td>
+</tr>
+<tr>
+<td>max</td>
+<td><code>field.max</code></td>
+<td>数字上限</td>
+</tr>
+<tr>
+<td>min</td>
+<td><code>field.min</code></td>
+<td>数字下限</td>
+</tr>
+<tr>
+<td>validity</td>
+<td><code>field.validity</code></td>
+<td>约束验证的详细信息</td>
+</tr>
+<tr>
+<td></td>
+<td><code>validity.customError</code></td>
+<td>自定义错误</td>
+</tr>
+<tr>
+<td></td>
+<td><code>validity.patternMismatch</code></td>
+<td>正则不匹配</td>
+</tr>
+<tr>
+<td></td>
+<td><code>validity.rangeOverflow</code></td>
+<td>值max越界</td>
+</tr>
+<tr>
+<td></td>
+<td><code>validity.rangeUnderflow</code></td>
+<td>值min越界</td>
+</tr>
+<tr>
+<td></td>
+<td><code>validity.stepMismatch</code></td>
+<td>值不符setp</td>
+</tr>
+<tr>
+<td></td>
+<td><code>validity.tooLong</code></td>
+<td>文本超长</td>
+</tr>
+<tr>
+<td></td>
+<td><code>validity.typeMismatch</code></td>
+<td>值不符type约束</td>
+</tr>
+<tr>
+<td></td>
+<td><code>validity.valid</code></td>
+<td>验证无误</td>
+</tr>
+<tr>
+<td></td>
+<td><code>validity.valueMissing</code></td>
+<td>值为空</td>
+</tr>
+</tbody>
+</table><p><strong>支持的HTML5方法</strong></p>
 
 <ul>
 <li>checkValidity()       <code>form.checkValidity()</code>、<code>field.checkValidity()</code>    检查表单，返回布尔值，且在错误时触发oninvalid</li>
@@ -134,7 +217,10 @@
 <h2>
 <a name="%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91" class="anchor" href="#%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91"><span class="octicon octicon-link"></span></a>协同开发</h2>
 
-<p>本项目使用grunt环境编译，提交代码需经过grunt做JSHint代码风格检查以便保证代码质量</p>
+<ul>
+<li>本项目使用grunt编译，提交代码需经过grunt做JSHint代码风格检查和QUnit单元测试</li>
+<li>grunt运行后doc目录将生成YUIDoc文档</li>
+</ul>
         </section>
 
         <aside id="sidebar">
