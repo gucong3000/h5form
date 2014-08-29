@@ -80,6 +80,8 @@ HTML5 form Field polyfill
 
 ## 参考资料 ##
 
+[表单验证业务逻辑流程图](flowchart/README.md)
+
 [HTML5约束验证API详解](http://ju.outofmemory.cn/entry/31397)
 
 [HTML5手册中placeholder属性](http://www.w3school.com.cn/html5/att_input_placeholder.asp)
