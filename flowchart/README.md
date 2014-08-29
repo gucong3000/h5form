@@ -7,11 +7,11 @@ html5 表单验证业务逻辑
 
 ## 表单验证基本逻辑
 
-![表单验证基本逻辑](submit.svg)
+![表单验证基本逻辑](submit.gif)
 
 ## `checkValidity()`函数逻辑
 
-![checkValidity()函数逻辑](checkValidity.svg)
+![checkValidity()函数逻辑](checkValidity.gif)
 
 ## 错误报告编写建议
 
