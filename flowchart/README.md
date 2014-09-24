@@ -9,9 +9,11 @@ html5 表单验证业务逻辑
 
 ![表单验证基本逻辑](submit.gif)
 
+** 如果调用`form.submit()`逻辑将从图上“submit事件”处开始向下执行 **
+
 ## `checkValidity()`函数逻辑
 
-![checkValidity()函数逻辑](checkValidity.gif)
+![form.checkValidity()函数逻辑](checkValidity.gif)
 
 ## 错误报告编写建议
 

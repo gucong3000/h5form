@@ -86,6 +86,25 @@ HTML5 form Field polyfill
 
 [HTML5手册中placeholder属性](http://www.w3school.com.cn/html5/att_input_placeholder.asp)
 
+
+## css定义placeholder样式语法 ##
+
+```CSS
+::-webkit-input-placeholder {
+	color: green;
+}
+:-ms-input-placeholder {
+	color: green;
+}
+::-moz-placeholder {
+	color: green;
+	opacity: 1;
+}
+placeholder {
+	color: green;
+}
+```
+
 ## 协同开发 ##
 
 - 本项目使用grunt编译，提交代码需经过grunt做JSHint代码风格检查和QUnit单元测试
