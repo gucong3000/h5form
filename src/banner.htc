@@ -1,0 +1,31 @@
+<PUBLIC:COMPONENT lightWeight="true">
+
+<!--可读写自定义属性-->
+<PUBLIC:PROPERTY name="formNoValidate" put="setFormNoValidate" get="getFormNoValidate" />
+<PUBLIC:PROPERTY name="noValidate" put="setNoValidate" get="getNoValidate" />
+<PUBLIC:PROPERTY name="required" put="setRequired" get="getRequired" />
+
+<!--只读自定义属性-->
+<PUBLIC:PROPERTY name="validationMessage" get="getValidationMessage" />
+<PUBLIC:PROPERTY name="willValidate" get="getWillValidate" />
+<PUBLIC:PROPERTY name="validity" get="getValidity" />
+
+<!--与标签属性值同步的自定义属性-->
+<PUBLIC:PROPERTY name="placeholder" />
+<PUBLIC:PROPERTY name="pattern" />
+<PUBLIC:PROPERTY name="step" />
+<PUBLIC:PROPERTY name="max" />
+<PUBLIC:PROPERTY name="min" />
+
+<!--自定义事件-->
+<!--<PUBLIC:EVENT name="oninput" id="eventInput" />
+<PUBLIC:EVENT name="oninvalid" id="eventInvalid" />-->
+
+<!--事件绑定-->
+<PUBLIC:ATTACH event="ondocumentready" onevent="documentready()" />
+<PUBLIC:ATTACH event="oncontentready" onevent="isContentReady=!0;" />
+<PUBLIC:ATTACH event="onpropertychange" onevent="propertychange()" />
+<PUBLIC:ATTACH event="onkeypress" onevent="valueChange&&valueChange()" />
+<PUBLIC:ATTACH event="onchange" onevent="valueChange&&valueChange()" />
+
+<SCRIPT>
