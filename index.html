@@ -4,7 +4,7 @@
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href='http://fonts.useso.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
@@ -21,7 +21,7 @@
       <div class="inner">
         <h1>H5form</h1>
         <h2>HTML5 form polyfill</h2>
-        <a href="https://github.com/gucong3000/h5form" class="button"><small>View project on</small>GitHub</a>
+        <a href="https://github.com/gucong3000/h5form" class="button"><small>View project on</small> GitHub</a>
       </div>
     </header>
 
@@ -33,7 +33,9 @@
 
 <p>HTML5 form Field polyfill</p>
 
-<hr><blockquote>
+<hr>
+
+<blockquote>
 <p>为了解放开发者，HTML5引入了约束验证的概念，一种本地实现的网页表单验证。尽管所有主流浏览器的最新版本都支持了这个特性，但一些浏览器尚未实现。这个项目的主要功能就是让所有浏览器均支持HTML5表单约束验证功能，同时提供placeholder属性和oninput事件等相关功能。</p>
 </blockquote>
 
@@ -58,127 +60,137 @@
 <li>Firefox</li>
 <li>Safari</li>
 <li>Opera (老版本Presto内核也支持)</li>
-</ul><p><strong>支持的HTML5属性</strong></p>
+</ul>
+
+<p><strong>支持的HTML5属性</strong></p>
 
 <table>
-<thead><tr>
-<th>属性</th>
-<th>调用形式</th>
-<th>说明</th>
-</tr></thead>
+<thead>
+<tr>
+<th align="left">属性</th>
+<th align="left">调用形式</th>
+<th align="left">说明</th>
+</tr>
+</thead>
 <tbody>
 <tr>
-<td>noValidate</td>
-<td><code>form.noValidate</code></td>
-<td>不验证此表单</td>
+<td align="left">noValidate</td>
+<td align="left"><code>form.noValidate</code></td>
+<td align="left">不验证此表单</td>
 </tr>
 <tr>
-<td>formNoValidate</td>
-<td><code>button.formNoValidate</code></td>
-<td>此按钮所属表单不验证</td>
+<td align="left">formNoValidate</td>
+<td align="left"><code>button.formNoValidate</code></td>
+<td align="left">此按钮所属表单不验证</td>
 </tr>
 <tr>
-<td>validationMessage</td>
-<td><code>field.validationMessage</code></td>
-<td>错误消息</td>
+<td align="left">validationMessage</td>
+<td align="left"><code>field.validationMessage</code></td>
+<td align="left">错误消息</td>
 </tr>
 <tr>
-<td>willValidate</td>
-<td><code>field.willValidate</code></td>
-<td>此元素可进行验证</td>
+<td align="left">willValidate</td>
+<td align="left"><code>field.willValidate</code></td>
+<td align="left">此元素可进行验证</td>
 </tr>
 <tr>
-<td>placeholder</td>
-<td><code>field.placeholder</code></td>
-<td>文本框展位字符</td>
+<td align="left">placeholder</td>
+<td align="left"><code>field.placeholder</code></td>
+<td align="left">文本框展位字符</td>
 </tr>
 <tr>
-<td>required</td>
-<td><code>field.required</code></td>
-<td>此项为必填项</td>
+<td align="left">required</td>
+<td align="left"><code>field.required</code></td>
+<td align="left">此项为必填项</td>
 </tr>
 <tr>
-<td>pattern</td>
-<td><code>field.pattern</code></td>
-<td>正则验证规则</td>
+<td align="left">pattern</td>
+<td align="left"><code>field.pattern</code></td>
+<td align="left">正则验证规则</td>
 </tr>
 <tr>
-<td>step</td>
-<td><code>field.step</code></td>
-<td>数字增量</td>
+<td align="left">step</td>
+<td align="left"><code>field.step</code></td>
+<td align="left">数字增量</td>
 </tr>
 <tr>
-<td>max</td>
-<td><code>field.max</code></td>
-<td>数字上限</td>
+<td align="left">max</td>
+<td align="left"><code>field.max</code></td>
+<td align="left">数字上限</td>
 </tr>
 <tr>
-<td>min</td>
-<td><code>field.min</code></td>
-<td>数字下限</td>
+<td align="left">min</td>
+<td align="left"><code>field.min</code></td>
+<td align="left">数字下限</td>
 </tr>
 <tr>
-<td>validity</td>
-<td><code>field.validity</code></td>
-<td>约束验证的详细信息</td>
+<td align="left">validity</td>
+<td align="left"><code>field.validity</code></td>
+<td align="left">约束验证的详细信息</td>
 </tr>
 <tr>
-<td></td>
-<td><code>validity.customError</code></td>
-<td>自定义错误</td>
+<td align="left"></td>
+<td align="left"><code>validity.customError</code></td>
+<td align="left">自定义错误</td>
 </tr>
 <tr>
-<td></td>
-<td><code>validity.patternMismatch</code></td>
-<td>正则不匹配</td>
+<td align="left"></td>
+<td align="left"><code>validity.patternMismatch</code></td>
+<td align="left">正则不匹配</td>
 </tr>
 <tr>
-<td></td>
-<td><code>validity.rangeOverflow</code></td>
-<td>值max越界</td>
+<td align="left"></td>
+<td align="left"><code>validity.rangeOverflow</code></td>
+<td align="left">值max越界</td>
 </tr>
 <tr>
-<td></td>
-<td><code>validity.rangeUnderflow</code></td>
-<td>值min越界</td>
+<td align="left"></td>
+<td align="left"><code>validity.rangeUnderflow</code></td>
+<td align="left">值min越界</td>
 </tr>
 <tr>
-<td></td>
-<td><code>validity.stepMismatch</code></td>
-<td>值不符setp</td>
+<td align="left"></td>
+<td align="left"><code>validity.stepMismatch</code></td>
+<td align="left">值不符setp</td>
 </tr>
 <tr>
-<td></td>
-<td><code>validity.tooLong</code></td>
-<td>文本超长</td>
+<td align="left"></td>
+<td align="left"><code>validity.tooLong</code></td>
+<td align="left">文本超长</td>
 </tr>
 <tr>
-<td></td>
-<td><code>validity.typeMismatch</code></td>
-<td>值不符type约束</td>
+<td align="left"></td>
+<td align="left"><code>validity.typeMismatch</code></td>
+<td align="left">值不符type约束</td>
 </tr>
 <tr>
-<td></td>
-<td><code>validity.valid</code></td>
-<td>验证无误</td>
+<td align="left"></td>
+<td align="left"><code>validity.valid</code></td>
+<td align="left">验证无误</td>
 </tr>
 <tr>
-<td></td>
-<td><code>validity.valueMissing</code></td>
-<td>值为空</td>
+<td align="left"></td>
+<td align="left"><code>validity.valueMissing</code></td>
+<td align="left">值为空</td>
 </tr>
 </tbody>
-</table><p><strong>支持的HTML5方法</strong></p>
+</table>
+
+<p><strong>支持的HTML5方法</strong></p>
 
 <ul>
 <li>checkValidity()       <code>form.checkValidity()</code>、<code>field.checkValidity()</code>    检查表单，返回布尔值，且在错误时触发oninvalid</li>
 <li>setCustomValidity()   <code>field.setCustomValidity(msg)</code>                  设置自定义错误</li>
-</ul><p><strong>支持的HTML5表单事件</strong>  (IE6-8下需加载jQuery，否则不支持)</p>
+</ul>
+
+<p><strong>支持的HTML5表单事件</strong>  (IE6-8下需加载jQuery，否则不支持)</p>
 
 <ul>
 <li>oninvalid     表单验证失败事件</li>
 <li>oninput       表单值改变事件</li>
-</ul><p><strong>特性详解</strong></p>
+</ul>
+
+<p><strong>特性详解</strong></p>
 
 <ul>
 <li>已经支持HTML5表单约束验证的浏览器下，加载文件后会隐藏掉浏览器原生的气泡提示</li>
@@ -207,12 +219,34 @@
 <li>修正IE9在删除、剪切等方式操作文本框中的字符串时，不触发input事件的问题 (该死的IE9不再支持propertychange事件)</li>
 </ul>
 </li>
-</ul><h2>
+</ul>
+
+<h2>
 <a name="%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99" class="anchor" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="octicon octicon-link"></span></a>参考资料</h2>
+
+<p><a href="flowchart/README.md">表单验证业务逻辑流程图</a></p>
 
 <p><a href="http://ju.outofmemory.cn/entry/31397">HTML5约束验证API详解</a></p>
 
 <p><a href="http://www.w3school.com.cn/html5/att_input_placeholder.asp">HTML5手册中placeholder属性</a></p>
+
+<h2>
+<a name="css%E5%AE%9A%E4%B9%89placeholder%E6%A0%B7%E5%BC%8F%E8%AF%AD%E6%B3%95" class="anchor" href="#css%E5%AE%9A%E4%B9%89placeholder%E6%A0%B7%E5%BC%8F%E8%AF%AD%E6%B3%95"><span class="octicon octicon-link"></span></a>css定义placeholder样式语法</h2>
+
+<div class="highlight highlight-CSS"><pre><span class="o">:</span><span class="nd">:-webkit-input-placeholder</span> <span class="p">{</span>
+    <span class="k">color</span><span class="o">:</span> <span class="nb">green</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nd">:-ms-input-placeholder</span> <span class="p">{</span>
+    <span class="k">color</span><span class="o">:</span> <span class="nb">green</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="o">:</span><span class="nd">:-moz-placeholder</span> <span class="p">{</span>
+    <span class="k">color</span><span class="o">:</span> <span class="nb">green</span><span class="p">;</span>
+    <span class="k">opacity</span><span class="o">:</span> <span class="m">1</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">placeholder</span> <span class="p">{</span>
+    <span class="k">color</span><span class="o">:</span> <span class="nb">green</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
 
 <h2>
 <a name="%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91" class="anchor" href="#%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91"><span class="octicon octicon-link"></span></a>协同开发</h2>
