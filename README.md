@@ -81,7 +81,7 @@ HTML5 form Field polyfill
 
 ## 参考资料 ##
 
-[表单验证业务逻辑流程图](flowchart/README.md)
+[表单验证业务逻辑流程图](https://github.com/gucong3000/h5form/blob/master/flowchart/README.md)
 
 [HTML5约束验证API详解](http://ju.outofmemory.cn/entry/31397)
 
