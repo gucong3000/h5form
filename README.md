@@ -65,18 +65,19 @@ HTML5 form Field polyfill
 
 - 已经支持HTML5表单约束验证的浏览器下，加载文件后会隐藏掉浏览器原生的气泡提示
 - 修正Safari下invalid事件后表单依然被提交的问题
+- 修正了已支持placeholder功能的各浏览器，统一为焦点态时显示提示文字，统一为textarea标签提示文字可换行
 - 当与jQuery共同使用时：
-	- invalid事件向DOM树冒泡（原生invalid事件并不冒泡）
+	- oninvalid事件向DOM树冒泡（原生oninvalid事件并不冒泡）
 	- 让jquery支持“:invalid”和“:valid”伪类选择符
 - 对IE低版本添加的功能：
 	- 添加IE6-9对placeholder功能的支持
-	- 添加IE6-8对input事件的支持
+	- 添加IE6-8对oninput事件的支持
 	- 添加IE6-9对约束验证功能的支持
 - 对高版本IE的已有的不完善功能的修正
 	- 修正IE10+支持HTML5约束验证，但很多细节与其他浏览器有差异的问题
 	- 修正IE10+对placeholder的实现与其他浏览器的差异	(文本框获取焦点但未输入文字时，应该显示占位文本。)
-	- 修正IE9+高版本对可编辑状态元素(如：`<p contentEditable=“true”>;`)不支持input事件的问题
-	- 修正IE9在删除、剪切等方式操作文本框中的字符串时，不触发input事件的问题	(该死的IE9不再支持propertychange事件)
+	- 修正IE9+高版本对可编辑状态元素(如：`<p contentEditable=“true”>;`)不支持oninput事件的问题
+	- 修正IE9在删除、剪切等方式操作文本框中的字符串时，不触发oninput事件的问题	(该死的IE9不再支持onpropertychange事件)
 
 ## 参考资料 ##
 
@@ -102,6 +103,25 @@ HTML5 form Field polyfill
 }
 placeholder {
 	color: green;
+}
+```
+
+## css定义文本框焦点态时placeholder样式语法 ##
+
+这里以文本框焦点时，不显示placeholder为例
+
+```CSS
+:focus::-webkit-input-placeholder {
+	color: transparent;
+}
+:focus:-ms-input-placeholder {
+	color: transparent;
+}
+:focus::-moz-placeholder {
+	color: transparent;
+}
+:focus+placeholder {
+	color: transparent;
 }
 ```
 
