@@ -1,34 +1,36 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href='http://fonts.useso.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+    <title>H5form by gucong3000</title>
 
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-
-    <title>H5form by gucong3000</title>
   </head>
-
   <body>
-    <header>
-      <div class="inner">
-        <h1>H5form</h1>
-        <h2>HTML5 form polyfill</h2>
-        <a href="https://github.com/gucong3000/h5form" class="button"><small>View project on</small> GitHub</a>
-      </div>
-    </header>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">H5form</h1>
+        <p class="header">HTML5 form polyfill</p>
 
-    <div id="content-wrapper">
-      <div class="inner clearfix">
-        <section id="main-content">
-          <h1>
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/gucong3000/h5form/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/gucong3000/h5form/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/gucong3000/h5form">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/gucong3000">gucong3000</a></p>
+
+
+      </header>
+      <section>
+        <h1>
 <a name="h5form-v022" class="anchor" href="#h5form-v022"><span class="octicon octicon-link"></span></a>h5form v0.2.2</h1>
 
 <p>HTML5 form Field polyfill</p>
@@ -195,10 +197,11 @@
 <ul>
 <li>已经支持HTML5表单约束验证的浏览器下，加载文件后会隐藏掉浏览器原生的气泡提示</li>
 <li>修正Safari下invalid事件后表单依然被提交的问题</li>
+<li>修正了已支持placeholder功能的各浏览器，统一为焦点态时显示提示文字，统一为textarea标签提示文字可换行</li>
 <li>当与jQuery共同使用时：
 
 <ul>
-<li>invalid事件向DOM树冒泡（原生invalid事件并不冒泡）</li>
+<li>oninvalid事件向DOM树冒泡（原生oninvalid事件并不冒泡）</li>
 <li>让jquery支持“:invalid”和“:valid”伪类选择符</li>
 </ul>
 </li>
@@ -206,7 +209,7 @@
 
 <ul>
 <li>添加IE6-9对placeholder功能的支持</li>
-<li>添加IE6-8对input事件的支持</li>
+<li>添加IE6-8对oninput事件的支持</li>
 <li>添加IE6-9对约束验证功能的支持</li>
 </ul>
 </li>
@@ -215,8 +218,8 @@
 <ul>
 <li>修正IE10+支持HTML5约束验证，但很多细节与其他浏览器有差异的问题</li>
 <li>修正IE10+对placeholder的实现与其他浏览器的差异 (文本框获取焦点但未输入文字时，应该显示占位文本。)</li>
-<li>修正IE9+高版本对可编辑状态元素(如：<code>&lt;p contentEditable=“true”&gt;;</code>)不支持input事件的问题</li>
-<li>修正IE9在删除、剪切等方式操作文本框中的字符串时，不触发input事件的问题 (该死的IE9不再支持propertychange事件)</li>
+<li>修正IE9+高版本对可编辑状态元素(如：<code>&lt;p contentEditable=“true”&gt;;</code>)不支持oninput事件的问题</li>
+<li>修正IE9在删除、剪切等方式操作文本框中的字符串时，不触发oninput事件的问题   (该死的IE9不再支持onpropertychange事件)</li>
 </ul>
 </li>
 </ul>
@@ -249,31 +252,37 @@
 </pre></div>
 
 <h2>
+<a name="css%E5%AE%9A%E4%B9%89%E6%96%87%E6%9C%AC%E6%A1%86%E7%84%A6%E7%82%B9%E6%80%81%E6%97%B6placeholder%E6%A0%B7%E5%BC%8F%E8%AF%AD%E6%B3%95" class="anchor" href="#css%E5%AE%9A%E4%B9%89%E6%96%87%E6%9C%AC%E6%A1%86%E7%84%A6%E7%82%B9%E6%80%81%E6%97%B6placeholder%E6%A0%B7%E5%BC%8F%E8%AF%AD%E6%B3%95"><span class="octicon octicon-link"></span></a>css定义文本框焦点态时placeholder样式语法</h2>
+
+<p>这里以文本框焦点时，不显示placeholder为例</p>
+
+<div class="highlight highlight-CSS"><pre><span class="nd">:focus</span><span class="o">:</span><span class="nd">:-webkit-input-placeholder</span> <span class="p">{</span>
+    <span class="k">color</span><span class="o">:</span> <span class="k">transparent</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nd">:focus:-ms-input-placeholder</span> <span class="p">{</span>
+    <span class="k">color</span><span class="o">:</span> <span class="k">transparent</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nd">:focus</span><span class="o">:</span><span class="nd">:-moz-placeholder</span> <span class="p">{</span>
+    <span class="k">color</span><span class="o">:</span> <span class="k">transparent</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nd">:focus</span><span class="o">+</span><span class="nt">placeholder</span> <span class="p">{</span>
+    <span class="k">color</span><span class="o">:</span> <span class="k">transparent</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+<h2>
 <a name="%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91" class="anchor" href="#%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91"><span class="octicon octicon-link"></span></a>协同开发</h2>
 
 <ul>
 <li>本项目使用grunt编译，提交代码需经过grunt做JSHint代码风格检查和QUnit单元测试</li>
 <li>grunt运行后doc目录将生成YUIDoc文档</li>
 </ul>
-        </section>
-
-        <aside id="sidebar">
-          <a href="https://github.com/gucong3000/h5form/zipball/master" class="button">
-            <small>Download</small>
-            .zip file
-          </a>
-          <a href="https://github.com/gucong3000/h5form/tarball/master" class="button">
-            <small>Download</small>
-            .tar.gz file
-          </a>
-
-          <p class="repo-owner"><a href="https://github.com/gucong3000/h5form"></a> is maintained by <a href="https://github.com/gucong3000">gucong3000</a>.</p>
-
-          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
-        </aside>
-      </div>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
     </div>
-
-  
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
   </body>
 </html>
