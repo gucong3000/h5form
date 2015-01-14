@@ -101,209 +101,205 @@
  * @static
  */
 
-(function(window, document, undefined) {
+/* global jQuery, seajs */
+
+(function(factory) {
 	&quot;use strict&quot;;
-
-	var	documentMode = document.querySelector ? document.documentMode : 7,
-		path = document.scripts || document.querySelector(&quot;script&quot;),
-		placeholderCssRest = &quot;color:gray; opacity:1;&quot;,
-		head = document.documentElement.children[0],
-		supportUniqueID = &quot;uniqueID&quot; in document,
-		strPlaceholder = &quot;placeholder&quot;,
-		options = window.h5form || {},
-		jQuery = window.jQuery,
-		styleNode,
-		support;
-
-	//在header中创建元素
-	function createElement(tag) {
-		tag = document.createElement(tag);
-		head.insertBefore(tag, head.firstChild);
-		return tag;
+	if (window.jQuery) {
+		factory(jQuery);
+	} else if (window.seajs) {
+		seajs.use([&quot;jquery&quot;], factory);
+	} else {
+		factory();
 	}
+})(function(jQuery) {
+	&quot;use strict&quot;;
+	(function(window, undefined) {
+		var document = window.document,
+			documentMode = document.querySelector ? document.documentMode : 7,
+			path = document.scripts || document.querySelector(&quot;script&quot;),
+			head = document.documentElement.children[0],
+			supportUniqueID = &quot;uniqueID&quot; in document,
+			options = window.h5form || {},
+			seajs = window.seajs,
+			styleNode,
+			support;
 
-	//事件绑定
-	function addEventListener(type, listener, useCapture) {
-		window.addEventListener(type, listener, useCapture);
-	}
-
-	/**
-	 * @method addStyleRule
-	 * @param {String} sSelector css选择符
-	 * @param {String} sStyle css属性
-	 */
-
-	//添加css规则
-	function addStyleRule(sSelector, sStyle) {
-		if (!styleNode) {
-			styleNode = createElement(&quot;style&quot;);
+		//在header中创建元素
+		function createElement(tag) {
+			tag = document.createElement(tag);
+			head.insertBefore(tag, head.firstChild);
+			return tag;
 		}
-		var cssText = sSelector + &quot;{&quot; + sStyle + &quot;}&quot;;
-		try {
-			styleNode.appendChild(document.createTextNode(cssText));
-		} catch (ex) {
-			try {
-				styleNode.styleSheet.addRule(sSelector, sStyle);
-			} catch (ex) {
-				styleNode.styleSheet.cssText += cssText;
+
+		//事件绑定
+		function addEventListener(type, listener, useCapture) {
+			window.addEventListener(type, listener, useCapture);
+		}
+
+		/**
+		 * @method addStyleRule
+		 * @param {String} sSelector css选择符
+		 * @param {String} sStyle css属性
+		 */
+
+		//添加css规则
+		function addStyleRule(sSelector, sStyle) {
+			if (!styleNode) {
+				styleNode = createElement(&quot;style&quot;);
 			}
-		}
-	}
-
-	//获取元素的对象属性值，当不存在时，获取标签属性值
-	function getProp(elem, name) {
-		return typeof elem[name] === &quot;boolean&quot; ? elem[name] : !!elem.attributes[name];
-	}
-
-	//判断一个元素是submit按钮，且其所属表单未禁止表单验证
-	function isSubmitClick(btn) {
-		return btn &amp;&amp; /^submit$/i.test(btn.type) &amp;&amp; btn.form &amp;&amp; !(getProp(btn, &quot;formNoValidate&quot;) || getProp(btn.form, &quot;noValidate&quot;));
-	}
-
-	//触发表单对象方法
-	function triggerFn(node, fn) {
-		fn = fn || &quot;focus&quot;;
-		if (node &amp;&amp; node[fn]) {
-			setTimeout(function() {
-				node[fn]();
-			}, 0);
-		}
-	}
-
-	//根据完整url，返回path
-	function getPath(filename) {
-		if (path) {
-			return path.replace(/[^\/]+$/, filename);
-		}
-	}
-
-	path = path[path.length - 1];
-	try {
-		options = options || eval.call(window, path.innerHTML) || {};
-	} catch (ex) {}
-	window.h5form = options;
-
-	path = path.getAttribute(&quot;src&quot;, 2) || &quot;&quot;;
-
-	try {
-		addEventListener(&quot;invalid&quot;, function(e) {
-			if (!e.cancelBubble) {
-				e.preventDefault();
-				if (jQuery) {
-					e.stopPropagation();
-					e.stopImmediatePropagation();
-					jQuery(e.target).trigger(&quot;invalid&quot;);
+			var cssText = sSelector + &quot;{&quot; + sStyle + &quot;}&quot;;
+			try {
+				styleNode.appendChild(document.createTextNode(cssText));
+			} catch (ex) {
+				try {
+					styleNode.styleSheet.addRule(sSelector, sStyle);
+				} catch (ex) {
+					styleNode.styleSheet.cssText += cssText;
 				}
 			}
-		}, true);
-		document.querySelector(&quot;:invalid&quot;);
-		support = true;
-	} catch (ex) {}
-
-	if (support) {
-
-		if (!(documentMode &amp;&amp; supportUniqueID)) {
-			setTimeout(function() {
-				addEventListener(&quot;click&quot;, function(e) {
-					var target = e.target;
-					//即使是Safari支持约束验证API的情况下Safari（版本 5、6）也不会因为表单的数据没有满足约束验证而阻止用户提交。所以一律js重新实现一遍
-					if (!e.defaultPrevented &amp;&amp; e.which === 1 &amp;&amp; isSubmitClick(target) &amp;&amp; !target.form.checkValidity()) {
-						e.preventDefault();
-						//IE10、IE11中，querySelector（&quot;:invalid“）有时会选中disabled状态的文本框，所以加not排除
-						triggerFn(target.form.querySelector(&quot;:invalid:not(:disabled)&quot;));
-					}
-				}, false);
-			}, 10);
-			//高端浏览器下写入关于placeholder的css rest
-			addStyleRule((&quot;netscape&quot; in window ? &quot;::-moz-&quot; : &quot;::-webkit-input-&quot;) + strPlaceholder, placeholderCssRest);
-			//未来浏览器厂商推出无前缀的placeholder选择器后，在此行添加css rest
-			//addStyleRule(&quot;::&quot; + strPlaceholder, placeholderCssRest);
 		}
-	} else {
 
-		//让jquery支持“:invalid”和“:valid”伪类
-		if (jQuery) {
-			jQuery.extend(jQuery.expr[&quot;:&quot;], {
-				invalid: function(elm) {
-					return elm.validity &amp;&amp; !elm.validity.valid;
-				},
-				valid: function(elm) {
-					return elm.validity &amp;&amp; elm.validity.valid;
+		//获取元素的对象属性值，当不存在时，获取标签属性值
+		function getProp(elem, name) {
+			return typeof elem[name] === &quot;boolean&quot; ? elem[name] : !!elem.attributes[name];
+		}
+
+		//判断一个元素是submit按钮，且其所属表单未禁止表单验证
+		function isSubmitClick(btn) {
+			return btn &amp;&amp; /^submit$/i.test(btn.type) &amp;&amp; btn.form &amp;&amp; !(getProp(btn, &quot;formNoValidate&quot;) || getProp(btn.form, &quot;noValidate&quot;));
+		}
+
+		//触发表单对象方法
+		function triggerFn(node, fn) {
+			fn = fn || &quot;focus&quot;;
+			if (node &amp;&amp; node[fn]) {
+				setTimeout(function() {
+					node[fn]();
+				}, 0);
+			}
+		}
+
+		//根据完整url，返回path
+		function getPath(filename) {
+			if (path) {
+				return path.replace(/[^\/]+$/, filename);
+			}
+		}
+
+		path = path[path.length - 1];
+		try {
+			options = options || eval.call(window, path.innerHTML) || {};
+		} catch (ex) {}
+		// window.h5form = options;
+
+		path = path.getAttribute(&quot;src&quot;, 2) || &quot;&quot;;
+
+		try {
+			addEventListener(&quot;invalid&quot;, function(e) {
+				if (!e.cancelBubble) {
+					e.preventDefault();
+					if (jQuery) {
+						e.stopPropagation();
+						e.stopImmediatePropagation();
+						jQuery(e.target).trigger(&quot;invalid&quot;);
+					}
+				}
+			}, true);
+			document.querySelector(&quot;:invalid&quot;);
+			support = true;
+		} catch (ex) {}
+
+		if (support) {
+
+			if (!(documentMode &amp;&amp; supportUniqueID)) {
+				setTimeout(function() {
+					addEventListener(&quot;click&quot;, function(e) {
+						var target = e.target;
+						//即使是Safari支持约束验证API的情况下Safari（版本 5、6）也不会因为表单的数据没有满足约束验证而阻止用户提交。所以一律js重新实现一遍
+						if (!e.defaultPrevented &amp;&amp; e.which === 1 &amp;&amp; isSubmitClick(target) &amp;&amp; !target.form.checkValidity()) {
+							e.preventDefault();
+							//IE10、IE11中，querySelector（&quot;:invalid“）有时会选中disabled状态的文本框，所以加not排除
+							triggerFn(target.form.querySelector(&quot;:invalid:not(:disabled)&quot;));
+						}
+					}, false);
+				}, 10);
+			}
+		} else {
+
+			//让jquery支持“:invalid”和“:valid”伪类
+			if (jQuery) {
+				jQuery.extend(jQuery.expr[&quot;:&quot;], {
+					invalid: function(elm) {
+						return elm.validity &amp;&amp; !elm.validity.valid;
+					},
+					valid: function(elm) {
+						return elm.validity &amp;&amp; elm.validity.valid;
+					}
+				});
+			}
+
+			document.attachEvent(&quot;onclick&quot;, function() {
+				var e = event,
+					returnValue = e.returnValue,
+					btn = e.srcElement,
+					form = btn.form,
+					defaultPrevented,
+					nodes,
+					node,
+					i;
+				if ((!!returnValue || returnValue === undefined) &amp;&amp; isSubmitClick(btn)) {
+					for (i = 0, nodes = form.elements; i &lt; nodes.length; i++) {
+						node = nodes[i];
+						if (node.validity &amp;&amp; !node.validity.valid) {
+							if (!defaultPrevented) {
+								defaultPrevented = true;
+								triggerFn(node);
+							}
+							triggerFn(node, &quot;checkValidity&quot;);
+						}
+					}
+					if (defaultPrevented) {
+						e.returnValue = !defaultPrevented;
+					}
 				}
 			});
 		}
 
-		document.attachEvent(&quot;onclick&quot;, function() {
-			var e = event,
-				returnValue = e.returnValue,
-				btn = e.srcElement,
-				form = btn.form,
-				defaultPrevented,
-				nodes,
-				node,
-				i;
-			if ((!!returnValue || returnValue === undefined) &amp;&amp; isSubmitClick(btn)) {
-				for (i = 0, nodes = form.elements; i &lt; nodes.length; i++) {
-					node = nodes[i];
-					if (node.validity &amp;&amp; !node.validity.valid) {
-						if (!defaultPrevented) {
-							defaultPrevented = true;
-							triggerFn(node);
-						}
-						triggerFn(node, &quot;checkValidity&quot;);
+		if (documentMode) {
+			if (documentMode &lt; 9) {
+				/**
+				 * @property {String} htc
+				 * @description h5form.htc文件所在路径
+				 * @default 当前js所在目录下的h5form.htc
+				 */
+				//IE6\7\8下通过htc方式加载
+				options.htc = seajs ? (seajs.data.dir.replace(/^\w+:\/\/[^/]+/, &quot;&quot;) + &quot;h5form.htc&quot;) : (options.htc || getPath(&quot;h5form.htc&quot;));
+				if (options.htc) {
+					addStyleRule(&quot;form,input,select,textarea&quot;, &quot;behavior: url(&quot; + options.htc + &quot;);&quot;);
+				}
+				// 判断如果是IE
+			} else if (supportUniqueID) {
+				/**
+				 * @property {String} js
+				 * @description h5form.el.js文件所在路径
+				 * @default 当前js所在目录下的h5form.el.js
+				 */
+				// seajs方式加载h5form.el.js
+				if (seajs) {
+					seajs.use([&quot;h5form.el&quot;]);
+				// 判断未加载过h5form.el.js
+				} else if (!window.ValidityState || /^\[.*\]$/.test(window.ValidityState)) {
+					options.js = options.js || getPath(&quot;h5form.el.js&quot;);
+					if (options.js) {
+						createElement(&quot;script&quot;).src = options.js;
 					}
 				}
-				if (defaultPrevented) {
-					e.returnValue = !defaultPrevented;
-				}
-			}
-		});
-	}
-
-	if (documentMode) {
-		if (documentMode &lt; 9) {
-			/**
-			 * @property {String} htc
-			 * @description h5form.htc文件所在路径
-			 * @default 当前js所在目录下的h5form.htc
-			 */
-			//IE6\7\8下通过htc方式加载
-			options.htc = options.htc || getPath(&quot;h5form.htc&quot;);
-			if (options.htc) {
-				addStyleRule(&quot;form,input,select,textarea&quot;, &quot;behavior: url(&quot; + options.htc + &quot;);&quot;);
-			}
-		} else if (supportUniqueID) {
-			/**
-			 * @property {String} js
-			 * @description h5form.el.js文件所在路径
-			 * @default 当前js所在目录下的h5form.el.js
-			 */
-			//IE9、10、11下通过js方式加载
-			options.js = options.js || getPath(&quot;h5form.el.js&quot;);
-			if (options.js &amp;&amp; (!window.ValidityState || /^\[.*\]$/.test(window.ValidityState))) {
-				createElement(&quot;script&quot;).src = options.js;
 			}
 		}
-	}
 
-	options.addStyleRule = addStyleRule;
-
-	/**
-	 * @description placeholder.js文件所在路径
-	 * @property {String} placeholder
-	 * @default 当前js所在目录下的placeholder.js
-	 */
-
-	//修复IE9+、Safari下placeholder与其他浏览器的差异
-	//原本opera12以下也需要修复，但找不到办法去除原生样式，加之市场占有率不高，故不作处理了
-	if (!(window.netscape || window.chrome || window.opera)) {
-		options[strPlaceholder] = options[strPlaceholder] || getPath(strPlaceholder + &quot;.js&quot;);
-		if (options[strPlaceholder] &amp;&amp; typeof options[strPlaceholder] === &quot;string&quot;) {
-			createElement(&quot;script&quot;).src = options[strPlaceholder];
-		}
-	}
-
-})(this, document);
+	})(window);
+});
     </pre>
 </div>
 

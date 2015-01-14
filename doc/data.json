@@ -21,13 +21,6 @@
         "src\\h5form.js": {
             "name": "src\\h5form.js",
             "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
-        "src\\placeholder.js": {
-            "name": "src\\placeholder.js",
-            "modules": {},
             "classes": {
                 "h5form": 1
             },
@@ -96,7 +89,7 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "file": "src\\placeholder.js",
+            "file": "src\\h5form.js",
             "line": 1,
             "description": "HTML5 form polyfill",
             "author": "gucong3000",
@@ -340,7 +333,7 @@
         },
         {
             "file": "src\\h5form.js",
-            "line": 34,
+            "line": 44,
             "itemtype": "method",
             "name": "addStyleRule",
             "params": [
@@ -359,7 +352,7 @@
         },
         {
             "file": "src\\h5form.js",
-            "line": 169,
+            "line": 175,
             "itemtype": "property",
             "name": "htc",
             "type": "String",
@@ -369,37 +362,12 @@
         },
         {
             "file": "src\\h5form.js",
-            "line": 180,
+            "line": 187,
             "itemtype": "property",
             "name": "js",
             "type": "String",
             "description": "h5form.el.js文件所在路径",
             "default": "当前js所在目录下的h5form.el.js",
-            "class": "h5form"
-        },
-        {
-            "file": "src\\h5form.js",
-            "line": 195,
-            "description": "placeholder.js文件所在路径",
-            "itemtype": "property",
-            "name": "placeholder",
-            "type": "String",
-            "default": "当前js所在目录下的placeholder.js",
-            "class": "h5form"
-        },
-        {
-            "file": "src\\placeholder.js",
-            "line": 71,
-            "itemtype": "method",
-            "name": "placeholder",
-            "params": [
-                {
-                    "name": "node",
-                    "description": "需要修正placeholder的DOM元素",
-                    "type": "HTMLInputElement | HTMLTextAreaElement"
-                }
-            ],
-            "description": "修正或更新文本框的placeholder功能 默认只在低端浏览器下使用",
             "class": "h5form"
         }
     ],
