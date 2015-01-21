@@ -274,9 +274,9 @@
 				 * @default 当前js所在目录下的h5form.htc
 				 */
 				//IE6\7\8下通过htc方式加载
-				options.htc = seajs ? (seajs.data.dir.replace(/^\w+:\/\/[^/]+/, &quot;&quot;) + &quot;h5form.htc&quot;) : (options.htc || getPath(&quot;h5form.htc&quot;));
+				options.htc = seajs ? (seajs.data.dir + &quot;h5form.htc&quot;) : (options.htc || getPath(&quot;h5form.htc&quot;));
 				if (options.htc) {
-					addStyleRule(&quot;form,input,select,textarea&quot;, &quot;behavior: url(&quot; + options.htc + &quot;);&quot;);
+					addStyleRule(&quot;form,input,select,textarea&quot;, &quot;behavior: url(&quot; + options.htc.replace(/^\w+:\/\/[^/]+/, &quot;&quot;) + &quot;);&quot;);
 				}
 				// 判断如果是IE
 			} else if (supportUniqueID) {
@@ -285,11 +285,11 @@
 				 * @description h5form.el.js文件所在路径
 				 * @default 当前js所在目录下的h5form.el.js
 				 */
-				// seajs方式加载h5form.el.js
 				if (seajs) {
+					// seajs方式加载h5form.el.js
 					seajs.use([&quot;h5form.el&quot;]);
-				// 判断未加载过h5form.el.js
 				} else if (!window.ValidityState || /^\[.*\]$/.test(window.ValidityState)) {
+					// 判断未加载过h5form.el.js
 					options.js = options.js || getPath(&quot;h5form.el.js&quot;);
 					if (options.js) {
 						createElement(&quot;script&quot;).src = options.js;

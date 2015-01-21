@@ -178,9 +178,9 @@
 				 * @default 当前js所在目录下的h5form.htc
 				 */
 				//IE6\7\8下通过htc方式加载
-				options.htc = seajs ? (seajs.data.dir.replace(/^\w+:\/\/[^/]+/, "") + "h5form.htc") : (options.htc || getPath("h5form.htc"));
+				options.htc = seajs ? (seajs.data.dir + "h5form.htc") : (options.htc || getPath("h5form.htc"));
 				if (options.htc) {
-					addStyleRule("form,input,select,textarea", "behavior: url(" + options.htc + ");");
+					addStyleRule("form,input,select,textarea", "behavior: url(" + options.htc.replace(/^\w+:\/\/[^/]+/, "") + ");");
 				}
 				// 判断如果是IE
 			} else if (supportUniqueID) {
@@ -189,11 +189,11 @@
 				 * @description h5form.el.js文件所在路径
 				 * @default 当前js所在目录下的h5form.el.js
 				 */
-				// seajs方式加载h5form.el.js
 				if (seajs) {
+					// seajs方式加载h5form.el.js
 					seajs.use(["h5form.el"]);
-				// 判断未加载过h5form.el.js
 				} else if (!window.ValidityState || /^\[.*\]$/.test(window.ValidityState)) {
+					// 判断未加载过h5form.el.js
 					options.js = options.js || getPath("h5form.el.js");
 					if (options.js) {
 						createElement("script").src = options.js;
