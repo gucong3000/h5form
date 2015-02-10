@@ -6,26 +6,7 @@
 	}
 
 })(this, function() {
-
-	if (window.netscape || window.chrome || window.opera) {
-
-		module("检查是否免检浏览器");
-
-		QUnit.test("浏览器品种", function() {
-			QUnit.expect(1);
-			var broInf = {
-				netscape: "Firefox浏览器",
-				chrome: "基于Chrome的浏览器",
-				opera: "老版本Opera"
-			};
-
-			for (var i in broInf) {
-				if (window[i]) {
-					QUnit.ok(i, broInf[i] + "原生支持placeholder");
-				}
-			}
-		});
-	} else {
+	if (!("placeholder" in document.createElement("input")) || document.documentMode || +navigator.userAgent.replace(/.*(?:\bA\w+WebKit)\/?(\d+).*/i, "$1") < 536) {
 		setTimeout(function() {
 			var form = document.getElementById("fixture") || document.getElementById("qunit-fixture"),
 				support;
@@ -86,7 +67,24 @@
 			});
 
 		}, 10);
+	} else {
+		module("检查是否免检浏览器");
 
+		QUnit.test("浏览器品种", function() {
+			QUnit.expect(1);
+			var broInf = {
+				netscape: "Firefox浏览器",
+				chrome: "基于Chrome的浏览器",
+				opera: "老版本Opera",
+			};
 
+			for (var i in broInf) {
+				if (window[i]) {
+					QUnit.ok(i, broInf[i] + "原生支持placeholder");
+					return;
+				}
+			}
+			QUnit.ok(true, "基于webkit内核的浏览器");
+		});
 	}
 });

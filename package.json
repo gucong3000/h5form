@@ -2,7 +2,7 @@
   "name": "h5form",
   "title": "h5form",
   "description": "JavaScript library for browser info",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "homepage": "http://gucong3000.github.io/h5form/",
   "author": {
     "name": "gucong",
@@ -25,15 +25,15 @@
   ],
   "dependencies": {},
   "devDependencies": {
-    "qunitjs": "^1.14.0",
+    "qunitjs": "^1.15.0",
     "yuidocjs": "^0.3.50",
     "uglify-js": "^2.4.15",
-    "phantomjs": "^1.9.7-15",
+    "phantomjs": "^1.9.12",
     "grunt": "^0.4.5",
     "grunt-cli": "^0.1.13",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-contrib-qunit": "^0.5.2",
-    "grunt-contrib-uglify": "^0.5.1",
+    "grunt-contrib-uglify": "^0.7.0",
     "grunt-contrib-jshint": "^0.10.0",
     "grunt-contrib-yuidoc": "^0.5.2"
   },

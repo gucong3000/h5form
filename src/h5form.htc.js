@@ -1,4 +1,6 @@
-/*global element: false */
+/* global element, placeholder, $ */
+/* jshint strict: false, jquery: false */
+
 var validityGetter = {
 		patternMismatch: function() {
 			return hasVal() && !!elem.pattern && !new RegExp("^(?:" + elem.pattern + ")$").test(elem.value);
@@ -40,8 +42,9 @@ var validityGetter = {
 	strFormNoValidate = "formNoValidate",
 	strNoValidate = "noValidate",
 	strRequired = "required",
+	win = window,
 	validityObj = new ValidityState(),
-	setTimeoutFn = window.setTimeout,
+	setTimeoutFn = win.setTimeout,
 	num = top.parseFloat,
 	strCustomError = "",
 	attrData = {},
@@ -64,7 +67,8 @@ var validityGetter = {
 	setHolder,
 	propertychange,
 	documentready,
-	$ = window.jQuery;
+	seajs = win.seajs,
+	trigger;
 
 /*ValidityState对象原型*/
 ValidityState.prototype = {
@@ -78,8 +82,8 @@ ValidityState.prototype = {
 	valid: true
 };
 
-if (!window.ValidityState) {
-	window.ValidityState = ValidityState;
+if (!win.ValidityState) {
+	win.ValidityState = ValidityState;
 }
 /*ValidityState对象原型 END*/
 
@@ -159,12 +163,7 @@ if (/^form$/i.test(elem.tagName)) {
 				setTimeoutFn(function() {
 					if (oldValue !== elem.value) {
 						oldValue = elem.value;
-						if ($) {
-							$(elem).trigger("input");
-						/*} else if (typeof eventInvalid !== "undefined") {
-							oEvent = createEventObject();
-							eventInput.fire(oEvent);*/
-						}
+						trigger("input");
 					}
 				}, 0);
 			}
@@ -180,17 +179,7 @@ if (/^form$/i.test(elem.tagName)) {
 			getValidity();
 			var valid = validityObj.valid;
 			if (!valid) {
-				if ($) {
-					$(elem).trigger("invalid");
-				/*} else if (typeof eventInvalid !== "undefined") {
-					var oEvent = createEventObject();
-					eventInvalid.fire(oEvent);
-					//“oEvent.returnValue != false”表示returnValue为1、true、undefined均执行
-					if (oEvent.returnValue != false && this == "BUTTON_SUBMIT_CLICK_EVENT") {
-						elem.focus();
-					}*/
-				}
-
+				trigger("invalid");
 			}
 			return valid;
 		};
@@ -205,13 +194,28 @@ if (/^form$/i.test(elem.tagName)) {
 			}
 		})();
 
-
 		setHolder = function() {
-			if (window.h5form && window.h5form.placeholder && /^text(area)?|password$/i.test(elem.type)) {
-				window.h5form.placeholder(elem);
+			if (/^text(area)?|password$/i.test(elem.type)) {
+				if (win.placeholder) {
+					placeholder(elem);
+				} else if (seajs) {
+					seajs.use(["placeholder"], function(placeholder) {
+						placeholder(elem);
+					});
+				}
 			}
 		};
 		setHolder();
+
+		trigger = function(type) {
+			if (win.$) {
+				$(elem).trigger(type);
+			} else if (seajs) {
+				seajs.use(["jquery"], function($) {
+					$(elem).trigger(type);
+				});
+			}
+		};
 	}
 }
 
