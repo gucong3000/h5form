@@ -2,7 +2,7 @@
     "project": {
         "name": "h5form",
         "description": "JavaScript library for browser info",
-        "version": "0.2.3",
+        "version": "0.2.4",
         "url": "http://gucong3000.github.io/h5form/"
     },
     "files": {
@@ -362,7 +362,7 @@
         },
         {
             "file": "src\\h5form.js",
-            "line": 187,
+            "line": 199,
             "itemtype": "property",
             "name": "js",
             "type": "String",

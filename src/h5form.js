@@ -178,10 +178,22 @@
 				 * @default 当前js所在目录下的h5form.htc
 				 */
 				//IE6\7\8下通过htc方式加载
-				options.htc = seajs ? (seajs.data.dir + "h5form.htc") : (options.htc || getPath("h5form.htc"));
+				options.htc = (seajs ? (seajs.data.dir + "h5form.htc") : (options.htc || getPath("h5form.htc"))).replace(/^\w+:\/\/[^/]+/, "");
 				if (options.htc) {
-					addStyleRule("form,input,select,textarea", "behavior: url(" + options.htc.replace(/^\w+:\/\/[^/]+/, "") + ");");
+					addStyleRule("form,input,select,textarea", "behavior: url(" + options.htc + ");");
 				}
+
+				// IE 6、7下需要延迟jQuery的Realy事件，以免调用setCustomValidity或其他属性时，h5form.htc还未运行，从而导致报错
+				if (jQuery && documentMode < 8) {
+					jQuery.holdReady(true);
+					jQuery.ajax({
+						url: options.htc,
+						complete: function() {
+							jQuery.holdReady(false);
+						}
+					});
+				}
+
 				// 判断如果是IE
 			} else if (supportUniqueID) {
 				/**

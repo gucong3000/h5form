@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.2.3</em>
+            <em>API Docs for: 0.2.4</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -219,7 +219,7 @@
 						//即使是Safari支持约束验证API的情况下Safari（版本 5、6）也不会因为表单的数据没有满足约束验证而阻止用户提交。所以一律js重新实现一遍
 						if (!e.defaultPrevented &amp;&amp; e.which === 1 &amp;&amp; isSubmitClick(target) &amp;&amp; !target.form.checkValidity()) {
 							e.preventDefault();
-							//IE10、IE11中，querySelector（&quot;:invalid“）有时会选中disabled状态的文本框，所以加not排除
+							//IE10、IE11中，querySelector（&quot;:invalid&quot;）有时会选中disabled状态的文本框，所以加not排除
 							triggerFn(target.form.querySelector(&quot;:invalid:not(:disabled)&quot;));
 						}
 					}, false);
@@ -274,10 +274,22 @@
 				 * @default 当前js所在目录下的h5form.htc
 				 */
 				//IE6\7\8下通过htc方式加载
-				options.htc = seajs ? (seajs.data.dir + &quot;h5form.htc&quot;) : (options.htc || getPath(&quot;h5form.htc&quot;));
+				options.htc = (seajs ? (seajs.data.dir + &quot;h5form.htc&quot;) : (options.htc || getPath(&quot;h5form.htc&quot;))).replace(/^\w+:\/\/[^/]+/, &quot;&quot;);
 				if (options.htc) {
-					addStyleRule(&quot;form,input,select,textarea&quot;, &quot;behavior: url(&quot; + options.htc.replace(/^\w+:\/\/[^/]+/, &quot;&quot;) + &quot;);&quot;);
+					addStyleRule(&quot;form,input,select,textarea&quot;, &quot;behavior: url(&quot; + options.htc + &quot;);&quot;);
 				}
+
+				// IE 6、7下需要延迟jQuery的Realy事件，以免调用setCustomValidity或其他属性时，h5form.htc还未运行，从而导致报错
+				if (jQuery &amp;&amp; documentMode &lt; 8) {
+					jQuery.holdReady(true);
+					jQuery.ajax({
+						url: options.htc,
+						complete: function() {
+							jQuery.holdReady(false);
+						}
+					});
+				}
+
 				// 判断如果是IE
 			} else if (supportUniqueID) {
 				/**
