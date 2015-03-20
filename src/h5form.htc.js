@@ -18,11 +18,14 @@ var validityGetter = {
 			var regexp = regexpTypes[getType()];
 			return hasVal() && regexp && !regexp.test(elem.value);
 		},
-		tooLong: function() {
-			elem.value && elem.value.length > elem.maxLength;
-		},
 		valueMissing: function() {
 			return elem.willValidate && elem.required && !(/^checkbox$/i.test(elem.type) ? elem.checked : (/^radio$/i.test(elem.type) ? isSiblingChecked(elem) : elem.value));
+		},
+		badInput: function(){
+			return false;
+		},
+		tooLong: function() {
+			elem.value && elem.value.length > elem.maxLength;
 		}
 	},
 	ValidityState = function(){
@@ -265,8 +268,7 @@ function defineGetter(name) {
 
 function defineSetter(name) {
 	return function(val) {
-		val = !isContentReady || val;
-		attrData[name] = val;
+		attrData[name] = (isContentReady || typeof val === "boolean") ? val : true;
 	};
 }
 

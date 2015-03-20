@@ -328,6 +328,9 @@
 						customError: function() {
 							return !!customCache[elem.uniqueID];
 						},
+						badInput: function(){
+							return false;
+						},
 						tooLong: function() {
 							elem.value && elem.value.length > elem.maxLength;
 						},

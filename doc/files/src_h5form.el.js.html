@@ -424,6 +424,9 @@
 						customError: function() {
 							return !!customCache[elem.uniqueID];
 						},
+						badInput: function(){
+							return false;
+						},
 						tooLong: function() {
 							elem.value &amp;&amp; elem.value.length &gt; elem.maxLength;
 						},
