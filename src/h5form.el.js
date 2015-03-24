@@ -480,7 +480,12 @@
 
 					if (!e.defaultPrevented && e.which === 1 && target && form && /^submit$/i.test(target.type) && !(target.formNoValidate || form.noValidate)) {
 						if (form.checkValidity()) {
-							form.submit();
+							if (jQuery) {
+								// 直接调用form.submit()会导致别处e.preventDefault()无效
+								jQuery(form).submit();
+							} else {
+								form.submit();
+							}
 						} else {
 							e.preventDefault();
 							forEach(form.elements, function(node) {
