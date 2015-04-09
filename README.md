@@ -16,6 +16,38 @@ HTML5 form Field polyfill
 
 `h5form.js`会自动管理依赖的js，IE9+会自动加载`h5form.el.js`，IE6-8下自动加载`h5form.htc`，IE6+、Safari下将会加载`placeholder.js`
 
+## DEMO
+
+```Javascript
+jQuery(function($){
+	// 延迟0毫秒，以便等待IE下的HTML5表单验证shim加载、此案例下不需这么做
+	setTimeout(function(){
+
+		$("form").submit(function(e){
+			// 数据提交
+			e.preventDefault();
+			$.ajax(......)
+		}).on("click", ":submit", function(e){
+			// 按“提交”按钮时检查表单
+			if(!e.target.form.checkValidity()){
+				// 表单发生错误时，阻止click事件默认行为
+				e.preventDefault();
+			}
+		}).on("invalid", function(e){
+			// 表单在发生错误汇报事件时，在表单元素添加错误态样式
+			$(e.target).addClass("ui-error");
+		}).on("input", function(e){
+			// 用户在表单中输入字符时，检查表单正确性
+			if(e.target.validity.valid){
+				// 若表单内容已然正确，去掉错误态样式
+				$(e.target).addClass("ui-error");
+			}
+		});
+
+	}, 0)
+});
+```
+
 ## 特性 ##
 
 **支持的浏览器**
