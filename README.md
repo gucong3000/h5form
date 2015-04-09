@@ -26,7 +26,7 @@ jQuery(function($){
 		$("form").submit(function(e){
 			// 数据提交
 			e.preventDefault();
-			$.ajax(......)
+			// $.ajax(......);
 		}).on("click", ":submit", function(e){
 			// 按“提交”按钮时检查表单
 			if(!e.target.form.checkValidity()){
@@ -44,7 +44,7 @@ jQuery(function($){
 			}
 		});
 
-	}, 0)
+	}, 0);
 });
 ```
 
