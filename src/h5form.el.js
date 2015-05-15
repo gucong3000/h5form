@@ -242,25 +242,27 @@
 		if (!support) {
 			Element = getPrototype(Element);
 			forEach(prop, function(aName) {
-				defineProperty(Element, aName, prop[aName] ? {
-					get: function() {
-						return this.getAttribute(aName, 2) || "";
-					},
-					set: function(val) {
-						this.setAttribute(aName, val);
-					}
-				} : {
-					get: function() {
-						return !!(this.attributes[aName]);
-					},
-					set: function(val) {
-						if (val) {
-							this.setAttribute(aName, aName);
-						} else {
-							this.removeAttribute(aName);
+				if (!(aName in Element)) {
+					defineProperty(Element, aName, prop[aName] ? {
+						get: function() {
+							return this.getAttribute(aName, 2) || "";
+						},
+						set: function(val) {
+							this.setAttribute(aName, val);
 						}
-					}
-				});
+					} : {
+						get: function() {
+							return !!(this.attributes[aName]);
+						},
+						set: function(val) {
+							if (val) {
+								this.setAttribute(aName, aName);
+							} else {
+								this.removeAttribute(aName);
+							}
+						}
+					});
+				}
 			});
 		}
 		return Element;
