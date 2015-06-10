@@ -32,7 +32,7 @@
     "grunt-contrib-uglify": "^0.7.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-contrib-yuidoc": "^0.5.2",
-    "phantomjs": "^1.9.12",
+    "phantomjs": "^1.9.17",
     "qunitjs": "^1.18.0",
     "uglify-js": "^2.4.23",
     "yuidocjs": "^0.3.50"
