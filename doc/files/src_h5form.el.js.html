@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.2.4</em>
+            <em>API Docs for: 0.2.5</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -261,7 +261,7 @@
 (function(window, document) {
 	&quot;use strict&quot;;
 
-	var strDOMContentLoaded = &quot;DOMContentLoaded&quot;,
+	var	strDOMContentLoaded = &quot;DOMContentLoaded&quot;,
 		strInput = &quot;input&quot;,
 		strPrototype = &quot;prototype&quot;,
 		HTMLFormElementPrototype = getPrototype(HTMLFormElement),
@@ -367,7 +367,7 @@
 	}
 
 	function stepMismatchMsg(elem) {
-		var val = num(elem.value),
+		var	val = num(elem.value),
 			step = num(elem.step),
 			deff = (val - num(elem.min) || (num(elem.max) - val)) % step,
 			min = val - deff,
@@ -518,7 +518,7 @@
 				jQuery(node).bind(type + &quot;.h5form&quot;, listener);
 			} else {
 				node.attachEvent(&quot;on&quot; + type, function() {
-					var e = {},
+					var	e = {},
 						src = event;
 					e.target = src.srcElement;
 					e.defaultPrevented = src.returnValue === false;
@@ -576,7 +576,7 @@
 			if (support) {
 				//重新定义表单提交行为避免IE原生表单验证bug导致该提交时不提交，或不该提交时提交了
 				addEventListener(window, &quot;click&quot;, function(e) {
-					var target = e.target,
+					var	target = e.target,
 						form = target.form;
 
 					if (!e.defaultPrevented &amp;&amp; e.which === 1 &amp;&amp; target &amp;&amp; form &amp;&amp; /^submit$/i.test(target.type) &amp;&amp; !(target.formNoValidate || form.noValidate)) {
@@ -662,7 +662,7 @@
 		checkValidity: function() {
 			var form = this;
 			return function() {
-				var valid = true,
+				var	valid = true,
 					nodes = form.elements,
 					node,
 					i;
