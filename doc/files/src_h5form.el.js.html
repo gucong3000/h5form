@@ -261,7 +261,7 @@
 (function(window, document) {
 	&quot;use strict&quot;;
 
-	var	strDOMContentLoaded = &quot;DOMContentLoaded&quot;,
+	var strDOMContentLoaded = &quot;DOMContentLoaded&quot;,
 		strInput = &quot;input&quot;,
 		strPrototype = &quot;prototype&quot;,
 		HTMLFormElementPrototype = getPrototype(HTMLFormElement),
@@ -291,9 +291,11 @@
 		document.querySelector(&quot;:invalid&quot;);
 		support = true;
 	} catch (ex) {
+
 	}
 
 	function ValidityObj() {
+
 	}
 
 	ValidityObj[strPrototype] = {
@@ -338,32 +340,34 @@
 		if (!support) {
 			Element = getPrototype(Element);
 			forEach(prop, function(aName) {
-				defineProperty(Element, aName, prop[aName] ? {
-					get: function() {
-						return this.getAttribute(aName, 2) || &quot;&quot;;
-					},
-					set: function(val) {
-						this.setAttribute(aName, val);
-					}
-				} : {
-					get: function() {
-						return !!(this.attributes[aName]);
-					},
-					set: function(val) {
-						if (val) {
-							this.setAttribute(aName, aName);
-						} else {
-							this.removeAttribute(aName);
+				if (!(aName in Element)) {
+					defineProperty(Element, aName, prop[aName] ? {
+						get: function() {
+							return this.getAttribute(aName, 2) || &quot;&quot;;
+						},
+						set: function(val) {
+							this.setAttribute(aName, val);
 						}
-					}
-				});
+					} : {
+						get: function() {
+							return !!(this.attributes[aName]);
+						},
+						set: function(val) {
+							if (val) {
+								this.setAttribute(aName, aName);
+							} else {
+								this.removeAttribute(aName);
+							}
+						}
+					});
+				}
 			});
 		}
 		return Element;
 	}
 
 	function stepMismatchMsg(elem) {
-		var	val = num(elem.value),
+		var val = num(elem.value),
 			step = num(elem.step),
 			deff = (val - num(elem.min) || (num(elem.max) - val)) % step,
 			min = val - deff,
@@ -424,7 +428,7 @@
 						customError: function() {
 							return !!customCache[elem.uniqueID];
 						},
-						badInput: function(){
+						badInput: function() {
 							return false;
 						},
 						tooLong: function() {
@@ -446,7 +450,8 @@
 				return validity;
 			},
 			willValidate: function() {
-				return !this.disabled;
+				var elem = this;
+				return !elem.disabled &amp;&amp; !(/^input$/i.test(elem.nodeName) &amp;&amp; /^hidden$/i.test(elem.type));
 			},
 			validationMessage: function() {
 				var validityObj = this.validity;
@@ -513,7 +518,7 @@
 				jQuery(node).bind(type + &quot;.h5form&quot;, listener);
 			} else {
 				node.attachEvent(&quot;on&quot; + type, function() {
-					var	e = {},
+					var e = {},
 						src = event;
 					e.target = src.srcElement;
 					e.defaultPrevented = src.returnValue === false;
@@ -571,7 +576,7 @@
 			if (support) {
 				//重新定义表单提交行为避免IE原生表单验证bug导致该提交时不提交，或不该提交时提交了
 				addEventListener(window, &quot;click&quot;, function(e) {
-					var	target = e.target,
+					var target = e.target,
 						form = target.form;
 
 					if (!e.defaultPrevented &amp;&amp; e.which === 1 &amp;&amp; target &amp;&amp; form &amp;&amp; /^submit$/i.test(target.type) &amp;&amp; !(target.formNoValidate || form.noValidate)) {
@@ -657,7 +662,7 @@
 		checkValidity: function() {
 			var form = this;
 			return function() {
-				var	valid = true,
+				var valid = true,
 					nodes = form.elements,
 					node,
 					i;
@@ -674,6 +679,7 @@
 
 	fixInputElement(HTMLTextAreaElement);
 	fixInputElement(HTMLSelectElement);
+	fixInputElement(HTMLButtonElement);
 	fixInputElement(HTMLInputElement);
 
 	//让IE9支持autofocus属性、干掉原生的气泡提示、修复某些浏览不会阻止表单提交的问题

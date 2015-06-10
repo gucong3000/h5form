@@ -65,13 +65,13 @@
 		}
 
 		//获取元素的对象属性值，当不存在时，获取标签属性值
-		function getProp(elem, name) {
+		function getBoolProp(elem, name) {
 			return typeof elem[name] === "boolean" ? elem[name] : !!elem.attributes[name];
 		}
 
 		//判断一个元素是submit按钮，且其所属表单未禁止表单验证
 		function isSubmitClick(btn) {
-			return btn && /^submit$/i.test(btn.type) && btn.form && !(getProp(btn, "formNoValidate") || getProp(btn.form, "noValidate"));
+			return btn && /^submit$/i.test(btn.type) && btn.form && !(getBoolProp(btn, "formNoValidate") || getBoolProp(btn.form, "noValidate"));
 		}
 
 		//触发表单对象方法
@@ -133,14 +133,48 @@
 
 			//让jquery支持“:invalid”和“:valid”伪类
 			if (jQuery) {
-				jQuery.extend(jQuery.expr[":"], {
-					invalid: function(elm) {
-						return elm.validity && !elm.validity.valid;
-					},
-					valid: function(elm) {
-						return elm.validity && elm.validity.valid;
+				(function() {
+					// 判断对象是否表单元素,且需要表单验证
+					function isInput(elem) {
+						if (/^(?:input|select|textarea|button)$/i.test(elem.nodeName) && !(elem.validity && elem.willValidate)) {
+							console.log(elem.outerHTML);
+							console.log(elem.validity);
+							console.log(elem.willValidate);
+						}
+
+						return /^(?:input|select|textarea|button)$/i.test(elem.nodeName) && elem.validity && elem.willValidate;
 					}
-				});
+
+					// 判断对象是否表单
+					function isForm(elem) {
+						return /^form$/i.test(elem.nodeName);
+					}
+
+					// 判断表单元素是否值正确
+					function getInputValid(elem) {
+						return elem.validity.valid;
+					}
+
+					// 判断表单的所有表单元素是否值正确
+					function getFormValid(form) {
+						var valid = true;
+						jQuery.each(form.elements, function(i, elem) {
+							if (isInput(elem)) {
+								valid &= getInputValid(elem);
+							}
+						});
+						return valid;
+					}
+
+					jQuery.extend(jQuery.expr[":"], {
+						invalid: function(elem) {
+							return isForm(elem) ? !getFormValid(elem) : (isInput(elem) ? !getInputValid(elem) : false);
+						},
+						valid: function(elem) {
+							return isForm(elem) ? getFormValid(elem) : (isInput(elem) ? getInputValid(elem) : false);
+						}
+					});
+				})();
 			}
 
 			document.attachEvent("onclick", function() {
@@ -180,7 +214,7 @@
 				//IE6\7\8下通过htc方式加载
 				options.htc = (seajs ? (seajs.data.dir + "h5form.htc") : (options.htc || getPath("h5form.htc"))).replace(/^\w+:\/\/[^/]+/, "");
 				if (options.htc) {
-					addStyleRule("form,input,select,textarea", "behavior: url(" + options.htc + ");");
+					addStyleRule("form,input,select,textarea,button", "behavior: url(" + options.htc + ");");
 				}
 
 				// IE 6、7下需要延迟jQuery的Realy事件，以免调用setCustomValidity或其他属性时，h5form.htc还未运行，从而导致报错

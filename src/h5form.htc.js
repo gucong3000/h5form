@@ -21,14 +21,15 @@ var validityGetter = {
 		valueMissing: function() {
 			return elem.willValidate && elem.required && !(/^checkbox$/i.test(elem.type) ? elem.checked : (/^radio$/i.test(elem.type) ? isSiblingChecked(elem) : elem.value));
 		},
-		badInput: function(){
+		badInput: function() {
 			return false;
 		},
 		tooLong: function() {
 			elem.value && elem.value.length > elem.maxLength;
 		}
 	},
-	ValidityState = function(){
+	ValidityState = function() {
+
 	},
 	regexpTypes = {
 		email: /^[a-zA-Z0-9.!#$%&'*+-\/=?\^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
@@ -119,73 +120,60 @@ if (/^form$/i.test(elem.tagName)) {
 	//formNoValidate属性setter方法
 	setFormNoValidate = defineSetter(strFormNoValidate);
 
+
+	//required属性getter方法
+	getRequired = defineGetter(strRequired);
+
+	//required属性setter方法
+	setRequired = defineSetter(strRequired);
+
+	stepMismatchMsg = function() {
+		var val = num(elem.value),
+			step = num(elem.step),
+			deff = (val - num(elem.min) || (num(elem.max) - val)) % step,
+			min = val - deff,
+			max = min + step;
+		return "值应该为 " + min + " 或 " + max;
+	};
+
+	//validationMessage属性getter方法
+	getValidationMessage = function() {
+		return strCustomError || (validityObj.valueMissing ? "请填写此字段。" : (validityObj.patternMismatch ? "请匹配要求的格式。" : (validityObj.typeMismatch ? typeErrors[getType()] : (validityObj.rangeOverflow ? "值必须小于或等于 " + elem.max : (validityObj.rangeUnderflow ? "值必须大于或等于 " + elem.min : (validityObj.stepMismatch ? stepMismatchMsg() : ""))))));
+	};
+
+	//validationMessage属性getter方法
+	getWillValidate = function() {
+		return !elem.disabled && !(/^input$/i.test(elem.nodeName) && /^hidden$/i.test(elem.type));
+	};
+
+	//validity属性getter方法
+	getValidity = function() {
+		for (var name in validityGetter) {
+			validityObj[name] = validityGetter[name]();
+		}
+		valid();
+		return validityObj;
+	};
+
+	elem.setCustomValidity = function(val) {
+		strCustomError = val;
+		validityObj.customError = !!val;
+		valid();
+	};
+
+	elem.checkValidity = function() {
+		getValidity();
+		var valid = validityObj.valid;
+		if (!valid) {
+			trigger("invalid");
+		}
+		return valid;
+	};
+
 	if (!/^button$/i.test(elem.tagName)) {
-
-		//required属性getter方法
-		getRequired = defineGetter(strRequired);
-
-		//required属性setter方法
-		setRequired = defineSetter(strRequired);
-
 		if (!doc.querySelector && /input/i.test(elem.tagName)) {
 			elem.className += " type_" + getType();
 		}
-
-		stepMismatchMsg = function() {
-			var val = num(elem.value),
-				step = num(elem.step),
-				deff = (val - num(elem.min) || (num(elem.max) - val)) % step,
-				min = val - deff,
-				max = min + step;
-			return "值应该为 " + min + " 或 " + max;
-		};
-
-		//validationMessage属性getter方法
-		getValidationMessage = function() {
-			return strCustomError || (validityObj.valueMissing ? "请填写此字段。" : (validityObj.patternMismatch ? "请匹配要求的格式。" : (validityObj.typeMismatch ? typeErrors[getType()] : (validityObj.rangeOverflow ? "值必须小于或等于 " + elem.max : (validityObj.rangeUnderflow ? "值必须大于或等于 " + elem.min : (validityObj.stepMismatch ? stepMismatchMsg() : ""))))));
-		};
-
-		//validationMessage属性getter方法
-		getWillValidate = function() {
-			return !elem.disabled;
-		};
-
-		//validity属性getter方法
-		getValidity = function() {
-			for (var name in validityGetter) {
-				validityObj[name] = validityGetter[name]();
-			}
-			valid();
-			return validityObj;
-		};
-
-		//模拟input事件
-		valueChange = function() {
-			getValidity();
-			if (/^text(area)?|password$/i.test(elem.type)) {
-				setTimeoutFn(function() {
-					if (oldValue !== elem.value) {
-						oldValue = elem.value;
-						trigger("input");
-					}
-				}, 0);
-			}
-		};
-
-		elem.setCustomValidity = function(val) {
-			strCustomError = val;
-			validityObj.customError = !!val;
-			valid();
-		};
-
-		elem.checkValidity = function() {
-			getValidity();
-			var valid = validityObj.valid;
-			if (!valid) {
-				trigger("invalid");
-			}
-			return valid;
-		};
 
 		//未设置placeholder等属性的元素，方位该属性应返回空字符串而非null
 		(function() {
@@ -197,8 +185,20 @@ if (/^form$/i.test(elem.tagName)) {
 			}
 		})();
 
-		setHolder = function() {
-			if (/^text(area)?|password$/i.test(elem.type)) {
+		if (/^text(area)?|password$/i.test(elem.type)) {
+
+			//模拟input事件
+			valueChange = function() {
+				getValidity();
+				setTimeoutFn(function() {
+					if (oldValue !== elem.value) {
+						oldValue = elem.value;
+						trigger("input");
+					}
+				}, 0);
+			};
+
+			setHolder = function() {
 				if (win.placeholder) {
 					placeholder(elem);
 				} else if (seajs) {
@@ -206,20 +206,20 @@ if (/^form$/i.test(elem.tagName)) {
 						placeholder(elem);
 					});
 				}
-			}
-		};
-		setHolder();
-
-		trigger = function(type) {
-			if (win.$) {
-				$(elem).trigger(type);
-			} else if (seajs) {
-				seajs.use(["jquery"], function($) {
-					$(elem).trigger(type);
-				});
-			}
-		};
+			};
+			setHolder();
+		}
 	}
+	trigger = function(type) {
+		if (win.$) {
+			$(elem).trigger(type);
+		} else if (seajs) {
+			seajs.use(["jquery"], function($) {
+				$(elem).trigger(type);
+			});
+		}
+	};
+
 }
 
 documentready = function() {
@@ -235,7 +235,8 @@ documentready = function() {
 								node.focus();
 							}
 							return;
-						} catch(ex){
+						} catch (ex) {
+
 						}
 					}
 				}

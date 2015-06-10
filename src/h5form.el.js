@@ -195,9 +195,11 @@
 		document.querySelector(":invalid");
 		support = true;
 	} catch (ex) {
+
 	}
 
 	function ValidityObj() {
+
 	}
 
 	ValidityObj[strPrototype] = {
@@ -330,7 +332,7 @@
 						customError: function() {
 							return !!customCache[elem.uniqueID];
 						},
-						badInput: function(){
+						badInput: function() {
 							return false;
 						},
 						tooLong: function() {
@@ -352,7 +354,8 @@
 				return validity;
 			},
 			willValidate: function() {
-				return !this.disabled;
+				var elem = this;
+				return !elem.disabled && !(/^input$/i.test(elem.nodeName) && /^hidden$/i.test(elem.type));
 			},
 			validationMessage: function() {
 				var validityObj = this.validity;
@@ -580,6 +583,7 @@
 
 	fixInputElement(HTMLTextAreaElement);
 	fixInputElement(HTMLSelectElement);
+	fixInputElement(HTMLButtonElement);
 	fixInputElement(HTMLInputElement);
 
 	//让IE9支持autofocus属性、干掉原生的气泡提示、修复某些浏览不会阻止表单提交的问题
