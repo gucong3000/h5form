@@ -143,7 +143,7 @@ if (/^form$/i.test(elem.tagName)) {
 
 	//validationMessage属性getter方法
 	getWillValidate = function() {
-		return !elem.disabled && !(/^input$/i.test(elem.nodeName) && /^hidden$/i.test(elem.type));
+		return !(elem.disabled || elem.readonly || (/^input$/i.test(elem.nodeName) && /^hidden$/i.test(elem.type)));
 	};
 
 	//validity属性getter方法

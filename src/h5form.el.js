@@ -279,11 +279,16 @@
 		return "值应该为 " + min + " 或 " + max;
 	}
 
+	function willValidate(elem) {
+		return !(elem.disabled || elem.readOnly || (/^input$/i.test(elem.nodeName) && /^hidden$/i.test(elem.type)));
+	}
+
 	function fixInputElement(Element) {
 		Element = defineAttr(Element, {
 			required: 0,
 			pattern: 1
 		});
+
 		defineGetter(Element, {
 			validity: function() {
 				var elem = this,
@@ -336,7 +341,7 @@
 							return false;
 						},
 						tooLong: function() {
-							elem.value && elem.value.length > elem.maxLength;
+							hasVal() && elem.value.length > elem.maxLength;
 						},
 						valid: function() {
 							var validityObj = elem.validity;
@@ -354,8 +359,7 @@
 				return validity;
 			},
 			willValidate: function() {
-				var elem = this;
-				return !elem.disabled && !(/^input$/i.test(elem.nodeName) && /^hidden$/i.test(elem.type));
+				return willValidate(this);
 			},
 			validationMessage: function() {
 				var validityObj = this.validity;
@@ -485,16 +489,18 @@
 
 					if (!e.defaultPrevented && e.which === 1 && target && form && /^submit$/i.test(target.type) && !(target.formNoValidate || form.noValidate)) {
 						if (form.checkValidity()) {
-							if (jQuery) {
-								// 直接调用form.submit()会导致别处e.preventDefault()无效
-								jQuery(form).submit();
-							} else {
-								form.submit();
+							if (support) {
+								if (jQuery) {
+									// 直接调用form.submit()会导致别处e.preventDefault()无效
+									jQuery(form).submit();
+								} else {
+									form.submit();
+								}
 							}
 						} else {
 							e.preventDefault();
 							forEach(form.elements, function(node) {
-								if (node.validity && !node.validity.valid && node.focus) {
+								if (node.validity && willValidate(node) && !node.validity.valid && node.focus) {
 									node.focus();
 									return false;
 								}
@@ -543,19 +549,22 @@
 		});
 
 		defineAttr(HTMLButtonElement, {
-			formNoValidate: 0
+			formNoValidate: 0,
+			autofocus: 0
 		});
 
 		defineAttr(HTMLInputElement, {
 			formNoValidate: 0,
 			placeholder: 1,
+			autofocus: 0,
 			step: 1,
 			max: 1,
 			min: 1
 		});
 
 		defineAttr(HTMLTextAreaElement, {
-			placeholder: 1
+			placeholder: 1,
+			autofocus: 0
 		});
 
 	}
@@ -572,7 +581,7 @@
 					i;
 				for (i = 0; i < nodes.length; i++) {
 					node = nodes[i];
-					if (node.checkValidity && !node.disabled) {
+					if (node.checkValidity && willValidate(node)) {
 						valid &= node.checkValidity();
 					}
 				}

@@ -375,11 +375,16 @@
 		return &quot;值应该为 &quot; + min + &quot; 或 &quot; + max;
 	}
 
+	function willValidate(elem) {
+		return !(elem.disabled || elem.readOnly || (/^input$/i.test(elem.nodeName) &amp;&amp; /^hidden$/i.test(elem.type)));
+	}
+
 	function fixInputElement(Element) {
 		Element = defineAttr(Element, {
 			required: 0,
 			pattern: 1
 		});
+
 		defineGetter(Element, {
 			validity: function() {
 				var elem = this,
@@ -432,7 +437,7 @@
 							return false;
 						},
 						tooLong: function() {
-							elem.value &amp;&amp; elem.value.length &gt; elem.maxLength;
+							hasVal() &amp;&amp; elem.value.length &gt; elem.maxLength;
 						},
 						valid: function() {
 							var validityObj = elem.validity;
@@ -450,8 +455,7 @@
 				return validity;
 			},
 			willValidate: function() {
-				var elem = this;
-				return !elem.disabled &amp;&amp; !(/^input$/i.test(elem.nodeName) &amp;&amp; /^hidden$/i.test(elem.type));
+				return willValidate(this);
 			},
 			validationMessage: function() {
 				var validityObj = this.validity;
@@ -581,16 +585,18 @@
 
 					if (!e.defaultPrevented &amp;&amp; e.which === 1 &amp;&amp; target &amp;&amp; form &amp;&amp; /^submit$/i.test(target.type) &amp;&amp; !(target.formNoValidate || form.noValidate)) {
 						if (form.checkValidity()) {
-							if (jQuery) {
-								// 直接调用form.submit()会导致别处e.preventDefault()无效
-								jQuery(form).submit();
-							} else {
-								form.submit();
+							if (support) {
+								if (jQuery) {
+									// 直接调用form.submit()会导致别处e.preventDefault()无效
+									jQuery(form).submit();
+								} else {
+									form.submit();
+								}
 							}
 						} else {
 							e.preventDefault();
 							forEach(form.elements, function(node) {
-								if (node.validity &amp;&amp; !node.validity.valid &amp;&amp; node.focus) {
+								if (node.validity &amp;&amp; willValidate(node) &amp;&amp; !node.validity.valid &amp;&amp; node.focus) {
 									node.focus();
 									return false;
 								}
@@ -639,19 +645,22 @@
 		});
 
 		defineAttr(HTMLButtonElement, {
-			formNoValidate: 0
+			formNoValidate: 0,
+			autofocus: 0
 		});
 
 		defineAttr(HTMLInputElement, {
 			formNoValidate: 0,
 			placeholder: 1,
+			autofocus: 0,
 			step: 1,
 			max: 1,
 			min: 1
 		});
 
 		defineAttr(HTMLTextAreaElement, {
-			placeholder: 1
+			placeholder: 1,
+			autofocus: 0
 		});
 
 	}
@@ -668,7 +677,7 @@
 					i;
 				for (i = 0; i &lt; nodes.length; i++) {
 					node = nodes[i];
-					if (node.checkValidity &amp;&amp; !node.disabled) {
+					if (node.checkValidity &amp;&amp; willValidate(node)) {
 						valid &amp;= node.checkValidity();
 					}
 				}
