@@ -427,13 +427,20 @@
 			} else {
 				node.attachEvent("on" + type, function() {
 					var	e = {},
-						src = event;
+						src = window.event,
+						button = src.button;
+
+					forEach(src, function(propName) {
+						e[propName] = src[propName];
+					});
+
 					e.target = src.srcElement;
 					e.defaultPrevented = src.returnValue === false;
 					e.preventDefault = function() {
 						e.defaultPrevented = true;
 						src.returnValue = false;
 					};
+					e.which = src.charCode || src.keyCode || (button & 1 ? 1 : (button & 2 ? 3 : (button & 4 ? 2 : 0)));
 					listener.call(node, e);
 				});
 			}
@@ -479,6 +486,8 @@
 	}
 
 	function documentready() {
+
+		jQuery = jQuery || window.jQuery;
 
 		setTimeout(function() {
 			if (support) {
