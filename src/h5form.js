@@ -212,7 +212,7 @@
 				 * @default 当前js所在目录下的h5form.htc
 				 */
 				//IE6\7\8下通过htc方式加载
-				options.htc = (seajs ? (seajs.data.dir + "h5form.htc") : (options.htc || getPath("h5form.htc"))).replace(/^\w+:\/\/[^/]+/, "");
+				options.htc = (seajs ? (seajs.data.dir + "h5form.htc") : (options.htc || getPath("h5form.htc"))).replace(/^\w+:\/\/[^\/]+/, "");
 				if (options.htc) {
 					addStyleRule("form,input,select,textarea,button", "behavior: url(" + options.htc + ");");
 				}

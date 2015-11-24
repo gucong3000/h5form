@@ -454,7 +454,7 @@
 	//对象值发生变化则触发一次input事件
 	function checkValChange(e) {
 		var target = e ? e.target : document.activeElement;
-		if (isContentEditable(target) || isTextbox(target)) {
+		if (target && (isContentEditable(target) || isTextbox(target))) {
 			setTimeout(function() {
 				if (valueCache[target.uniqueID] !== getText(target)) {
 					triggerEvent(target, strInput, true);
