@@ -11,6 +11,7 @@
 	var form = document.getElementById("fixture") || document.getElementById("qunit-fixture"),
 		formElem = document.getElementById("other"),
 		disabledElem = document.getElementById("disabled"),
+		readonlyElem = document.getElementById("readonly"),
 		email = document.getElementById("email"),
 		url = document.getElementById("url"),
 		postcode = document.getElementById("postcode"),
@@ -113,6 +114,13 @@
 		QUnit.ok(disabledElem.disabled, "Disabled element should return true on disabled property");
 		QUnit.ok(disabledElem.validity.valid, "Disabled element should return true on disabled property even though it's invalid");
 		QUnit.ok(!disabledElem.validity.valueMissing, "Disabled element should be false on it's actual error if it weren't disabled");
+	});
+
+	QUnit.test("readonly element", function() {
+		QUnit.equal(readonlyElem.checkValidity(), true, "readOnly element should be exempt from validation");
+		QUnit.ok(readonlyElem.readOnly, "readOnly element should return true on readonly property");
+		QUnit.ok(readonlyElem.validity.valid, "readOnly element should return true on readonly property even though it's invalid");
+		QUnit.ok(!readonlyElem.validity.valueMissing, "readOnly element should be false on it's actual error if it weren't readonly");
 	});
 
 	QUnit.module("Custom validation");

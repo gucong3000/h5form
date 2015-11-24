@@ -195,9 +195,11 @@
 		document.querySelector(":invalid");
 		support = true;
 	} catch (ex) {
+
 	}
 
 	function ValidityObj() {
+
 	}
 
 	ValidityObj[strPrototype] = {
@@ -242,25 +244,27 @@
 		if (!support) {
 			Element = getPrototype(Element);
 			forEach(prop, function(aName) {
-				defineProperty(Element, aName, prop[aName] ? {
-					get: function() {
-						return this.getAttribute(aName, 2) || "";
-					},
-					set: function(val) {
-						this.setAttribute(aName, val);
-					}
-				} : {
-					get: function() {
-						return !!(this.attributes[aName]);
-					},
-					set: function(val) {
-						if (val) {
-							this.setAttribute(aName, aName);
-						} else {
-							this.removeAttribute(aName);
+				if (!(aName in Element)) {
+					defineProperty(Element, aName, prop[aName] ? {
+						get: function() {
+							return this.getAttribute(aName, 2) || "";
+						},
+						set: function(val) {
+							this.setAttribute(aName, val);
 						}
-					}
-				});
+					} : {
+						get: function() {
+							return !!(this.attributes[aName]);
+						},
+						set: function(val) {
+							if (val) {
+								this.setAttribute(aName, aName);
+							} else {
+								this.removeAttribute(aName);
+							}
+						}
+					});
+				}
 			});
 		}
 		return Element;
@@ -275,11 +279,16 @@
 		return "值应该为 " + min + " 或 " + max;
 	}
 
+	function willValidate(elem) {
+		return !(elem.disabled || elem.readOnly || (/^input$/i.test(elem.nodeName) && /^hidden$/i.test(elem.type)));
+	}
+
 	function fixInputElement(Element) {
 		Element = defineAttr(Element, {
 			required: 0,
 			pattern: 1
 		});
+
 		defineGetter(Element, {
 			validity: function() {
 				var elem = this,
@@ -328,11 +337,11 @@
 						customError: function() {
 							return !!customCache[elem.uniqueID];
 						},
-						badInput: function(){
+						badInput: function() {
 							return false;
 						},
 						tooLong: function() {
-							elem.value && elem.value.length > elem.maxLength;
+							hasVal() && elem.value.length > elem.maxLength;
 						},
 						valid: function() {
 							var validityObj = elem.validity;
@@ -350,7 +359,7 @@
 				return validity;
 			},
 			willValidate: function() {
-				return !this.disabled;
+				return willValidate(this);
 			},
 			validationMessage: function() {
 				var validityObj = this.validity;
@@ -418,13 +427,20 @@
 			} else {
 				node.attachEvent("on" + type, function() {
 					var	e = {},
-						src = event;
+						src = window.event,
+						button = src.button;
+
+					forEach(src, function(propName) {
+						e[propName] = src[propName];
+					});
+
 					e.target = src.srcElement;
 					e.defaultPrevented = src.returnValue === false;
 					e.preventDefault = function() {
 						e.defaultPrevented = true;
 						src.returnValue = false;
 					};
+					e.which = src.charCode || src.keyCode || (button & 1 ? 1 : (button & 2 ? 3 : (button & 4 ? 2 : 0)));
 					listener.call(node, e);
 				});
 			}
@@ -445,7 +461,7 @@
 	//对象值发生变化则触发一次input事件
 	function checkValChange(e) {
 		var target = e ? e.target : document.activeElement;
-		if (isContentEditable(target) || isTextbox(target)) {
+		if (target && (isContentEditable(target) || isTextbox(target))) {
 			setTimeout(function() {
 				if (valueCache[target.uniqueID] !== getText(target)) {
 					triggerEvent(target, strInput, true);
@@ -471,6 +487,8 @@
 
 	function documentready() {
 
+		jQuery = jQuery || window.jQuery;
+
 		setTimeout(function() {
 			if (support) {
 				//重新定义表单提交行为避免IE原生表单验证bug导致该提交时不提交，或不该提交时提交了
@@ -480,16 +498,18 @@
 
 					if (!e.defaultPrevented && e.which === 1 && target && form && /^submit$/i.test(target.type) && !(target.formNoValidate || form.noValidate)) {
 						if (form.checkValidity()) {
-							if (jQuery) {
-								// 直接调用form.submit()会导致别处e.preventDefault()无效
-								jQuery(form).submit();
-							} else {
-								form.submit();
+							if (support) {
+								if (jQuery) {
+									// 直接调用form.submit()会导致别处e.preventDefault()无效
+									jQuery(form).submit();
+								} else {
+									form.submit();
+								}
 							}
 						} else {
 							e.preventDefault();
 							forEach(form.elements, function(node) {
-								if (node.validity && !node.validity.valid && node.focus) {
+								if (node.validity && willValidate(node) && !node.validity.valid && node.focus) {
 									node.focus();
 									return false;
 								}
@@ -538,19 +558,22 @@
 		});
 
 		defineAttr(HTMLButtonElement, {
-			formNoValidate: 0
+			formNoValidate: 0,
+			autofocus: 0
 		});
 
 		defineAttr(HTMLInputElement, {
 			formNoValidate: 0,
 			placeholder: 1,
+			autofocus: 0,
 			step: 1,
 			max: 1,
 			min: 1
 		});
 
 		defineAttr(HTMLTextAreaElement, {
-			placeholder: 1
+			placeholder: 1,
+			autofocus: 0
 		});
 
 	}
@@ -567,7 +590,7 @@
 					i;
 				for (i = 0; i < nodes.length; i++) {
 					node = nodes[i];
-					if (node.checkValidity && !node.disabled) {
+					if (node.checkValidity && willValidate(node)) {
 						valid &= node.checkValidity();
 					}
 				}
@@ -578,6 +601,7 @@
 
 	fixInputElement(HTMLTextAreaElement);
 	fixInputElement(HTMLSelectElement);
+	fixInputElement(HTMLButtonElement);
 	fixInputElement(HTMLInputElement);
 
 	//让IE9支持autofocus属性、干掉原生的气泡提示、修复某些浏览不会阻止表单提交的问题

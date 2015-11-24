@@ -2,7 +2,7 @@
     "project": {
         "name": "h5form",
         "description": "JavaScript library for browser info",
-        "version": "0.2.4",
+        "version": "0.2.6",
         "url": "http://gucong3000.github.io/h5form/"
     },
     "files": {
@@ -96,6 +96,7 @@
             "static": 1
         }
     },
+    "elements": {},
     "classitems": [
         {
             "file": "src\\h5form.el.js",
@@ -352,7 +353,7 @@
         },
         {
             "file": "src\\h5form.js",
-            "line": 175,
+            "line": 209,
             "itemtype": "property",
             "name": "htc",
             "type": "String",
@@ -362,7 +363,7 @@
         },
         {
             "file": "src\\h5form.js",
-            "line": 199,
+            "line": 233,
             "itemtype": "property",
             "name": "js",
             "type": "String",

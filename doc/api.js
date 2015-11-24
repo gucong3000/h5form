@@ -8,6 +8,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "h5form"
     ],
     "modules": [],
-    "allModules": []
+    "allModules": [],
+    "elements": []
 } };
 });

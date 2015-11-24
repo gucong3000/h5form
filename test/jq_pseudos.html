@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>H5F Test Suite</title>
+<!-- Load local QUnit (grunt requires v1.0.0 or newer). -->
+<link rel="stylesheet" href="qunit.css" media="screen">
+<script src="jquery.js"></script>
+<script src="../build/h5form.js"></script>
+</head>
+<body>
+	<h1 id="qunit-header">H5F Test Suite</h1>
+	<h2 id="qunit-banner"></h2>
+	<div id="qunit-testrunner-toolbar"></div>
+	<h2 id="qunit-userAgent"></h2>
+	<ol id="qunit-tests"></ol>
+	<form id="fixture">
+		<div class="progress-title"></div>
+		<div class="clearfix">
+			<div class="pro-box box-adv">
+				<div class="inp-box inp-box-budget">
+					<label for="">人均预算：</label>
+					<input id="form-budget" type="text">
+					$
+				</div>
+				<div class="inp-box">
+					<label for="">出发地：</label>
+					<input id="" type="text">
+				</div>
+				<div class="inp-box">
+					<label for="">其他需求</label>
+					<br>
+					<textarea name="" id="form-other"></textarea>
+				</div>
+			</div>
+			<div class="pro-box box-basic">
+				<div class="inp-box">
+					<label for="form-destination">目的地</label>
+					<input id="form-destination" type="text" required="">
+				</div>
+				<div class="inp-box" title="请勾选三星级至五星级">
+					<label for="">酒店等级</label>
+					<div class="form-rate-box" style="cursor: pointer;">
+
+					<img alt="1" src="/img/cus_group/star_on.png" title="一星级">&nbsp;<img alt="2" src="/img/cus_group/star_on.png" title="二星级">&nbsp;<img alt="3" src="/img/cus_group/star_on.png" title="三星级">&nbsp;<img alt="4" src="/img/cus_group/star_off.png" title="四星级">&nbsp;<img alt="5" src="/img/cus_group/star_off.png" title="五星级"><input name="form-rate" id="form-rate" type="hidden" value="3"></div>
+				</div>
+				<div class="inp-box inp-box-start">
+					<label for="">出发时间</label>
+					<input id="form-start-date" type="text" required="">
+				</div>
+				<div class="inp-box">
+					<label for="">出行天数</label>
+					<span class="select_ui"><span class="select_text_ui" style="min-width: 1.5em;">10</span><b class="select_arrow"></b><select class="selectui select-b" name="" id="form-days" required="">
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+						<option value="7">7</option>
+						<option value="8">8</option>
+						<option value="9">9</option>
+						<option selected="" value="10">10</option>
+					</select></span>
+				</div>
+				<div class="inp-wrap">
+					<div class="inp-box inp-first">
+						<label for="">成人</label>
+						<span class="select_ui"><span class="select_text_ui" style="min-width: 1em;">1</span><b class="select_arrow"></b><select class="selectui select-b" name="" id="form-adult" required="">
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+						</select></span>
+					</div>
+					<div class="inp-box">
+						<label for="">儿童</label>
+						<span class="select_ui"><span class="select_text_ui" style="min-width: 1em;">0</span><b class="select_arrow"></b><select class="selectui select-b" name="" id="form-kid" required="">
+							<option value="0">0</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+						</select></span>
+					</div>
+				</div>
+				<p>
+					<a class="more-demand" href="javascript:;">
+						更多需求
+						<span class="right">&gt;&gt;</span>
+						<span class="left">&lt;&lt;</span>
+					</a>
+				</p>
+			</div>
+		</div>
+		<div class="t-a-c">
+			<button id="btn-sub-do-order" type="submit" class="mu-btn mu-btn-brown">立即定制</button>
+		</div>
+		<div class="t-a-c text-mail">
+			服务邮箱：group@toursforfun.com
+		</div>
+	</form>
+	<script src="qunit.js"></script>
+	<script src="jq_pseudos_test.js"></script>
+</body>
+</html>

@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
 <head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta charset="utf-8">
 <title>H5F Test Suite</title>
 <!-- Load local QUnit (grunt requires v1.0.0 or newer). -->
@@ -40,7 +41,6 @@ form li {
 	margin: 5px auto;
 }
 </style>
-	
 </head>
 <body>
 	<h1 id="qunit-header">H5F Test Suite</h1>
@@ -92,6 +92,10 @@ form li {
 				<li>
 					<label for="disabled">Other</label> 
 					<input type="text" id="disabled" name="disabled" required disabled placeholder="Other information">
+				</li>
+				<li>
+					<label for="readonly">Other</label> 
+					<input type="text" id="readonly" name="readonly" required readonly placeholder="Other information">
 				</li>
 				<li>
 					<label for="gen">Generic</label> 
