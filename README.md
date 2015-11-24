@@ -1,4 +1,4 @@
-h5form v0.2.4
+h5form v0.2.6
 ======
 
 HTML5 form Field polyfill
