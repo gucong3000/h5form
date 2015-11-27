@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="h5form" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.2.6</em>
+            <em>API Docs for: 0.2.7</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -220,14 +220,9 @@
 			//让jquery支持“:invalid”和“:valid”伪类
 			if (jQuery) {
 				(function() {
+
 					// 判断对象是否表单元素,且需要表单验证
 					function isInput(elem) {
-						if (/^(?:input|select|textarea|button)$/i.test(elem.nodeName) &amp;&amp; !(elem.validity &amp;&amp; elem.willValidate)) {
-							console.log(elem.outerHTML);
-							console.log(elem.validity);
-							console.log(elem.willValidate);
-						}
-
 						return /^(?:input|select|textarea|button)$/i.test(elem.nodeName) &amp;&amp; elem.validity &amp;&amp; elem.willValidate;
 					}
 

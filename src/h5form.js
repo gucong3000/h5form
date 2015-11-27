@@ -134,14 +134,9 @@
 			//让jquery支持“:invalid”和“:valid”伪类
 			if (jQuery) {
 				(function() {
+
 					// 判断对象是否表单元素,且需要表单验证
 					function isInput(elem) {
-						if (/^(?:input|select|textarea|button)$/i.test(elem.nodeName) && !(elem.validity && elem.willValidate)) {
-							console.log(elem.outerHTML);
-							console.log(elem.validity);
-							console.log(elem.willValidate);
-						}
-
 						return /^(?:input|select|textarea|button)$/i.test(elem.nodeName) && elem.validity && elem.willValidate;
 					}
 
