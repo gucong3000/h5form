@@ -1,6 +1,8 @@
 h5form v0.2.4
 ======
 
+[![Build Status](https://travis-ci.org/gucong3000/h5form.svg?branch=master)](https://travis-ci.org/gucong3000/h5form)
+
 HTML5 form Field polyfill
 
 ----------
