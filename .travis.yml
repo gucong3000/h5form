@@ -1,5 +1,5 @@
 language: node_js
 node_js: "stable"
 before_script:
-  - npm i
+  - npm i&&npm build
 script: npm t
