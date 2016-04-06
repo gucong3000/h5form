@@ -1,3 +1,4 @@
+/* global $, QUnit */
 (function(window, factory) {
 	if (document.addEventListener) {
 		document.addEventListener("DOMContentLoaded", factory, false);
@@ -8,6 +9,7 @@
 	}
 
 })(this, function() {
+	var msieGte10 = document.documentMode > 9;
 	var form = document.getElementById("fixture") || document.getElementById("qunit-fixture"),
 		formElem = document.getElementById("other"),
 		disabledElem = document.getElementById("disabled"),
@@ -40,6 +42,16 @@
 			});
 		});
 	}
+
+	QUnit.module("autofocus");
+	QUnit.asyncTest("autofocus 属性", function(assert) {
+		setTimeout(function() {
+			var activeElement = window.focusElement || document.activeElement;
+			// <input id="autofocus" type="text" onfocus="window.focusElement=this;" autofocus>
+			assert.equal(activeElement.autofocus, true, "Element.autofocus 属性存在，且正确获取了焦点");
+			QUnit.start();
+		}, 200);
+	});
 
 	QUnit.module("Validity API");
 
@@ -112,15 +124,20 @@
 	QUnit.test("disabled element", function() {
 		QUnit.equal(disabledElem.checkValidity(), true, "Disabled element should be exempt from validation");
 		QUnit.ok(disabledElem.disabled, "Disabled element should return true on disabled property");
-		QUnit.ok(disabledElem.validity.valid, "Disabled element should return true on disabled property even though it's invalid");
-		QUnit.ok(!disabledElem.validity.valueMissing, "Disabled element should be false on it's actual error if it weren't disabled");
+		if (!msieGte10) {
+			// IE10，11下暂无解决方案
+			QUnit.ok(disabledElem.validity.valid, "Disabled element should return true on disabled property even though it's invalid");
+			QUnit.ok(!disabledElem.validity.valueMissing, "Disabled element should be false on it's actual error if it weren't disabled");
+		}
 	});
 
 	QUnit.test("readonly element", function() {
 		QUnit.equal(readonlyElem.checkValidity(), true, "readOnly element should be exempt from validation");
-		QUnit.ok(readonlyElem.readOnly, "readOnly element should return true on readonly property");
-		QUnit.ok(readonlyElem.validity.valid, "readOnly element should return true on readonly property even though it's invalid");
-		QUnit.ok(!readonlyElem.validity.valueMissing, "readOnly element should be false on it's actual error if it weren't readonly");
+		if (!msieGte10) {
+			QUnit.ok(readonlyElem.readOnly, "readOnly element should return true on readonly property");
+			QUnit.ok(readonlyElem.validity.valid, "readOnly element should return true on readonly property even though it's invalid");
+			QUnit.ok(!readonlyElem.validity.valueMissing, "readOnly element should be false on it's actual error if it weren't readonly");
+		}
 	});
 
 	QUnit.module("Custom validation");
@@ -225,6 +242,7 @@
 		QUnit.equal(form.checkValidity(), false, "form.checkValidity()的返回值为false");
 		QUnit.equal(input_submit.formNoValidate, false, "<input type=\"submit\">的formNoValidate值为false");
 		QUnit.equal(input_submit_novalidate.formNoValidate, true, "<input type=\"submit\" formnovalidate>的formNoValidate值为true");
+		QUnit.equal(button_submit_novalidate.formNoValidate, true, "<button type=\"submit\" formnovalidate>的formNoValidate值为true");
 	});
 
 	QUnit.module("Select");

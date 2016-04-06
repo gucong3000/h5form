@@ -55,7 +55,7 @@ form li {
 			<ol>
 				<li>
 					<label for="fullname">Name *</label> 
-					<input type="text" id="fullname" name="fullname" placeholder="Full name" autofocus required>
+					<input type="text" id="fullname" name="fullname" placeholder="Full name" required>
 				</li>
 				<li>
 					<label for="email">Email *</label> 
@@ -134,6 +134,9 @@ form li {
 				</li>
 			</ol>
 		</fieldset>
+	</form>
+	<form>
+		<input id="autofocus" type="text" onfocus="window.focusElement=this;" autofocus>
 	</form>
 	<script src="qunit.js"></script>
 	<script src="h5form_test.js"></script>

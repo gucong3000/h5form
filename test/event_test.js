@@ -1,3 +1,4 @@
+/* global $, QUnit */
 (function(window, factory) {
 	if (window.$) {
 		$(factory);
@@ -15,7 +16,7 @@
 		QUnit.expect(3);
 		var msg;
 
-		$("form").submit(function(event) {
+		$("form").submit(function() {
 			QUnit.ok(true, msg + "按钮应该提交表单");
 			return false;
 		});
@@ -36,7 +37,7 @@
 
 		var submited;
 
-		$("form").submit(function(event) {
+		$("form").submit(function() {
 			submited = true;
 			return false;
 		});
@@ -52,7 +53,7 @@
 
 	QUnit.test("invalid事件", function() {
 		var invalidCont = 0;
-		$("input").on("invalid", function(e) {
+		$("input").on("invalid", function() {
 			invalidCont++;
 		});
 		$("form")[0].checkValidity();
@@ -60,8 +61,8 @@
 	});
 
 	QUnit.test("input", function() {
-		invalidCont = 0;
-		$("input").on("invalid", function(e) {
+		var invalidCont = 0;
+		$("input").on("invalid", function() {
 			invalidCont++;
 		});
 		$("form")[0].checkValidity();

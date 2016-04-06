@@ -183,7 +183,7 @@
 		} catch (ex) {}
 		// window.h5form = options;
 
-		path = path.getAttribute(&quot;src&quot;, 2) || &quot;&quot;;
+		path = path.src || &quot;&quot;;
 
 		try {
 			addEventListener(&quot;invalid&quot;, function(e) {
@@ -319,7 +319,7 @@
 				if (seajs) {
 					// seajs方式加载h5form.el.js
 					seajs.use([&quot;h5form.el&quot;]);
-				} else if (!window.ValidityState || /^\[.*\]$/.test(window.ValidityState)) {
+				} else if (!window.ValidityState) {
 					// 判断未加载过h5form.el.js
 					options.js = options.js || getPath(&quot;h5form.el.js&quot;);
 					if (options.js) {

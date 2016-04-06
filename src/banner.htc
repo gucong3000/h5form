@@ -3,6 +3,7 @@
 <!--可读写自定义属性-->
 <PUBLIC:PROPERTY name="formNoValidate" put="setFormNoValidate" get="getFormNoValidate" />
 <PUBLIC:PROPERTY name="noValidate" put="setNoValidate" get="getNoValidate" />
+<PUBLIC:PROPERTY name="autofocus" put="setAutofocus" get="getAutofocus" />
 <PUBLIC:PROPERTY name="required" put="setRequired" get="getRequired" />
 
 <!--只读自定义属性-->

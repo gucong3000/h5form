@@ -18,6 +18,13 @@
             "fors": {},
             "namespaces": {}
         },
+        "src\\h5form.htc.js": {
+            "name": "src\\h5form.htc.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "src\\h5form.js": {
             "name": "src\\h5form.js",
             "modules": {},
@@ -333,6 +340,58 @@
             "class": "ValidityState"
         },
         {
+            "file": "src\\h5form.htc.js",
+            "line": 234,
+            "description": "检查元素是否设置了autofocus且可以获得焦点(页面上可见)",
+            "params": [
+                {
+                    "name": "elem",
+                    "description": "[description]",
+                    "type": "[type]"
+                }
+            ],
+            "return": {
+                "description": "[description]",
+                "type": "[type]"
+            },
+            "class": "h5form"
+        },
+        {
+            "file": "src\\h5form.htc.js",
+            "line": 297,
+            "description": "检查与el同名的、同属一个form的表单元素是否有任何一个，checked属性为true",
+            "params": [
+                {
+                    "name": "要检查的",
+                    "description": "",
+                    "type": "Element"
+                }
+            ],
+            "return": {
+                "description": "[description]",
+                "type": "Boolean"
+            },
+            "class": "h5form"
+        },
+        {
+            "file": "src\\h5form.htc.js",
+            "line": 312,
+            "description": "加载js模块，使用seasj或者requirejs",
+            "params": [
+                {
+                    "name": "moudul",
+                    "description": "要加载的模块名",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "加载成功的回调函数",
+                    "type": "Function"
+                }
+            ],
+            "class": "h5form"
+        },
+        {
             "file": "src\\h5form.js",
             "line": 44,
             "itemtype": "method",
@@ -372,5 +431,18 @@
             "class": "h5form"
         }
     ],
-    "warnings": []
+    "warnings": [
+        {
+            "message": "Missing item type\n检查元素是否设置了autofocus且可以获得焦点(页面上可见)",
+            "line": " src\\h5form.htc.js:234"
+        },
+        {
+            "message": "Missing item type\n检查与el同名的、同属一个form的表单元素是否有任何一个，checked属性为true",
+            "line": " src\\h5form.htc.js:297"
+        },
+        {
+            "message": "Missing item type\n加载js模块，使用seasj或者requirejs",
+            "line": " src\\h5form.htc.js:312"
+        }
+    ]
 }

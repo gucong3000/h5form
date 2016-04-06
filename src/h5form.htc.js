@@ -1,4 +1,4 @@
-/* global element, placeholder, $ */
+/* global element, placeholder, $, seajs, requirejs */
 /* jshint strict: false, jquery: false */
 
 var validityGetter = {
@@ -45,6 +45,7 @@ var validityGetter = {
 	},
 	strFormNoValidate = "formNoValidate",
 	strNoValidate = "noValidate",
+	strAutofocus = "autofocus",
 	strRequired = "required",
 	win = window,
 	validityObj = new ValidityState(),
@@ -63,6 +64,8 @@ var validityGetter = {
 	getWillValidate,
 	setNoValidate,
 	getNoValidate,
+	setAutofocus,
+	getAutofocus,
 	setRequired,
 	getRequired,
 	getValidity,
@@ -71,7 +74,6 @@ var validityGetter = {
 	setHolder,
 	propertychange,
 	documentready,
-	seajs = win.seajs,
 	trigger;
 
 /*ValidityState对象原型*/
@@ -106,26 +108,33 @@ if (/^form$/i.test(elem.tagName)) {
 		return !!(valid && isDocumentReady);
 	};
 
-	//noValidate属性getter方法
+	// noValidate属性getter方法
 	getNoValidate = defineGetter(strNoValidate);
 
-	//noValidate属性setter方法
+	// noValidate属性setter方法
 	setNoValidate = defineSetter(strNoValidate);
 
 
 } else {
-	//formNoValidate属性getter方法
+	// formNoValidate属性getter方法
 	getFormNoValidate = defineGetter(strFormNoValidate);
 
-	//formNoValidate属性setter方法
+	// formNoValidate属性setter方法
 	setFormNoValidate = defineSetter(strFormNoValidate);
 
 
-	//required属性getter方法
+	// required属性getter方法
 	getRequired = defineGetter(strRequired);
 
-	//required属性setter方法
+	// required属性setter方法
 	setRequired = defineSetter(strRequired);
+
+
+	// autofocus属性getter方法
+	getAutofocus = defineGetter(strAutofocus);
+
+	// autofocus属性setter方法
+	setAutofocus = defineSetter(strAutofocus);
 
 	stepMismatchMsg = function() {
 		var val = num(elem.value),
@@ -136,17 +145,17 @@ if (/^form$/i.test(elem.tagName)) {
 		return "值应该为 " + min + " 或 " + max;
 	};
 
-	//validationMessage属性getter方法
+	// validationMessage属性getter方法
 	getValidationMessage = function() {
 		return strCustomError || (validityObj.valueMissing ? "请填写此字段。" : (validityObj.patternMismatch ? "请匹配要求的格式。" : (validityObj.typeMismatch ? typeErrors[getType()] : (validityObj.rangeOverflow ? "值必须小于或等于 " + elem.max : (validityObj.rangeUnderflow ? "值必须大于或等于 " + elem.min : (validityObj.stepMismatch ? stepMismatchMsg() : ""))))));
 	};
 
-	//validationMessage属性getter方法
+	// validationMessage属性getter方法
 	getWillValidate = function() {
-		return !(elem.disabled || elem.readonly || (/^input$/i.test(elem.nodeName) && /^hidden$/i.test(elem.type)));
+		return !(elem.disabled || elem.readOnly || (/^input$/i.test(elem.nodeName) && /^hidden$/i.test(elem.type)));
 	};
 
-	//validity属性getter方法
+	// validity属性getter方法
 	getValidity = function() {
 		for (var name in validityGetter) {
 			validityObj[name] = validityGetter[name]();
@@ -175,7 +184,7 @@ if (/^form$/i.test(elem.tagName)) {
 			elem.className += " type_" + getType();
 		}
 
-		//未设置placeholder等属性的元素，方位该属性应返回空字符串而非null
+		// 未设置placeholder等属性的元素，访问该属性应返回空字符串而非null
 		(function() {
 			var propNames = ["placeholder", "pattern", "step", "max", "min"];
 			for (var i = 0; i < propNames.length; i++) {
@@ -187,7 +196,7 @@ if (/^form$/i.test(elem.tagName)) {
 
 		if (/^text(area)?|password$/i.test(elem.type)) {
 
-			//模拟input事件
+			// 模拟input事件
 			valueChange = function() {
 				getValidity();
 				setTimeoutFn(function() {
@@ -201,8 +210,8 @@ if (/^form$/i.test(elem.tagName)) {
 			setHolder = function() {
 				if (win.placeholder) {
 					placeholder(elem);
-				} else if (seajs) {
-					seajs.use(["placeholder"], function(placeholder) {
+				} else {
+					loadJsMoudle("placeholder", function(placeholder) {
 						placeholder(elem);
 					});
 				}
@@ -213,8 +222,8 @@ if (/^form$/i.test(elem.tagName)) {
 	trigger = function(type) {
 		if (win.$) {
 			$(elem).trigger(type);
-		} else if (seajs) {
-			seajs.use(["jquery"], function($) {
+		} else {
+			loadJsMoudle("jquery", function($) {
 				$(elem).trigger(type);
 			});
 		}
@@ -222,27 +231,36 @@ if (/^form$/i.test(elem.tagName)) {
 
 }
 
+/**
+ * 检查元素是否设置了autofocus且可以获得焦点(页面上可见)
+ * @param  {[type]} elem [description]
+ * @return {[type]}      [description]
+ */
+function canFocus(elem) {
+	return elem.focus && elem.attributes.autofocus && elem.offsetHeight && elem.offsetWidth;
+}
+
 documentready = function() {
 	isDocumentReady = true;
-	if (elem.focus && elem.attributes.autofocus) {
-		try {
-			for (var forms = doc.forms, node, i = 0, j; i < forms.length; i++) {
-				for (j = 0, node; j < forms[i].elements.length; j++) {
-					node = forms[i].elements[j];
-					if (node.focus && node.attributes.autofocus) {
+	if (canFocus(elem)) {
+		// 倒序遍历页面上所有表单的表单元素，找到最后一个可获取焦点的元素
+		for (var forms = doc.forms, i = forms.length - 1; i >= 0; i--) {
+			for (var nodes = forms[i].elements, j = nodes.length - 1; j >= 0; j--) {
+				var node = nodes[j];
+				// 找到了可获取焦点的元素
+				if (canFocus(node)) {
+					// 如果最后一个可获取焦点的元素就是当前的元素，则让其获取焦点
+					if (node === elem) {
 						try {
-							if (node === elem) {
-								node.focus();
-							}
-							return;
+							node.focus();
 						} catch (ex) {
 
 						}
 					}
+					// 退出循环，以便只操作最后一个符合的表单元素
+					return;
 				}
 			}
-		} catch (ex) {
-			elem.focus();
 		}
 	}
 };
@@ -262,7 +280,6 @@ propertychange = function() {
 
 function defineGetter(name) {
 	return function() {
-		//		return new RegExp("\\b" + name + "\\b", "i").test(elem.outerHTML);
 		return !!(attrData[name]);
 	};
 }
@@ -277,13 +294,31 @@ function valid() {
 	validityObj.valid = !(validityObj.tooLong || validityObj.customError || validityObj.valueMissing || validityObj.patternMismatch || validityObj.typeMismatch || validityObj.rangeOverflow || validityObj.rangeUnderflow || validityObj.stepMismatch);
 }
 
+/**
+ * 检查与el同名的、同属一个form的表单元素是否有任何一个，checked属性为true
+ * @param  {Element}  要检查的
+ * @return {Boolean}    [description]
+ */
 function isSiblingChecked(el) {
 	var siblings = el.form[el.name || el.id],
 		i;
-	for (i; i < siblings.length; i++) {
+	for (i = 0; i < siblings.length; i++) {
 		if (siblings[i].checked) {
 			return true;
 		}
+	}
+}
+
+/**
+ * 加载js模块，使用seasj或者requirejs
+ * @param  {String}   moudul   要加载的模块名
+ * @param  {Function} callback 加载成功的回调函数
+ */
+function loadJsMoudle(moudul, callback) {
+	if (win.seajs) {
+		seajs.use([moudul], callback);
+	} else if (win.requirejs) {
+		requirejs([moudul], callback);
 	}
 }
 

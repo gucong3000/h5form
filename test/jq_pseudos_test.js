@@ -1,3 +1,4 @@
+/* global $, QUnit */
 (function(window, factory) {
 	if (window.$) {
 		$(factory);

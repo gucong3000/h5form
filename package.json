@@ -29,7 +29,7 @@
   },
   "scripts": {
     "preinstall": "npm i -g grunt-cli",
-    "build": "npm install && grunt",
+    "build": "npm i && grunt",
     "start": "grunt watch",
     "test": "grunt"
   },

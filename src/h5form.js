@@ -97,7 +97,7 @@
 		} catch (ex) {}
 		// window.h5form = options;
 
-		path = path.getAttribute("src", 2) || "";
+		path = path.src || "";
 
 		try {
 			addEventListener("invalid", function(e) {
@@ -233,7 +233,7 @@
 				if (seajs) {
 					// seajs方式加载h5form.el.js
 					seajs.use(["h5form.el"]);
-				} else if (!window.ValidityState || /^\[.*\]$/.test(window.ValidityState)) {
+				} else if (!window.ValidityState) {
 					// 判断未加载过h5form.el.js
 					options.js = options.js || getPath("h5form.el.js");
 					if (options.js) {

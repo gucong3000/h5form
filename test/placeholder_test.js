@@ -1,3 +1,4 @@
+/* global $, QUnit */
 (function(window, factory) {
 	if (window.$) {
 		$(factory);
@@ -14,10 +15,10 @@
 			function each(callback) {
 				for (var i = 0; i < form.elements.length; i++) {
 					var node = form.elements[i];
-					if (/^text(area)?|password|email|search|tel|url$/i.test(node.type)) {
+					if (/^text(?:area)?|password|email|search|tel|url$/i.test(node.type)) {
 						callback(node, i);
 					}
-				};
+				}
 			}
 
 
@@ -35,7 +36,7 @@
 
 			QUnit.test("检查placeholder的数量是否正确", function() {
 				each(function(node, i) {
-					var phNum = $(node).closest("li").find("placeholder").length
+					var phNum = $(node).closest("li").find("placeholder").length;
 					QUnit.equal(phNum, node.placeholder ? 1 : 0, "检查第" + i + "个元素placeholder数量:\t" + phNum);
 				});
 			});
@@ -47,7 +48,7 @@
 						var pholder = textbox.siblings("placeholder");
 						var offsetTextbox = textbox.offset();
 						var offsetPholder = pholder.offset();
-						var pixX, pixY;
+						var pixY;
 
 						// var pix = node.offsetLeft - holder.offsetLeft;
 
