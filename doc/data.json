@@ -2,7 +2,7 @@
     "project": {
         "name": "h5form",
         "description": "JavaScript library for browser info",
-        "version": "0.2.7",
+        "version": "0.2.8",
         "url": "http://gucong3000.github.io/h5form/"
     },
     "files": {
@@ -393,7 +393,7 @@
         },
         {
             "file": "src\\h5form.js",
-            "line": 44,
+            "line": 46,
             "itemtype": "method",
             "name": "addStyleRule",
             "params": [
@@ -412,7 +412,7 @@
         },
         {
             "file": "src\\h5form.js",
-            "line": 204,
+            "line": 206,
             "itemtype": "property",
             "name": "htc",
             "type": "String",
@@ -422,7 +422,7 @@
         },
         {
             "file": "src\\h5form.js",
-            "line": 228,
+            "line": 230,
             "itemtype": "property",
             "name": "js",
             "type": "String",

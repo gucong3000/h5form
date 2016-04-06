@@ -5,12 +5,14 @@
  * @static
  */
 
-/* global jQuery, seajs */
+/* global jQuery, seajs, requirejs */
 
 (function(factory) {
 	"use strict";
 	if (window.jQuery) {
 		factory(jQuery);
+	} else if (window.requirejs) {
+		requirejs(["jquery"], factory);
 	} else if (window.seajs) {
 		seajs.use(["jquery"], factory);
 	} else {
@@ -181,7 +183,7 @@
 					nodes,
 					node,
 					i;
-				if ((!!returnValue || returnValue === undefined) && isSubmitClick(btn)) {
+				if ((!!returnValue || returnValue === undefined) && isSubmitClick(btn) && e.button === 1) {
 					for (i = 0, nodes = form.elements; i < nodes.length; i++) {
 						node = nodes[i];
 						if (node.validity && !node.validity.valid) {
