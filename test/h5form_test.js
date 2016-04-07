@@ -251,6 +251,4 @@
 		select.selectedIndex = 0;
 		QUnit.equal(select.validity.valid, false, "Select is currently invalid");
 	});
-
-
 });
