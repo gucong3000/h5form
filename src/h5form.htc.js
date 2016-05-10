@@ -32,7 +32,7 @@ var validityGetter = {
 
 	},
 	regexpTypes = {
-		email: /^[a-zA-Z0-9.!#$%&'*+-\/=?\^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+		email: /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
 		number: /^[+-]?\d+(\.\d+)?$/,
 		url: /[a-z][\-\.+a-z]*:\/\//i,
 		color: /#[\da-f]{6}/i
