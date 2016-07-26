@@ -165,7 +165,7 @@
 (function(window, document) {
 	"use strict";
 
-	var	strDOMContentLoaded = "DOMContentLoaded",
+	var strDOMContentLoaded = "DOMContentLoaded",
 		strInput = "input",
 		strPrototype = "prototype",
 		HTMLFormElementPrototype = getPrototype(HTMLFormElement),
@@ -198,22 +198,6 @@
 
 	}
 
-	function ValidityObj() {
-
-	}
-
-	ValidityObj[strPrototype] = {
-		patternMismatch: false,
-		rangeUnderflow: false,
-		rangeOverflow: false,
-		stepMismatch: false,
-		typeMismatch: false,
-		valueMissing: false,
-		customError: false,
-		tooLong: false,
-		valid: true
-	};
-
 	//document.createElement缩写
 	function createElement(tag) {
 		return document.createElement(tag);
@@ -221,7 +205,11 @@
 
 	function defineProperty(obj, name, descriptor) {
 		descriptor.enumerable = enumerable;
-		Object.defineProperty(obj, name, descriptor);
+		try {
+			Object.defineProperty(obj, name, descriptor);
+		} catch (ex) {
+
+		}
 	}
 
 	function defineGetter(obj, props) {
@@ -271,7 +259,7 @@
 	}
 
 	function stepMismatchMsg(elem) {
-		var	val = num(elem.value),
+		var val = num(elem.value),
 			step = num(elem.step),
 			deff = (val - num(elem.min) || (num(elem.max) - val)) % step,
 			min = val - deff,
@@ -291,72 +279,8 @@
 
 		defineGetter(Element, {
 			validity: function() {
-				var elem = this,
-					validity = validityCache[elem.uniqueID],
-					validityGetter;
-
-				function willValidate() {
-					return elem.willValidate;
-				}
-
-				function hasVal() {
-					return willValidate() && !!elem.value;
-				}
-
-				function getType() {
-					return getElemType(elem);
-				}
-
-				function isNum() {
-					return hasVal() && /^number|range$/i.test(getType());
-				}
-
-				if (!validity) {
-					validity = new ValidityObj();
-
-					validityGetter = {
-						patternMismatch: function() {
-							return hasVal() && !!elem.pattern && !new RegExp("^(?:" + elem.pattern + ")$").test(elem.value);
-						},
-						rangeUnderflow: function() {
-							return isNum() && num(elem.value) < num(elem.min);
-						},
-						rangeOverflow: function() {
-							return isNum() && num(elem.value) > num(elem.max);
-						},
-						stepMismatch: function() {
-							return isNum() && elem.step && ((num(elem.value) - num(elem.min) || (num(elem.max) - num(elem.value))) % num(elem.step)) !== 0;
-						},
-						typeMismatch: function() {
-							var regexp = regexpTypes[getType()];
-							return hasVal() && regexp && !regexp.test(elem.value);
-						},
-						valueMissing: function() {
-							return willValidate() && elem.required && !(/^checkbox$/i.test(elem.type) ? elem.checked : (/^radio$/i.test(elem.type) ? (elem.form || document).querySelector("[name='" + elem.name + "']:checked") : elem.value));
-						},
-						customError: function() {
-							return !!customCache[elem.uniqueID];
-						},
-						badInput: function() {
-							return false;
-						},
-						tooLong: function() {
-							hasVal() && elem.value.length > elem.maxLength;
-						},
-						valid: function() {
-							var validityObj = elem.validity;
-							return !(validityObj.tooLong || validityObj.customError || validityObj.valueMissing || validityObj.patternMismatch || validityObj.typeMismatch || validityObj.rangeOverflow || validityObj.rangeUnderflow || validityObj.stepMismatch);
-						}
-					};
-					try {
-						defineGetter(validity, validityGetter);
-					} catch (ex) {
-						validity = createElement("ValidityState");
-						defineGetter(validity, validityGetter);
-					}
-					validityCache[elem.uniqueID] = validity;
-				}
-				return validity;
+				var elem = this;
+				return validityCache[elem.uniqueID] || creatValidityState(elem);
 			},
 			willValidate: function() {
 				return willValidate(this);
@@ -413,7 +337,7 @@
 
 	//事件绑定
 	function addEventListener(node, type, listener, useCapture) {
-		if (enumerable) {
+		if (node.addEventListener) {
 			node.addEventListener(type, listener, !!useCapture);
 		} else if (strDOMContentLoaded === type) {
 			if (jQuery) {
@@ -426,7 +350,7 @@
 				jQuery(node).bind(type + ".h5form", listener);
 			} else {
 				node.attachEvent("on" + type, function() {
-					var	e = {},
+					var e = {},
 						src = window.event,
 						button = src.button;
 
@@ -485,6 +409,89 @@
 		return /^text(area)?|password|email|search|tel|url$/i.test(node.type);
 	}
 
+	function ValidityObj() {
+
+	}
+
+	ValidityObj[strPrototype] = {
+		patternMismatch: false,
+		rangeUnderflow: false,
+		rangeOverflow: false,
+		stepMismatch: false,
+		typeMismatch: false,
+		valueMissing: false,
+		customError: false,
+		badInput: false,
+		tooLong: false,
+		valid: true
+	};
+
+	function creatValidityState(elem) {
+		var validityGetter;
+		var validity;
+
+		function willValidate() {
+			return elem.willValidate;
+		}
+
+		function hasVal() {
+			return willValidate() && !!elem.value;
+		}
+
+		function getType() {
+			return getElemType(elem);
+		}
+
+		function isNum() {
+			return hasVal() && /^number|range$/i.test(getType());
+		}
+
+		validity = new ValidityObj();
+
+		validityGetter = {
+			patternMismatch: function() {
+				return hasVal() && !!elem.pattern && !new RegExp("^(?:" + elem.pattern + ")$").test(elem.value);
+			},
+			rangeUnderflow: function() {
+				return isNum() && num(elem.value) < num(elem.min);
+			},
+			rangeOverflow: function() {
+				return isNum() && num(elem.value) > num(elem.max);
+			},
+			stepMismatch: function() {
+				return isNum() && elem.step && ((num(elem.value) - num(elem.min) || (num(elem.max) - num(elem.value))) % num(elem.step)) !== 0;
+			},
+			typeMismatch: function() {
+				var regexp = regexpTypes[getType()];
+				return hasVal() && !!regexp && !regexp.test(elem.value);
+			},
+			valueMissing: function() {
+				return willValidate() && elem.required && !(/^checkbox$/i.test(elem.type) ? elem.checked : (/^radio$/i.test(elem.type) ? (elem.form || document).querySelector("[name='" + elem.name + "']:checked") : elem.value));
+			},
+			customError: function() {
+				return !!customCache[elem.uniqueID];
+			},
+			badInput: function() {
+				return false;
+			},
+			tooLong: function() {
+				return hasVal() && elem.value.length > elem.maxLength;
+			},
+			valid: function() {
+				var validityObj = elem.validity;
+				return !(validityObj.tooLong || validityObj.customError || validityObj.valueMissing || validityObj.patternMismatch || validityObj.typeMismatch || validityObj.rangeOverflow || validityObj.rangeUnderflow || validityObj.stepMismatch);
+			}
+		};
+		try {
+			defineGetter(validity, validityGetter);
+		} catch (ex) {
+			validity = createElement("ValidityState");
+			defineGetter(validity, validityGetter);
+		}
+		validityCache[elem.uniqueID] = validity;
+		return validity;
+	}
+
 	function documentready() {
 
 		jQuery = jQuery || window.jQuery;
@@ -493,7 +500,7 @@
 			if (support) {
 				//重新定义表单提交行为避免IE原生表单验证bug导致该提交时不提交，或不该提交时提交了
 				addEventListener(window, "click", function(e) {
-					var	target = e.target,
+					var target = e.target,
 						form = target.form;
 
 					if (!e.defaultPrevented && e.which === 1 && target && form && /^submit$/i.test(target.type) && !(target.formNoValidate || form.noValidate)) {
@@ -519,13 +526,11 @@
 				});
 			} else {
 				//修复autofocus
-				selector("[autofocus]", function(input) {
-					input.focus();
-					return false;
-				});
+				var autofocus = document.querySelectorAll("[autofocus]");
+				autofocus = autofocus[autofocus.length - 1].focus();
 			}
 		}, 250);
-		if (enumerable) {
+		if (document.removeEventListener) {
 			//清除注册的事件监听函数
 			document.removeEventListener(strDOMContentLoaded, documentready, false);
 		}
@@ -584,14 +589,14 @@
 		checkValidity: function() {
 			var form = this;
 			return function() {
-				var	valid = true,
+				var valid = true,
 					nodes = form.elements,
 					node,
 					i;
 				for (i = 0; i < nodes.length; i++) {
 					node = nodes[i];
 					if (node.checkValidity && willValidate(node)) {
-						valid &= node.checkValidity();
+						valid = valid && node.checkValidity();
 					}
 				}
 				return valid;

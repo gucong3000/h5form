@@ -1,4 +1,5 @@
 {
+	"browser": true,
 	"boss": true,
 	"curly": true,
 	"eqeqeq": true,
@@ -6,12 +7,11 @@
 	"expr": true,
 	"immed": true,
 	"noarg": true,
-	"onevar": true,
-	"quotmark": "double",
-	"smarttabs": true,
-	"trailing": true,
+	"quotmark": true,
 	"undef": true,
 	"unused": true,
-	"browser": true,
-	"node": true
+	"strict": true,
+	"esversion": 6,
+	"node": true,
+	"globals": false
 }

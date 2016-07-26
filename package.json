@@ -1,47 +1,60 @@
 {
-  "name": "h5form",
-  "title": "h5form",
-  "description": "JavaScript library for browser info",
-  "version": "0.2.9",
-  "homepage": "http://gucong3000.github.io/h5form/",
   "author": "gucong (https://github.com/gucong3000)",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/gucong3000/h5form.git"
+  "bugs": {
+    "url": "https://github.com/gucong3000/h5form/issues"
   },
-  "keywords": [
-    "browser",
-    "javascript",
-    "library"
-  ],
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt"
-    }
-  ],
   "dependencies": {},
+  "description": "JavaScript library for browser info",
   "devDependencies": {
     "grunt": "^1.0.1",
     "grunt-contrib-jshint": "^1.0.0",
     "grunt-contrib-qunit": "^1.1.0",
     "grunt-contrib-uglify": "^1.0.1",
     "grunt-contrib-watch": "^1.0.0",
-    "grunt-contrib-yuidoc": "^1.0.0"
+    "grunt-contrib-yuidoc": "^1.0.0",
+    "jasmine-core": "^2.4.1",
+    "jquery": "^1.12.4",
+    "karma": "^0.13.22",
+    "karma-coverage": "^1.0.0",
+    "karma-html2js-preprocessor": "^1.0.0",
+    "karma-ie-launcher": "^1.0.0",
+    "karma-ietester-starter": "^0.1.1",
+    "karma-jasmine": "^1.0.2",
+    "karma-phantomjs-launcher": "^1.0.0",
+    "karma-requirejs": "^1.0.0",
+    "karma-sauce-launcher": "^1.0.0",
+    "phantomjs-prebuilt": "^2.1.7",
+    "requirejs": "^2.2.0"
   },
-  "scripts": {
-    "preinstall": "npm i -g grunt-cli",
-    "build": "npm i && grunt",
-    "start": "grunt watch",
-    "test": "grunt"
-  },
-  "bugs": {
-    "url": "https://github.com/gucong3000/h5form/issues"
-  },
-  "main": "Gruntfile.js",
   "directories": {
     "doc": "doc",
     "test": "test"
   },
-  "license": "MIT"
+  "homepage": "http://gucong3000.github.io/h5form/",
+  "keywords": [
+    "browser",
+    "javascript",
+    "library"
+  ],
+  "license": "MIT",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt"
+    }
+  ],
+  "main": "Gruntfile.js",
+  "name": "h5form",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gucong3000/h5form.git"
+  },
+  "scripts": {
+    "build": "npm i && grunt",
+    "preinstall": "npm i -g grunt-cli",
+    "start": "grunt watch",
+    "test": "karma start --single-run"
+  },
+  "title": "h5form",
+  "version": "0.2.9"
 }
