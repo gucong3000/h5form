@@ -117,7 +117,7 @@ jQuery(function($){
 
 [表单验证业务逻辑流程图](https://github.com/gucong3000/h5form/blob/master/flowchart/README.md)
 
-[HTML5约束验证API详解](http://ju.outofmemory.cn/entry/31397)
+[HTML5约束验证API详解](http://wo.poco.cn/htmlcss/post/id/7461633)
 
 [HTML5手册中placeholder属性](http://www.w3school.com.cn/html5/att_input_placeholder.asp)
 
