@@ -110,7 +110,7 @@ jQuery(function($){
 - 对高版本IE的已有的不完善功能的修正
 	- 修正IE10+支持HTML5约束验证，但很多细节与其他浏览器有差异的问题
 	- 修正IE10+对placeholder的实现与其他浏览器的差异	(文本框获取焦点但未输入文字时，应该显示占位文本。)
-	- 修正IE9+高版本对可编辑状态元素(如：`<p contentEditable=“true”>;`)不支持oninput事件的问题
+	- 修正IE9+高版本对可编辑状态元素(如：`<p contentEditable="true">;`)不支持oninput事件的问题
 	- 修正IE9在删除、剪切等方式操作文本框中的字符串时，不触发oninput事件的问题	(该死的IE9不再支持onpropertychange事件)
 
 ## 参考资料 ##
