@@ -68,7 +68,7 @@ jQuery(function($){
 | formNoValidate		| `button.formNoValidate`	| 此按钮所属表单不验证	|
 | validationMessage		| `field.validationMessage`	| 错误消息				|
 | willValidate			| `field.willValidate`		| 此元素可进行验证		|
-| placeholder			| `field.placeholder`		| 文本框展位字符		|
+| placeholder			| `field.placeholder`		| 文本框占位字符		|
 | required				| `field.required`			| 此项为必填项			|
 | pattern				| `field.pattern`			| 正则验证规则			|
 | step					| `field.step`				| 数字增量				|
